@@ -34,13 +34,12 @@ namespace ChessSharp.Controllers
             return View(model);
         }
 
-        [HttpPost, ActionName("Index")]
+        //[HttpPost, ActionName("Index")]
         public JsonResult MakeMove(int startIndex, int moveToIndex)
         {
             bool validMove = false;
 
-
-            return Json(insertedPerson);
+            return new JsonResult { Data = new { valid = validMove } };
         }
     }
 }
