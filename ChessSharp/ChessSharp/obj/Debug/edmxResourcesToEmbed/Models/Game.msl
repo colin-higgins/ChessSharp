@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="ChessSharpModelStoreContainer" CdmEntityContainer="ChessSharpEntities">
+    <EntitySetMapping Name="CompleteTypes">
+      <EntityTypeMapping TypeName="ChessSharpModel.CompleteType">
+        <MappingFragment StoreEntitySet="CompleteType">
+          <ScalarProperty Name="Ident" ColumnName="Ident" />
+          <ScalarProperty Name="CompleteTypeName" ColumnName="CompleteTypeName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Games">
+      <EntityTypeMapping TypeName="ChessSharpModel.Game">
+        <MappingFragment StoreEntitySet="Game">
+          <ScalarProperty Name="Ident" ColumnName="Ident" />
+          <ScalarProperty Name="GameName" ColumnName="GameName" />
+          <ScalarProperty Name="Light_PlayerIdent" ColumnName="Light_PlayerIdent" />
+          <ScalarProperty Name="Dark_PlayerIdent" ColumnName="Dark_PlayerIdent" />
+          <ScalarProperty Name="Add_PlayerIdent" ColumnName="Add_PlayerIdent" />
+          <ScalarProperty Name="Add_Date" ColumnName="Add_Date" />
+          <ScalarProperty Name="Start_Date" ColumnName="Start_Date" />
+          <ScalarProperty Name="Complete_Date" ColumnName="Complete_Date" />
+          <ScalarProperty Name="CompleteTypeIdent" ColumnName="CompleteTypeIdent" />
+          <ScalarProperty Name="MoveHistory" ColumnName="MoveHistory" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="GameSquares">
+      <EntityTypeMapping TypeName="ChessSharpModel.GameSquare">
+        <MappingFragment StoreEntitySet="GameSquare">
+          <ScalarProperty Name="Ident" ColumnName="Ident" />
+          <ScalarProperty Name="GameIdent" ColumnName="GameIdent" />
+          <ScalarProperty Name="SquareIndex" ColumnName="SquareIndex" />
+          <ScalarProperty Name="PieceIdent" ColumnName="PieceIdent" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Players">
+      <EntityTypeMapping TypeName="ChessSharpModel.Player">
+        <MappingFragment StoreEntitySet="Player">
+          <ScalarProperty Name="Ident" ColumnName="Ident" />
+          <ScalarProperty Name="PlayerName" ColumnName="PlayerName" />
+          <ScalarProperty Name="Rating" ColumnName="Rating" />
+          <ScalarProperty Name="WinCount" ColumnName="WinCount" />
+          <ScalarProperty Name="LossCount" ColumnName="LossCount" />
+          <ScalarProperty Name="DrawCount" ColumnName="DrawCount" />
+          <ScalarProperty Name="ForfeitCount" ColumnName="ForfeitCount" />
+          <ScalarProperty Name="JoinDate" ColumnName="JoinDate" />
+          <ScalarProperty Name="LastSeenDate" ColumnName="LastSeenDate" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

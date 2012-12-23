@@ -1,0 +1,152 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ChessSharpModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+  <EntityContainer Name="ChessSharpModelStoreContainer">
+    <EntitySet Name="CompleteType" EntityType="ChessSharpModel.Store.CompleteType" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Game" EntityType="ChessSharpModel.Store.Game" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="GameSquare" EntityType="ChessSharpModel.Store.GameSquare" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Player" EntityType="ChessSharpModel.Store.Player" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="FK_Game_Add_PlayerIdent" Association="ChessSharpModel.Store.FK_Game_Add_PlayerIdent">
+      <End Role="Player" EntitySet="Player" />
+      <End Role="Game" EntitySet="Game" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Game_CompleteTypeIdent" Association="ChessSharpModel.Store.FK_Game_CompleteTypeIdent">
+      <End Role="CompleteType" EntitySet="CompleteType" />
+      <End Role="Game" EntitySet="Game" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Game_Dark_PlayerIdent" Association="ChessSharpModel.Store.FK_Game_Dark_PlayerIdent">
+      <End Role="Player" EntitySet="Player" />
+      <End Role="Game" EntitySet="Game" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Game_Ident" Association="ChessSharpModel.Store.FK_Game_Ident">
+      <End Role="Game" EntitySet="Game" />
+      <End Role="GameSquare" EntitySet="GameSquare" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Game_Light_PlayerIdent" Association="ChessSharpModel.Store.FK_Game_Light_PlayerIdent">
+      <End Role="Player" EntitySet="Player" />
+      <End Role="Game" EntitySet="Game" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Player_Player" Association="ChessSharpModel.Store.FK_Player_Player">
+      <End Role="Player" EntitySet="Player" />
+      <End Role="Player1" EntitySet="Player" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="CompleteType">
+    <Key>
+      <PropertyRef Name="Ident" />
+    </Key>
+    <Property Name="Ident" Type="int" Nullable="false" />
+    <Property Name="CompleteTypeName" Type="nvarchar" MaxLength="75" />
+  </EntityType>
+  <EntityType Name="Game">
+    <Key>
+      <PropertyRef Name="Ident" />
+    </Key>
+    <Property Name="Ident" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="GameName" Type="nvarchar" MaxLength="75" />
+    <Property Name="Light_PlayerIdent" Type="int" />
+    <Property Name="Dark_PlayerIdent" Type="int" />
+    <Property Name="Add_PlayerIdent" Type="int" />
+    <Property Name="Add_Date" Type="datetime" />
+    <Property Name="Start_Date" Type="datetime" />
+    <Property Name="Complete_Date" Type="datetime" />
+    <Property Name="CompleteTypeIdent" Type="int" />
+    <Property Name="MoveHistory" Type="varchar(max)" />
+  </EntityType>
+  <EntityType Name="GameSquare">
+    <Key>
+      <PropertyRef Name="Ident" />
+    </Key>
+    <Property Name="Ident" Type="int" Nullable="false" />
+    <Property Name="GameIdent" Type="int" />
+    <Property Name="SquareIndex" Type="int" />
+    <Property Name="PieceIdent" Type="int" />
+  </EntityType>
+  <EntityType Name="Player">
+    <Key>
+      <PropertyRef Name="Ident" />
+    </Key>
+    <Property Name="Ident" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="PlayerName" Type="nvarchar" MaxLength="75" />
+    <Property Name="Rating" Type="int" />
+    <Property Name="WinCount" Type="int" />
+    <Property Name="LossCount" Type="int" />
+    <Property Name="DrawCount" Type="int" />
+    <Property Name="ForfeitCount" Type="int" />
+    <Property Name="JoinDate" Type="datetime" />
+    <Property Name="LastSeenDate" Type="datetime" />
+    <Property Name="Email" Type="nvarchar" MaxLength="250" />
+    <Property Name="Password" Type="nvarchar" MaxLength="64" />
+  </EntityType>
+  <Association Name="FK_Game_Add_PlayerIdent">
+    <End Role="Player" Type="ChessSharpModel.Store.Player" Multiplicity="0..1" />
+    <End Role="Game" Type="ChessSharpModel.Store.Game" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Player">
+        <PropertyRef Name="Ident" />
+      </Principal>
+      <Dependent Role="Game">
+        <PropertyRef Name="Add_PlayerIdent" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Game_CompleteTypeIdent">
+    <End Role="CompleteType" Type="ChessSharpModel.Store.CompleteType" Multiplicity="0..1" />
+    <End Role="Game" Type="ChessSharpModel.Store.Game" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CompleteType">
+        <PropertyRef Name="Ident" />
+      </Principal>
+      <Dependent Role="Game">
+        <PropertyRef Name="CompleteTypeIdent" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Game_Dark_PlayerIdent">
+    <End Role="Player" Type="ChessSharpModel.Store.Player" Multiplicity="0..1" />
+    <End Role="Game" Type="ChessSharpModel.Store.Game" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Player">
+        <PropertyRef Name="Ident" />
+      </Principal>
+      <Dependent Role="Game">
+        <PropertyRef Name="Dark_PlayerIdent" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Game_Ident">
+    <End Role="Game" Type="ChessSharpModel.Store.Game" Multiplicity="0..1" />
+    <End Role="GameSquare" Type="ChessSharpModel.Store.GameSquare" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Game">
+        <PropertyRef Name="Ident" />
+      </Principal>
+      <Dependent Role="GameSquare">
+        <PropertyRef Name="GameIdent" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Game_Light_PlayerIdent">
+    <End Role="Player" Type="ChessSharpModel.Store.Player" Multiplicity="0..1" />
+    <End Role="Game" Type="ChessSharpModel.Store.Game" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Player">
+        <PropertyRef Name="Ident" />
+      </Principal>
+      <Dependent Role="Game">
+        <PropertyRef Name="Light_PlayerIdent" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Player_Player">
+    <End Role="Player" Type="ChessSharpModel.Store.Player" Multiplicity="1" />
+    <End Role="Player1" Type="ChessSharpModel.Store.Player" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Player">
+        <PropertyRef Name="Ident" />
+      </Principal>
+      <Dependent Role="Player1">
+        <PropertyRef Name="Ident" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

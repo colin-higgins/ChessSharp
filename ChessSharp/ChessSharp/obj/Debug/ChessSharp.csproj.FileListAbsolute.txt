@@ -1,0 +1,7 @@
+D:\DotNet\ChessSharp\ChessSharp\ChessSharp\bin\ChessSharp.dll
+D:\DotNet\ChessSharp\ChessSharp\ChessSharp\bin\ChessSharp.pdb
+D:\DotNet\ChessSharp\ChessSharp\ChessSharp\bin\EntityFramework.dll
+D:\DotNet\ChessSharp\ChessSharp\ChessSharp\bin\EntityFramework.xml
+D:\DotNet\ChessSharp\ChessSharp\ChessSharp\obj\Debug\ResolveAssemblyReference.cache
+D:\DotNet\ChessSharp\ChessSharp\ChessSharp\obj\Debug\ChessSharp.dll
+D:\DotNet\ChessSharp\ChessSharp\ChessSharp\obj\Debug\ChessSharp.pdb

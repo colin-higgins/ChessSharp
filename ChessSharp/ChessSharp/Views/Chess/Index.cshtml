@@ -1,0 +1,41 @@
+﻿@{
+    ViewBag.Title = "Create Game";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Create Chess Game</h2>
+
+<div class="ButtonBar">
+    <input id="btnSendChallenge" type="button" value="Send Challenge" />
+</div>
+<table>
+<tr>
+    <td valign="top"><label id="lblGameName" >Game Name: </label></td>
+    <td>
+        <input id="txtGameName" type="text" />
+    </td>
+</tr>
+<tr>
+    <td valign="top"><label id="lblColor" >Color: </label></td>
+    <td>
+    <input id="rbWhite" name="rbColor" type="radio" value="W" title="Light" /><label id="lblLight" for="rbWhite" >Light</label><br />
+    <input id="rbBlack" name="rbColor" type="radio" value="B" title="Dark" /><label id="lblDark" for="rbBlack" >Dark</label>
+    </td>
+</tr>
+<tr>
+    <td valign="top"><label id="lblChallengePlayer" >Challenge Player: </label></td>
+    <td><select id="cboChallengePlayer">
+        <option value="1">Colin</option>
+        <option value="2">Brett</option>
+        <option value="3">Allison</option>
+        <option value="4">Shauna</option>
+    </select>
+    </td>
+</tr>
+</table>
+
+
+
+
+
+

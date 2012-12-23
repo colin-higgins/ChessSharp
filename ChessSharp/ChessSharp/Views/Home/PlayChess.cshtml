@@ -1,0 +1,209 @@
+﻿@Model ChessSharp.Models.TempGameModel
+
+@{
+    ViewBag.Title = "Play Chess!";
+}
+
+<h2>Play Chess!</h2>
+
+   <div style="display:inline-block; float: left;">
+<table class="ChessBoard " >
+<tr>
+<td><input id="cmdRevertMove" type="button" value="Revert" onclick="revertMove();"/></td>
+<td><input id="cmdCommitMove" type="button" value="Commit" onclick="commitMove();"/></td>
+<td colspan="6">
+<span style="float:right;">
+<input id="cmdChooseGame" type="button" value="ChooseGame" onclick="return false;"/>
+    <select id="cboGameSelect" runat="server">
+        <option value="0">New Game</option>
+    </select>
+</span>
+</td>
+@{
+int boardPosition = 0;
+}
+
+</tr>
+    @for (int r = 0; r < 8; r++) {
+        <tr>
+        @for (int c = 0; c < 8; c++) {
+            <td id="sq@((r*8+c))" class="square" onclick="movePiece(this.id);" >
+       
+            @if (Model.board[boardPosition] == sharpCentral.pieceType.lPawn)
+            {
+                <span class="team" style="display:none;">light</span>
+                <img src="../../Images/WhitePawn.jpg" style="width: 100%; height: 100%;" alt="Pawn" />
+            } 
+            @if (Model.board[boardPosition] == sharpCentral.pieceType.lKnight) {
+                <p>wKnight</p>
+                <span class="team" style="display:none;">light</span>
+            } 
+            @if (Model.board[boardPosition] == sharpCentral.pieceType.lBishop) {
+                <span class="team" style="display:none;">light</span>
+                <p>wBishop</p>
+            } 
+            @if (Model.board[boardPosition] == sharpCentral.pieceType.lRook)
+            {
+                <span class="team" style="display:none;">light</span>
+                <p>wRook</p>
+            } 
+            @if (Model.board[boardPosition] == sharpCentral.pieceType.lQueen)
+            {
+                <span class="team" style="display:none;">light</span>
+                <p>wQueen</p>
+            } 
+            @if (Model.board[boardPosition] == sharpCentral.pieceType.lKing)
+            {
+                <span class="team" style="display:none;">light</span>
+                <p>wKing</p>
+            }
+            @if (Model.board[boardPosition] == sharpCentral.pieceType.dPawn)
+            {
+                <span class="team" style="display:none;">dark</span>
+                <img src="../../Images/BlackPawn.jpg" style="width: 100%; height: 100%;" alt="Pawn" />
+            } 
+            @if (Model.board[boardPosition] == sharpCentral.pieceType.dKnight)
+            {
+                <span class="team" style="display:none;">dark</span>
+                <p>bKnight</p>
+            } 
+            @if (Model.board[boardPosition] == sharpCentral.pieceType.dBishop)
+            {
+                <span class="team" style="display:none;">dark</span>
+                <p>bBishop</p>
+            } 
+            @if (Model.board[boardPosition] == sharpCentral.pieceType.dRook)
+            {
+                <span class="team" style="display:none;">dark</span>
+                <p>bRook</p>
+            } 
+            @if (Model.board[boardPosition] == sharpCentral.pieceType.dQueen)
+            {
+                <span class="team" style="display:none;">dark</span>
+                <p>bQueen</p>
+            } 
+            @if (Model.board[boardPosition] == sharpCentral.pieceType.dKing)
+            {
+                <span class="team" style="display:none;">dark</span>
+                <p>bKing</p>
+            }
+            </td>
+            
+            boardPosition++;
+        }
+        </tr>
+    }
+</table>
+</div>
+
+<div style="display:inline-block; float:left; background-color: gray;">
+    <span id="spnMoveHIstory"><p>a1-b2 c3-d4 e5-f6</p></span
+
+    <hr />
+
+
+    <input id="txtChatEnter" type="text"/> <!-- Make sure to cleanse this of tags -->
+</div>
+
+<script type="text/javascript" language="javascript">
+    var lastMoveHtml = lastMoveHtml || null;
+    var pawn = $('#pawn');
+    var square = $(".square");
+
+    pawn.click(function () {
+        //alert("GAH, they pressed the dino!");
+    })
+
+    for (var i = 0; i < square.length; i++ ) {
+        if (Math.floor(i / 8) % 2 === 0) {
+            if (i % 2 === 0) {
+                $(square[i]).addClass('b');
+            } else {
+                $(square[i]).addClass('w');
+            }
+        } else {
+            if (i % 2 === 0) {
+                $(square[i]).addClass('w');
+            } else {
+                $(square[i]).addClass('b');
+            }
+        }
+    }
+    
+    square.onclick = "movePiece(this.id);";
+
+    var movePiece = function (squareID) {
+
+        var prevChose = $(".readyToMove");
+        var movedTo = $("#" + squareID);
+        var usedUp = $(".movedTo"); //Not allowed to make more than one move per turn
+
+        //TODO: Call web service to validate move
+        //OR: Have a preloaded list of valid moves for each piece... That seems silly... but should we validate twice?
+
+        if ((usedUp.length === 0)) {
+            if (prevChose.length > 0) {
+                if (prevChose[0].id === squareID) {
+                    prevChose.removeClass("readyToMove");
+                    //TODO: clear the list of moves for the piece (when it exists)
+                } else if (prevChose.find(".team").html() === movedTo.find(".team").html()) {
+                    //You can't take your own team you silly
+                    alert("No, you're dumb");
+                } else {
+                    //TODO: validate against the list of moves for the piece
+                    prevChose.removeClass("readyToMove");
+                    prevChose.addClass("movedFrom");
+
+                    lastMoveHtml = movedTo.html();
+
+                    movedTo.html(prevChose.html());
+                    movedTo.addClass("movedTo");
+
+                    prevChose.html('');
+                }
+            } else {
+                $("#" + squareID).addClass("readyToMove");
+                //At this point, load the list of valid moves for the piece
+            }
+        }
+
+    };
+
+    var revertMove = function () {
+
+        var movedFrom = $(".movedFrom");
+        var movedTo = $(".movedTo");
+
+        if (movedFrom.length > 0) {
+            movedFrom.removeClass("movedFrom");
+            movedFrom.addClass("readyToMove");
+            movedTo.removeClass("movedTo");
+
+            movedFrom.html(movedTo.html().trim());
+
+            movedTo.html(lastMoveHtml.trim());
+
+            lastMoveHtml = null;
+        }
+        return false;
+    };
+
+    var commitMove = function () {
+
+        var movedFrom = $(".movedFrom");
+        var movedTo = $(".movedTo");
+
+        if (movedFrom.length > 0 && movedTo.length > 0) {
+            movedFrom.removeClass("movedFrom");
+            movedTo.removeClass("movedTo");
+
+            lastMoveHtml = null;
+
+            //TODO: Call web service to validate move
+            //if validated, commit move 
+        }
+        return false;
+    };
+ 
+</script>
+

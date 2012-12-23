@@ -1,0 +1,10 @@
+D:\DotNet\ChessSharp\ChessSharp\ChessSharp.Tests\bin\Debug\ChessSharp.Tests.dll.config
+D:\DotNet\ChessSharp\ChessSharp\ChessSharp.Tests\bin\Debug\ChessSharp.Tests.dll
+D:\DotNet\ChessSharp\ChessSharp\ChessSharp.Tests\bin\Debug\ChessSharp.Tests.pdb
+D:\DotNet\ChessSharp\ChessSharp\ChessSharp.Tests\bin\Debug\ChessSharp.dll
+D:\DotNet\ChessSharp\ChessSharp\ChessSharp.Tests\bin\Debug\ChessSharp.pdb
+D:\DotNet\ChessSharp\ChessSharp\ChessSharp.Tests\obj\Debug\ResolveAssemblyReference.cache
+D:\DotNet\ChessSharp\ChessSharp\ChessSharp.Tests\obj\Debug\ChessSharp.Tests.dll
+D:\DotNet\ChessSharp\ChessSharp\ChessSharp.Tests\obj\Debug\ChessSharp.Tests.pdb
+D:\DotNet\ChessSharp\ChessSharp\ChessSharp.Tests\bin\Debug\EntityFramework.dll
+D:\DotNet\ChessSharp\ChessSharp\ChessSharp.Tests\bin\Debug\EntityFramework.xml
