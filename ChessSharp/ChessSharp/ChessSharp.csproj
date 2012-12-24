@@ -14,6 +14,7 @@
     <AssemblyName>ChessSharp</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>false</UseIISExpress>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -63,11 +64,36 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppCode\ChessShared.cs" />
     <Compile Include="AppCode\sharpCentral.cs" />
+    <Compile Include="ChessItems\Board.cs" />
+    <Compile Include="ChessItems\ChessPiece.cs" />
+    <Compile Include="ChessItems\moveValidate.cs" />
+    <Compile Include="ChessItems\Piece\Bishop.cs" />
+    <Compile Include="ChessItems\Piece\King.cs" />
+    <Compile Include="ChessItems\Piece\Knight.cs" />
+    <Compile Include="ChessItems\Piece\Pawn.cs" />
+    <Compile Include="ChessItems\Piece\Queen.cs" />
+    <Compile Include="ChessItems\Piece\Rook.cs" />
+    <Compile Include="ChessItems\Square.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ChessController.cs" />
     <Compile Include="Controllers\HelloWorldController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controls\blackChessBoard.ascx.cs">
+      <DependentUpon>blackChessBoard.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Controls\blackChessBoard.ascx.designer.cs">
+      <DependentUpon>blackChessBoard.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\whiteChessBoard.ascx.cs">
+      <DependentUpon>whiteChessBoard.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Controls\whiteChessBoard.ascx.designer.cs">
+      <DependentUpon>whiteChessBoard.ascx</DependentUpon>
+    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -81,6 +107,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="chessScripts\colorboard.js" />
+    <Content Include="chessScripts\drawboard.js" />
+    <Content Include="chessScripts\drawpiece.js" />
     <Content Include="Content\Chess.css" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
@@ -109,7 +138,24 @@
     <Content Include="Content\themes\base\jquery.ui.slider.css" />
     <Content Include="Content\themes\base\jquery.ui.tabs.css" />
     <Content Include="Content\themes\base\jquery.ui.theme.css" />
+    <Content Include="Controls\blackChessBoard.ascx" />
+    <Content Include="Controls\whiteChessBoard.ascx" />
     <Content Include="Global.asax" />
+    <Content Include="Images\boardBorder.png" />
+    <Content Include="Images\darkBishop.png" />
+    <Content Include="Images\darkKing.png" />
+    <Content Include="Images\darkKnight.png" />
+    <Content Include="Images\darkPawn.png" />
+    <Content Include="Images\darkQueen.png" />
+    <Content Include="Images\darkRook.png" />
+    <Content Include="Images\darkSquare.png" />
+    <Content Include="Images\lightBishop.png" />
+    <Content Include="Images\lightKing.png" />
+    <Content Include="Images\lightKnight.png" />
+    <Content Include="Images\lightPawn.png" />
+    <Content Include="Images\lightQueen.png" />
+    <Content Include="Images\lightRook.png" />
+    <Content Include="Images\lightSquare.png" />
     <Content Include="Images\WhitePawn.jpg" />
     <Content Include="Images\BlackPawn.jpg" />
     <Content Include="Images\trex.jpg" />

@@ -6,22 +6,48 @@
 namespace sharpCentral
 {
 
+    public enum pieceName
+    {
+        pawn = (int)1,
+        knight = (int)2,
+        bishop = (int)3,
+        rook = (int)4,
+        queen = (int)5,
+        king = (int)6
+    };
+
 
     public enum pieceType
     {
-        Empty = 0,
-        lPawn = 1,
-        lKnight = 2,
-        lBishop = 3,
-        lRook = 4,
-        lQueen = 5,
-        lKing = 6,
-        dPawn = -1,
-        dKnight = -2,
-        dBishop = -3,
-        dRook = -4,
-        dQueen = -5,
-        dKing = -6
+        pawn,
+        knight,
+        bishop,
+        rook,
+        queen,
+        king
+    };
+    
+    public enum pieceColor
+    {
+        white,
+        black
+    };
+
+    public enum pieceType
+    {
+        Empty = (int)0,
+        lPawn = (int)1,
+        lKnight = (int)2,
+        lBishop = (int)3,
+        lRook = (int)4,
+        lQueen = (int)5,
+        lKing = (int)6,
+        dPawn = (int)-1,
+        dKnight = (int)-2,
+        dBishop = (int)-3,
+        dRook = (int)-4,
+        dQueen = (int)-5,
+        dKing = (int)-6
     };
 
     class chessGameProperties

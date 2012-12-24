@@ -8,3 +8,13 @@ D:\DotNet\ChessSharp\ChessSharp\ChessSharp.Tests\obj\Debug\ChessSharp.Tests.dll
 D:\DotNet\ChessSharp\ChessSharp\ChessSharp.Tests\obj\Debug\ChessSharp.Tests.pdb
 D:\DotNet\ChessSharp\ChessSharp\ChessSharp.Tests\bin\Debug\EntityFramework.dll
 D:\DotNet\ChessSharp\ChessSharp\ChessSharp.Tests\bin\Debug\EntityFramework.xml
+C:\Users\CoPP\Documents\GitHub\ChessSharp\ChessSharp\ChessSharp.Tests\bin\Debug\ChessSharp.Tests.dll.config
+C:\Users\CoPP\Documents\GitHub\ChessSharp\ChessSharp\ChessSharp.Tests\bin\Debug\ChessSharp.Tests.dll
+C:\Users\CoPP\Documents\GitHub\ChessSharp\ChessSharp\ChessSharp.Tests\bin\Debug\ChessSharp.Tests.pdb
+C:\Users\CoPP\Documents\GitHub\ChessSharp\ChessSharp\ChessSharp.Tests\bin\Debug\ChessSharp.dll
+C:\Users\CoPP\Documents\GitHub\ChessSharp\ChessSharp\ChessSharp.Tests\bin\Debug\EntityFramework.dll
+C:\Users\CoPP\Documents\GitHub\ChessSharp\ChessSharp\ChessSharp.Tests\bin\Debug\ChessSharp.pdb
+C:\Users\CoPP\Documents\GitHub\ChessSharp\ChessSharp\ChessSharp.Tests\bin\Debug\EntityFramework.xml
+C:\Users\CoPP\Documents\GitHub\ChessSharp\ChessSharp\ChessSharp.Tests\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\CoPP\Documents\GitHub\ChessSharp\ChessSharp\ChessSharp.Tests\obj\Debug\ChessSharp.Tests.dll
+C:\Users\CoPP\Documents\GitHub\ChessSharp\ChessSharp\ChessSharp.Tests\obj\Debug\ChessSharp.Tests.pdb

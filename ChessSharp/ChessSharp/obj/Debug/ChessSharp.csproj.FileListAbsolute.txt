@@ -5,3 +5,10 @@ D:\DotNet\ChessSharp\ChessSharp\ChessSharp\bin\EntityFramework.xml
 D:\DotNet\ChessSharp\ChessSharp\ChessSharp\obj\Debug\ResolveAssemblyReference.cache
 D:\DotNet\ChessSharp\ChessSharp\ChessSharp\obj\Debug\ChessSharp.dll
 D:\DotNet\ChessSharp\ChessSharp\ChessSharp\obj\Debug\ChessSharp.pdb
+C:\Users\CoPP\Documents\GitHub\ChessSharp\ChessSharp\ChessSharp\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\CoPP\Documents\GitHub\ChessSharp\ChessSharp\ChessSharp\obj\Debug\ChessSharp.pdb
+C:\Users\CoPP\Documents\GitHub\ChessSharp\ChessSharp\ChessSharp\bin\ChessSharp.dll
+C:\Users\CoPP\Documents\GitHub\ChessSharp\ChessSharp\ChessSharp\bin\ChessSharp.pdb
+C:\Users\CoPP\Documents\GitHub\ChessSharp\ChessSharp\ChessSharp\bin\EntityFramework.dll
+C:\Users\CoPP\Documents\GitHub\ChessSharp\ChessSharp\ChessSharp\bin\EntityFramework.xml
+C:\Users\CoPP\Documents\GitHub\ChessSharp\ChessSharp\ChessSharp\obj\Debug\ChessSharp.dll
