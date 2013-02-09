@@ -8,21 +8,22 @@
 //------------------------------------------------------------------------------
 
 using System;
+using System.ComponentModel;
+using System.Data.EntityClient;
 using System.Data.Objects;
 using System.Data.Objects.DataClasses;
-using System.Data.EntityClient;
-using System.ComponentModel;
-using System.Xml.Serialization;
+using System.Linq;
 using System.Runtime.Serialization;
+using System.Xml.Serialization;
 
 [assembly: EdmSchemaAttribute()]
 #region EDM Relationship Metadata
 
-[assembly: EdmRelationshipAttribute("ChessSharpModel", "FK_Game_CompleteTypeIdent", "CompleteType", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(ChessSharp.Models.CompleteType), "Game", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ChessSharp.Models.GameModel), true)]
-[assembly: EdmRelationshipAttribute("ChessSharpModel", "FK_Game_Add_PlayerIdent", "Player", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(ChessSharp.Models.Player), "Game", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ChessSharp.Models.GameModel), true)]
-[assembly: EdmRelationshipAttribute("ChessSharpModel", "FK_Game_Dark_PlayerIdent", "Player", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(ChessSharp.Models.Player), "Game", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ChessSharp.Models.GameModel), true)]
-[assembly: EdmRelationshipAttribute("ChessSharpModel", "FK_Game_Ident", "Game", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(ChessSharp.Models.GameModel), "GameSquare", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ChessSharp.Models.GameSquare), true)]
-[assembly: EdmRelationshipAttribute("ChessSharpModel", "FK_Game_Light_PlayerIdent", "Player", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(ChessSharp.Models.Player), "Game", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ChessSharp.Models.GameModel), true)]
+[assembly: EdmRelationshipAttribute("ChessSharpModel", "FK_Game_CompleteTypeIdent", "CompleteType", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(ChessSharp.Models.CompleteType), "Game", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ChessSharp.Models.Game), true)]
+[assembly: EdmRelationshipAttribute("ChessSharpModel", "FK_Game_Add_PlayerIdent", "Player", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(ChessSharp.Models.Player), "Game", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ChessSharp.Models.Game), true)]
+[assembly: EdmRelationshipAttribute("ChessSharpModel", "FK_Game_Dark_PlayerIdent", "Player", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(ChessSharp.Models.Player), "Game", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ChessSharp.Models.Game), true)]
+[assembly: EdmRelationshipAttribute("ChessSharpModel", "FK_Game_Ident", "Game", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(ChessSharp.Models.Game), "GameSquare", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ChessSharp.Models.GameSquare), true)]
+[assembly: EdmRelationshipAttribute("ChessSharpModel", "FK_Game_Light_PlayerIdent", "Player", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(ChessSharp.Models.Player), "Game", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ChessSharp.Models.Game), true)]
 [assembly: EdmRelationshipAttribute("ChessSharpModel", "FK_Player_Player", "Player", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(ChessSharp.Models.Player), "Player1", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(ChessSharp.Models.Player), true)]
 
 #endregion
@@ -94,18 +95,18 @@ namespace ChessSharp.Models
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        public ObjectSet<GameModel> Games
+        public ObjectSet<Game> Games
         {
             get
             {
                 if ((_Games == null))
                 {
-                    _Games = base.CreateObjectSet<GameModel>("Games");
+                    _Games = base.CreateObjectSet<Game>("Games");
                 }
                 return _Games;
             }
         }
-        private ObjectSet<GameModel> _Games;
+        private ObjectSet<Game> _Games;
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -140,6 +141,7 @@ namespace ChessSharp.Models
         private ObjectSet<Player> _Players;
 
         #endregion
+
         #region AddTo Methods
     
         /// <summary>
@@ -153,7 +155,7 @@ namespace ChessSharp.Models
         /// <summary>
         /// Deprecated Method for adding a new object to the Games EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
-        public void AddToGames(GameModel game)
+        public void AddToGames(Game game)
         {
             base.AddObject("Games", game);
         }
@@ -175,11 +177,11 @@ namespace ChessSharp.Models
         }
 
         #endregion
+
     }
-    
 
     #endregion
-    
+
     #region Entities
     
     /// <summary>
@@ -204,6 +206,7 @@ namespace ChessSharp.Models
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -258,6 +261,7 @@ namespace ChessSharp.Models
         partial void OnCompleteTypeNameChanged();
 
         #endregion
+
     
         #region Navigation Properties
     
@@ -268,22 +272,23 @@ namespace ChessSharp.Models
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
         [EdmRelationshipNavigationPropertyAttribute("ChessSharpModel", "FK_Game_CompleteTypeIdent", "Game")]
-        public EntityCollection<GameModel> Games
+        public EntityCollection<Game> Games
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<GameModel>("ChessSharpModel.FK_Game_CompleteTypeIdent", "Game");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Game>("ChessSharpModel.FK_Game_CompleteTypeIdent", "Game");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<GameModel>("ChessSharpModel.FK_Game_CompleteTypeIdent", "Game", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Game>("ChessSharpModel.FK_Game_CompleteTypeIdent", "Game", value);
                 }
             }
         }
 
         #endregion
+
     }
     
     /// <summary>
@@ -292,7 +297,7 @@ namespace ChessSharp.Models
     [EdmEntityTypeAttribute(NamespaceName="ChessSharpModel", Name="Game")]
     [Serializable()]
     [DataContractAttribute(IsReference=true)]
-    public partial class GameModel : EntityObject
+    public partial class Game : EntityObject
     {
         #region Factory Method
     
@@ -300,14 +305,15 @@ namespace ChessSharp.Models
         /// Create a new Game object.
         /// </summary>
         /// <param name="ident">Initial value of the Ident property.</param>
-        public static GameModel CreateGame(global::System.Int32 ident)
+        public static Game CreateGame(global::System.Int32 ident)
         {
-            GameModel game = new GameModel();
+            Game game = new Game();
             game.Ident = ident;
             return game;
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -554,6 +560,7 @@ namespace ChessSharp.Models
         partial void OnMoveHistoryChanged();
 
         #endregion
+
     
         #region Navigation Properties
     
@@ -732,6 +739,7 @@ namespace ChessSharp.Models
         }
 
         #endregion
+
     }
     
     /// <summary>
@@ -756,6 +764,7 @@ namespace ChessSharp.Models
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -858,6 +867,7 @@ namespace ChessSharp.Models
         partial void OnPieceIdentChanged();
 
         #endregion
+
     
         #region Navigation Properties
     
@@ -868,15 +878,15 @@ namespace ChessSharp.Models
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
         [EdmRelationshipNavigationPropertyAttribute("ChessSharpModel", "FK_Game_Ident", "Game")]
-        public GameModel Game
+        public Game Game
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<GameModel>("ChessSharpModel.FK_Game_Ident", "Game").Value;
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Game>("ChessSharpModel.FK_Game_Ident", "Game").Value;
             }
             set
             {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<GameModel>("ChessSharpModel.FK_Game_Ident", "Game").Value = value;
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Game>("ChessSharpModel.FK_Game_Ident", "Game").Value = value;
             }
         }
         /// <summary>
@@ -884,22 +894,23 @@ namespace ChessSharp.Models
         /// </summary>
         [BrowsableAttribute(false)]
         [DataMemberAttribute()]
-        public EntityReference<GameModel> GameReference
+        public EntityReference<Game> GameReference
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<GameModel>("ChessSharpModel.FK_Game_Ident", "Game");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Game>("ChessSharpModel.FK_Game_Ident", "Game");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<GameModel>("ChessSharpModel.FK_Game_Ident", "Game", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Game>("ChessSharpModel.FK_Game_Ident", "Game", value);
                 }
             }
         }
 
         #endregion
+
     }
     
     /// <summary>
@@ -924,6 +935,7 @@ namespace ChessSharp.Models
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -1194,6 +1206,7 @@ namespace ChessSharp.Models
         partial void OnPasswordChanged();
 
         #endregion
+
     
         #region Navigation Properties
     
@@ -1204,17 +1217,17 @@ namespace ChessSharp.Models
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
         [EdmRelationshipNavigationPropertyAttribute("ChessSharpModel", "FK_Game_Add_PlayerIdent", "Game")]
-        public EntityCollection<GameModel> Games
+        public EntityCollection<Game> Games
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<GameModel>("ChessSharpModel.FK_Game_Add_PlayerIdent", "Game");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Game>("ChessSharpModel.FK_Game_Add_PlayerIdent", "Game");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<GameModel>("ChessSharpModel.FK_Game_Add_PlayerIdent", "Game", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Game>("ChessSharpModel.FK_Game_Add_PlayerIdent", "Game", value);
                 }
             }
         }
@@ -1226,17 +1239,17 @@ namespace ChessSharp.Models
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
         [EdmRelationshipNavigationPropertyAttribute("ChessSharpModel", "FK_Game_Dark_PlayerIdent", "Game")]
-        public EntityCollection<GameModel> Games1
+        public EntityCollection<Game> Games1
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<GameModel>("ChessSharpModel.FK_Game_Dark_PlayerIdent", "Game");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Game>("ChessSharpModel.FK_Game_Dark_PlayerIdent", "Game");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<GameModel>("ChessSharpModel.FK_Game_Dark_PlayerIdent", "Game", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Game>("ChessSharpModel.FK_Game_Dark_PlayerIdent", "Game", value);
                 }
             }
         }
@@ -1248,17 +1261,17 @@ namespace ChessSharp.Models
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
         [EdmRelationshipNavigationPropertyAttribute("ChessSharpModel", "FK_Game_Light_PlayerIdent", "Game")]
-        public EntityCollection<GameModel> Games2
+        public EntityCollection<Game> Games2
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<GameModel>("ChessSharpModel.FK_Game_Light_PlayerIdent", "Game");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Game>("ChessSharpModel.FK_Game_Light_PlayerIdent", "Game");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<GameModel>("ChessSharpModel.FK_Game_Light_PlayerIdent", "Game", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Game>("ChessSharpModel.FK_Game_Light_PlayerIdent", "Game", value);
                 }
             }
         }
@@ -1340,8 +1353,10 @@ namespace ChessSharp.Models
         }
 
         #endregion
+
     }
 
     #endregion
+
     
 }

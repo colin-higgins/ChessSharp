@@ -3,73 +3,119 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
+/*
+*TODO:
+*    Turn the dark and light pawn checks into an interface that handles different teams through inverting all of the numbers
+*/
+
 namespace ChessSharp.ChessItems
 {
-    public class moveValidate
+    public class MoveValidate
     {
-        public Boolean checkPawn(Int32 oldPosition, Int32 newPosition, ChessShared.pieceColor color, Boolean firstMove,
-                                        Boolean pieceDiagRight, Boolean pieceDiagLeft)
+        public bool checkLightPawn(SharpCentral.Piece[] boardState, int oldPosition, int newPosition, bool firstMove)
         {
+            int positionChange = newPosition - oldPosition;
 
-            Int32 positionChange = newPosition - oldPosition;
-
-            if (color.Equals(ChessSharp.ChessShared.pieceColor.white))
-            {
-                if (positionChange == 8)
-                    return true;
-                else if (pieceDiagRight)
-                {
-                    if (positionChange == 9)
-                        return true;
-                }
-                else if (pieceDiagLeft)
-                {
-                    if (positionChange == 7)
-                        return true;
-                }
-                else if (firstMove)
-                    if (positionChange == 16)
-                        return true;
-
-            }
-            else if (color.Equals(ChessSharp.ChessShared.pieceColor.black)) //if the piece is black
-            {
-                if (positionChange == -8)
-                    return true;
-                else if (pieceDiagRight)
-                {
-                    if (positionChange == -9)
-                        return true;
-                }
-                else if (pieceDiagLeft)
-                {
-                    if (positionChange == -7)
-                        return true;
-                }
-                else if (firstMove)
-                    if (positionChange == -16)
-                        return true;
-            }
-
-            return false; //if none of the legal moves were made
-        }
-
-        public Boolean checkBishop(Int32 oldPosition, Int32 newPosition)
-        {
-
-            if (((oldPosition - newPosition) % 9 == 0) || ((oldPosition - newPosition) % 7 == 0))
-            {
+            if (positionChange == 8 && boardState[newPosition] == SharpCentral.Piece.Empty)
                 return true;
+            else if (positionChange == 9)
+                if (boardState[newPosition] < SharpCentral.Piece.Empty)
+                    return true;
+            else if (positionChange == 7)
+                if (boardState[newPosition] < SharpCentral.Piece.Empty)
+                    return true;
+            else if (positionChange == 16)
+                if (firstMove && boardState[oldPosition + 8] == SharpCentral.Piece.Empty)
+                    return true;
+
+            return false; //if none of the legal moves were made
+        }
+
+        public bool checkDarkPawn(SharpCentral.Piece[] boardState, int oldPosition, int newPosition, bool firstMove)
+        {
+            int positionChange = newPosition - oldPosition;
+
+                if (positionChange == -8 && boardState[newPosition] == SharpCentral.Piece.Empty)
+                    return true;
+                else if (positionChange == -9)
+                    if (boardState[newPosition] > SharpCentral.Piece.Empty)
+                        return true;
+                else if (positionChange == -7)
+                    if (boardState[newPosition] > SharpCentral.Piece.Empty)
+                        return true;
+                else if (positionChange == -16)
+                    if (firstMove && boardState[oldPosition - 8] == SharpCentral.Piece.Empty)
+                        return true;
+
+            return false; //if none of the legal moves were made
+        }
+
+        public bool checkLightBishop(SharpCentral.Piece[] boardState, int oldPosition, int newPosition)
+        {
+            int positionChange = newPosition - oldPosition;
+            int d = positionChange < 0 ? -1 : 1;
+
+            if (positionChange % 9 == 0)
+            {
+                for (var i = oldPosition; i < newPosition; i += (9 * d))
+                {
+                    if (boardState[i] != SharpCentral.Piece.Empty)
+                        return false;
+                }
+                if (boardState[newPosition] <= SharpCentral.Piece.Empty)
+                    return true;
+
+                return false;
+            }
+            else if (positionChange % 7 == 0)
+            {
+                for (var i = oldPosition; i < newPosition; i += (7 * d))
+                {
+                    if (boardState[i] != SharpCentral.Piece.Empty)
+                        return false;
+                }
+                if (boardState[newPosition] <= SharpCentral.Piece.Empty)
+                    return true;
             }
 
             return false; //if none of the legal moves were made
-
         }
 
-        public Boolean checkKnight(Int32 oldPosition, Int32 newPosition)
+        public bool checkDarkBishop(SharpCentral.Piece[] boardState, int oldPosition, int newPosition)
         {
-            Int32 positionChange = newPosition - oldPosition;
-            Boolean legal;
+            int positionChange = newPosition - oldPosition;
+            int d = positionChange < 0 ? -1 : 1;
+
+            if (positionChange % 9 == 0)
+            {
+                for (var i = oldPosition; i < newPosition; i += (9 * d))
+                {
+                    if (boardState[i] != SharpCentral.Piece.Empty)
+                        return false;
+                }
+                if (boardState[newPosition] >= SharpCentral.Piece.Empty)
+                    return true;
+
+                return false;
+            }
+            else if (positionChange % 7 == 0)
+            {
+                for (var i = oldPosition; i < newPosition; i += (7 * d))
+                {
+                    if (boardState[i] != SharpCentral.Piece.Empty)
+                        return false;
+                }
+                if (boardState[newPosition] >= SharpCentral.Piece.Empty)
+                    return true;
+            }
+
+            return false; //if none of the legal moves were made
+        }
+
+        public bool checkKnight(SharpCentral.Piece[] boardState, int oldPosition, int newPosition)
+        {
+            int positionChange = newPosition - oldPosition;
+            bool legal;
 
             switch ( Math.Abs(positionChange) )
             {
@@ -93,7 +139,7 @@ namespace ChessSharp.ChessItems
             return legal;
         }
 
-        public Boolean checkRook(Int32 oldPosition, Int32 newPosition)
+        public bool checkRook(SharpCentral.Piece[] boardState, int oldPosition, int newPosition, bool firstMove)
         {
 
             if (newPosition / 8 == oldPosition / 8)
@@ -110,7 +156,7 @@ namespace ChessSharp.ChessItems
 
         }
 
-        public Boolean checkQueen(Int32 oldPosition, Int32 newPosition)
+        public bool checkQueen(SharpCentral.Piece[] boardState, int oldPosition, int newPosition)
         {
 
             if (newPosition / 8 == oldPosition / 8)
@@ -130,10 +176,10 @@ namespace ChessSharp.ChessItems
 
         }
 
-        public Boolean checkKing(Int32 oldPosition, Int32 newPosition, Boolean firstMove, Boolean inCheck)
+        public bool checkKing(SharpCentral.Piece[] boardState, int oldPosition, int newPosition, bool firstMove, bool inCheck)
         {
-            Int32 positionChange = newPosition - oldPosition;
-            Boolean legal;
+            int positionChange = newPosition - oldPosition;
+            bool legal;
 
             if (firstMove && !inCheck) //This allows the castling of either side
             {

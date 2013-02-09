@@ -18,3 +18,13 @@ C:\Users\CoPP\Documents\GitHub\ChessSharp\ChessSharp\ChessSharp.Tests\bin\Debug\
 C:\Users\CoPP\Documents\GitHub\ChessSharp\ChessSharp\ChessSharp.Tests\obj\Debug\ResolveAssemblyReference.cache
 C:\Users\CoPP\Documents\GitHub\ChessSharp\ChessSharp\ChessSharp.Tests\obj\Debug\ChessSharp.Tests.dll
 C:\Users\CoPP\Documents\GitHub\ChessSharp\ChessSharp\ChessSharp.Tests\obj\Debug\ChessSharp.Tests.pdb
+C:\Git\ChessSharp\ChessSharp\ChessSharp.Tests\bin\Debug\ChessSharp.Tests.dll.config
+C:\Git\ChessSharp\ChessSharp\ChessSharp.Tests\bin\Debug\ChessSharp.Tests.dll
+C:\Git\ChessSharp\ChessSharp\ChessSharp.Tests\bin\Debug\ChessSharp.Tests.pdb
+C:\Git\ChessSharp\ChessSharp\ChessSharp.Tests\bin\Debug\ChessSharp.dll
+C:\Git\ChessSharp\ChessSharp\ChessSharp.Tests\bin\Debug\EntityFramework.dll
+C:\Git\ChessSharp\ChessSharp\ChessSharp.Tests\bin\Debug\ChessSharp.pdb
+C:\Git\ChessSharp\ChessSharp\ChessSharp.Tests\bin\Debug\EntityFramework.xml
+C:\Git\ChessSharp\ChessSharp\ChessSharp.Tests\obj\Debug\ChessSharp.Tests.csprojResolveAssemblyReference.cache
+C:\Git\ChessSharp\ChessSharp\ChessSharp.Tests\obj\Debug\ChessSharp.Tests.dll
+C:\Git\ChessSharp\ChessSharp\ChessSharp.Tests\obj\Debug\ChessSharp.Tests.pdb

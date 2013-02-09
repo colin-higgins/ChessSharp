@@ -1,0 +1,16 @@
+﻿
+@* Generator : Template TypeVisibility : Internal *@
+@functions  {
+    public dynamic Model { get; set; }
+}
+
+<table class="ChessBoard " >;
+    @for (int r = 0; r < 8; r++) {
+        <tr>
+        @for (int c = 0; c < 8; c++) {
+            <td id="sq@((r * 8 + c).ToString();)" class="square" onclick="movePiece(this.id)" >
+            </td>
+        @}
+        </tr>
+    @}
+</table>

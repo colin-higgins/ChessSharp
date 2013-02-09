@@ -5,21 +5,21 @@ using System.Web;
 using System.Web.Mvc;
 using ChessSharp.Models;
 
-using sharpCentral;
+using SharpCentral;
 
 namespace ChessSharp.Controllers
 {
     public class ChessController : Controller
     {
         ChessSharpEntities db = new ChessSharpEntities();
-        sharpCentral.chessGameProperties chessProp = new sharpCentral.chessGameProperties();
+        SharpCentral.FreshGame chessProp = new SharpCentral.FreshGame();
 
         TempGameModel model { get; set; }
 
         public ActionResult Index()
         {
             //This is the initial state of a chessboard as per the Piece enum
-            sharpCentral.pieceType[] chessBoard = chessProp.chessBoard;
+            SharpCentral.Piece[] chessBoard = chessProp.chessBoard;
 
             model = new TempGameModel()
             {

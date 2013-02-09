@@ -2,106 +2,133 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-
+using SharpCentral;
 
 namespace ChessSharp.ChessItems
 {
-
     public class ChessPiece
     {
+        private MoveValidate move = new MoveValidate();
+        private bool firstMove { get; set; }
+        public bool alive { get; private set; } //if a king has this false, game is over
+        public int currentSquare { get; private set; }
+        public int id { get; private set; }
+        private int scoreValue { get; set; }
+        private int actionValue { get; set; } //this may be used to help the CPU attack with weaker pieces later on?
+        private int attackValue { get; set; }
+        private int defenseValue { get; set; }
 
-        private moveValidate move = new moveValidate();
-        private Boolean firstMove { get; set; }
-        private Boolean alive { get; set; } //if a king has this false, game is over
-        private Int32 currentSquareIdent { get; set; }
-        private Int32 pieceIdentity { get; set; }
+        private bool inCheck; //for the king piece
 
-        public ChessShared.pieceType PieceType { get; set; }
-        public ChessShared.pieceColor Color { get; set; }
+        public bool IsLight { get { return isLight; } }
+        private bool isLight;
+        
+        private SharpCentral.Piece p;
+        public SharpCentral.Piece PieceType
+        {
+            get { return p; }
+            set { p = value; isLight = p > Piece.Empty ? true : false; } 
+        }
 
-        private Int32 scoreValue { get; set; }
-        private Int32 actionValue { get; set; } //this may be used to help the CPU attack with weaker pieces later on?
-        private Int32 attackValue { get; set; }
-        private Int32 defenseValue { get; set; }
-
-        private Boolean inCheck; //for the king piece
-
-        public ChessPiece(ChessShared.pieceType pieceType, Int32 pieceIdent, Int32 piecePosition, ChessShared.pieceColor color, Boolean pieceAlive = true, Boolean pieceFirstMove = true)
+        public ChessPiece(SharpCentral.Piece piece, int pieceIdent, int piecePosition, bool pieceAlive = true, bool pieceFirstMove = true)
         {
 
-            currentSquareIdent = piecePosition;
+            currentSquare = piecePosition;
             alive = pieceAlive;
             firstMove = pieceFirstMove;
-            PieceType = pieceType;
-            pieceIdentity = pieceIdent;
+            p = piece;
+            id = pieceIdent;
 
-            switch (pieceType)
+            switch (piece)
             {
-                case ChessShared.pieceType.pawn:
-                    actionValue = 6;
+                case SharpCentral.Piece.lPawn:
+                    actionValue = 10;
                     scoreValue = 100;
                     break;
-                case ChessShared.pieceType.knight:
-                    actionValue = 3;
+                case SharpCentral.Piece.lKnight:
+                    actionValue = 8;
                     scoreValue = 320;
                     break;
-                case ChessShared.pieceType.bishop:
-                    actionValue = 3;
+                case SharpCentral.Piece.lBishop:
+                    actionValue = 8;
                     scoreValue = 325;
                     break;
-                case ChessShared.pieceType.rook:
-                    actionValue = 2;
+                case SharpCentral.Piece.lRook:
+                    actionValue = 6;
                     scoreValue = 500;
                     break;
-                case ChessShared.pieceType.queen:
-                    actionValue = 1;
+                case SharpCentral.Piece.lQueen:
+                    actionValue = 3;
                     scoreValue = 1000;
                     break;
-                case ChessShared.pieceType.king:
-                    actionValue = 0;
+                case SharpCentral.Piece.lKing:
+                    actionValue = 1;
                     scoreValue = 32767;
+                    break;
+                case SharpCentral.Piece.dPawn:
+                    actionValue = 10;   
+                    scoreValue = -100;   
+                    break;              
+                case SharpCentral.Piece.dKnight:
+                    actionValue = 8;    
+                    scoreValue = -320;   
+                    break;              
+                case SharpCentral.Piece.dBishop:
+                    actionValue = 8;    
+                    scoreValue = -325;   
+                    break;              
+                case SharpCentral.Piece.dRook:
+                    actionValue = 6;    
+                    scoreValue = -500;   
+                    break;              
+                case SharpCentral.Piece.dQueen:
+                    actionValue = 3;    
+                    scoreValue = -1000;  
+                    break;              
+                case SharpCentral.Piece.dKing:
+                    actionValue = 1;
+                    scoreValue = -32767;
                     break;
                 default:
                     scoreValue = 0;
-                    actionValue = -1;
+                    actionValue = 0;
                     //piece = null; //piece is going to be set as something to dispose of
                     break;
 
             }
 
-            Color = color;
             alive = pieceAlive;
             firstMove = pieceFirstMove;
             inCheck = false;
+
+            isLight = p > Piece.Empty ? true : false;
         }
 
-        public Boolean legalMove(Int32 newPosition,
-                                    Boolean pieceDiagRight = false, Boolean pieceDiagLeft = false, Boolean inCheck = false)
+        public bool legalMove(SharpCentral.Piece[] boardState, int newPosition, bool firstMove, bool inCheck = false)
         {
-            //This method will not check to see if pieces obstruct the path
-            Boolean legalMove = false;
+            bool legalMove = false;
             if (newPosition > 63 || newPosition < 0) //Keeps the pieces on the board
                 return false;
 
-            switch (PieceType)
+            switch (p)
             {
-                case ChessShared.pieceType.pawn:
-                    legalMove = move.checkPawn(currentSquareIdent, newPosition, Color, firstMove, pieceDiagRight, pieceDiagLeft);
+                case SharpCentral.Piece.lPawn:
+                    legalMove = move.checkLightPawn(boardState, currentSquare, newPosition, firstMove);
                     break;
-                case ChessShared.pieceType.king:
-                    legalMove = move.checkKing(currentSquareIdent, newPosition, firstMove, inCheck);
+                case SharpCentral.Piece.lKing:
+                    legalMove = move.checkKing(boardState, currentSquare, newPosition, firstMove, inCheck);
                     break;
-                case ChessShared.pieceType.queen:
-                    legalMove = move.checkQueen(currentSquareIdent, newPosition);
+                case SharpCentral.Piece.lQueen:
+                    legalMove = move.checkQueen(boardState, currentSquare, newPosition);
                     break;
-                case ChessShared.pieceType.knight:
-                    legalMove = move.checkKnight(currentSquareIdent, newPosition);
+                case SharpCentral.Piece.lKnight:
+                    legalMove = move.checkKnight(boardState, currentSquare, newPosition);
                     break;
-                case ChessShared.pieceType.bishop:
-                    legalMove = move.checkBishop(currentSquareIdent, newPosition);
+                case SharpCentral.Piece.lBishop:
+                    legalMove = move.checkLightBishop(boardState, currentSquare, newPosition);
                     break;
-                case ChessShared.pieceType.rook:
-                    legalMove = move.checkRook(currentSquareIdent, newPosition);
+                case SharpCentral.Piece.lRook:
+                    legalMove = move.checkRook(boardState, currentSquare, newPosition, firstMove);
                     break;
                 default:
                     legalMove = false;
@@ -112,66 +139,51 @@ namespace ChessSharp.ChessItems
         }
 
 
-        public String getImagePath()
+        public string getImagePath()
         {
-            if (Color == ChessShared.pieceColor.black)
-            {
-                switch (PieceType)
-                {
-                    case ChessShared.pieceType.pawn:
-                        return "/Image/darkPawn.png";
-                        //break;
-                    case ChessShared.pieceType.knight:
-                        return "/Image/darkKnight.png";
-                        //break;
-                    case ChessShared.pieceType.bishop:
-                        return "/Image/darkBishop.png"; ;
-                        //break;
-                    case ChessShared.pieceType.rook:
-                        return "/Image/darkRook.png"; ;
-                        //break;
-                    case ChessShared.pieceType.queen:
-                        return "/Image/darkQueen.png";
-                        //break;
-                    case ChessShared.pieceType.king:
-                        return "/Image/darkKing.png";
-                        //break;
-                    default:
-                        return "";
-                        //this should be a blank png?
-                        //break;
-
-                }
-            } //end if color == black
-            else if (Color == ChessShared.pieceColor.white)
-            {
-                switch (PieceType)
-                {
-                    case ChessShared.pieceType.pawn:
-                        return "/Image/lightPawn.png";
-                        //break;
-                    case ChessShared.pieceType.knight:
-                        return "/Image/lightKnight.png";
-                        //break;
-                    case ChessShared.pieceType.bishop:
-                        return "/Image/lightBishop.png"; ;
-                        //break;
-                    case ChessShared.pieceType.rook:
-                        return "/Image/lightRook.png"; ;
-                        //break;
-                    case ChessShared.pieceType.queen:
-                        return "/Image/lightQueen.png";
-                        //break;
-                    case ChessShared.pieceType.king:
-                        return "/Image/lightKing.png";
-                        //break;
-                    default:
-                        return "";
-                        //this should be a blank png?
-                        //break;
-                }
-            } //end if color == white
-            return "";
+         switch (p)
+         {
+             case SharpCentral.Piece.dPawn:
+                 return "/Image/darkPawn.png";
+                 //break;
+             case SharpCentral.Piece.dKnight:
+                 return "/Image/darkKnight.png";
+                 //break;
+             case SharpCentral.Piece.dBishop:
+                 return "/Image/darkBishop.png"; ;
+                 //break;
+             case SharpCentral.Piece.dRook:
+                 return "/Image/darkRook.png"; ;
+                 //break;
+             case SharpCentral.Piece.dQueen:
+                 return "/Image/darkQueen.png";
+                 //break;
+             case SharpCentral.Piece.dKing:
+                 return "/Image/darkKing.png";
+                 //break;
+             case SharpCentral.Piece.lPawn:
+                 return "/Image/lightPawn.png";
+                 //break;
+             case SharpCentral.Piece.lKnight:
+                 return "/Image/lightKnight.png";
+                 //break;
+             case SharpCentral.Piece.lBishop:
+                 return "/Image/lightBishop.png"; ;
+                 //break;
+             case SharpCentral.Piece.lRook:
+                 return "/Image/lightRook.png"; ;
+                 //break;
+             case SharpCentral.Piece.lQueen:
+                 return "/Image/lightQueen.png";
+                 //break;
+             case SharpCentral.Piece.lKing:
+                 return "/Image/lightKing.png";
+                 //break;
+             default:
+                 return "";
+                 //this should be a blank png?
+                 //break;
+         }
 
         } //end getImagePath
     } //end class

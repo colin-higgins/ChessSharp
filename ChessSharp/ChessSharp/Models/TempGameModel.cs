@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Data.Entity;
 
-using sharpCentral;
+using SharpCentral;
 
 namespace ChessSharp.Models
 {
@@ -12,7 +12,7 @@ namespace ChessSharp.Models
 
     public class TempGameModel
     {
-        public sharpCentral.pieceType[] board { get; set; }
+        public SharpCentral.Piece[] board { get; set; }
         public int playerLightIdent { get; set; }
         public int playerDarkIdent { get; set; }
         public int lightScore { get; set; }

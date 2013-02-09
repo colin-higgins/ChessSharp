@@ -24,7 +24,7 @@ namespace ChessSharp.Controllers
         public ActionResult PlayChess()
         {
             //This is the initial state of a chessboard as per the Piece enum
-            sharpCentral.pieceType[] chessBoard = (new sharpCentral.chessGameProperties()).chessBoard;
+            SharpCentral.Piece[] chessBoard = (new SharpCentral.FreshGame()).chessBoard;
 
             var model = new TempGameModel()
             {
