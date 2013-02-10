@@ -116,19 +116,37 @@ namespace ChessSharp.ChessItems
                     legalMove = move.checkLightPawn(boardState, currentSquare, newPosition, firstMove);
                     break;
                 case SharpCentral.Piece.lKing:
-                    legalMove = move.checkKing(boardState, currentSquare, newPosition, firstMove, inCheck);
+                    legalMove = move.checkLightKing(boardState, currentSquare, newPosition, firstMove, inCheck);
                     break;
                 case SharpCentral.Piece.lQueen:
-                    legalMove = move.checkQueen(boardState, currentSquare, newPosition);
+                    legalMove = move.checkLightQueen(boardState, currentSquare, newPosition);
                     break;
                 case SharpCentral.Piece.lKnight:
-                    legalMove = move.checkKnight(boardState, currentSquare, newPosition);
+                    legalMove = move.checkLightKnight(boardState, currentSquare, newPosition);
                     break;
                 case SharpCentral.Piece.lBishop:
                     legalMove = move.checkLightBishop(boardState, currentSquare, newPosition);
                     break;
                 case SharpCentral.Piece.lRook:
-                    legalMove = move.checkRook(boardState, currentSquare, newPosition, firstMove);
+                    legalMove = move.checkLightRook(boardState, currentSquare, newPosition);
+                    break;
+                case SharpCentral.Piece.dPawn:
+                    legalMove = move.checkDarkPawn(boardState, currentSquare, newPosition, firstMove);
+                    break;
+                case SharpCentral.Piece.dKing:
+                    legalMove = move.checkDarkKing(boardState, currentSquare, newPosition, firstMove, inCheck);
+                    break;
+                case SharpCentral.Piece.dQueen:
+                    legalMove = move.checkDarkQueen(boardState, currentSquare, newPosition);
+                    break;
+                case SharpCentral.Piece.dKnight:
+                    legalMove = move.checkDarkKnight(boardState, currentSquare, newPosition);
+                    break;
+                case SharpCentral.Piece.dBishop:
+                    legalMove = move.checkDarkBishop(boardState, currentSquare, newPosition);
+                    break;
+                case SharpCentral.Piece.dRook:
+                    legalMove = move.checkDarkRook(boardState, currentSquare, newPosition);
                     break;
                 default:
                     legalMove = false;

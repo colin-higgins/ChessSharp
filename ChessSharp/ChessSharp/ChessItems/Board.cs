@@ -47,6 +47,31 @@ namespace ChessSharp.ChessItems
             }
         }
 
+        public bool LoadSavedPieceChest(int gameId)
+        {
+            try
+            {
+                var mockSaved = new ChessPiece[32];
+                var fresh = new SharpCentral.FreshGame();
+                for (var i = 0; i < 32; i++)
+                {
+                    var boardPosition = i < 16 ? i : i + 16; //Grabs only the opposite ends of the fresh board (pieces only)
+                    mockSaved[i] = new ChessPiece(fresh.chessBoard[boardPosition], i, boardPosition);
+                }
+
+                var savedChest = mockSaved.Where(piece => piece.alive).ToArray();
+
+                for (var i = 0; i < 32; i++)
+                {
+                    pieceChest[i] = savedChest[i];
+                }
+                return true;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
 
         public bool PopulatePieceChest()
         {
