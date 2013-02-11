@@ -12,10 +12,10 @@ C:\Users\CoPP\Documents\GitHub\ChessSharp\ChessSharp\ChessSharp\bin\ChessSharp.p
 C:\Users\CoPP\Documents\GitHub\ChessSharp\ChessSharp\ChessSharp\bin\EntityFramework.dll
 C:\Users\CoPP\Documents\GitHub\ChessSharp\ChessSharp\ChessSharp\bin\EntityFramework.xml
 C:\Users\CoPP\Documents\GitHub\ChessSharp\ChessSharp\ChessSharp\obj\Debug\ChessSharp.dll
-C:\Git\ChessSharp\ChessSharp\ChessSharp\obj\Debug\ChessSharp.csprojResolveAssemblyReference.cache
-C:\Git\ChessSharp\ChessSharp\ChessSharp\obj\Debug\ChessSharp.dll
-C:\Git\ChessSharp\ChessSharp\ChessSharp\obj\Debug\ChessSharp.pdb
 C:\Git\ChessSharp\ChessSharp\ChessSharp\bin\ChessSharp.dll
 C:\Git\ChessSharp\ChessSharp\ChessSharp\bin\ChessSharp.pdb
 C:\Git\ChessSharp\ChessSharp\ChessSharp\bin\EntityFramework.dll
 C:\Git\ChessSharp\ChessSharp\ChessSharp\bin\EntityFramework.xml
+C:\Git\ChessSharp\ChessSharp\ChessSharp\obj\Debug\ChessSharp.dll
+C:\Git\ChessSharp\ChessSharp\ChessSharp\obj\Debug\ChessSharp.pdb
+C:\Git\ChessSharp\ChessSharp\ChessSharp\obj\Debug\ChessSharp.csprojResolveAssemblyReference.cache

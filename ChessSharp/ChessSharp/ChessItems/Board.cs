@@ -9,35 +9,97 @@ namespace ChessSharp.ChessItems
 {
     public class Board //This class carries the board for an individual game - allows setting the square properties.
     {
-        Square[] chessBoard = new Square[64];
-        ChessPiece[] pieceChest = new ChessPiece[64];
+        public Square[] chessBoard { get; private set; }
+        public ChessPiece[] pieceChest { get; private set; }
 
-        public bool placePiece(Int32 pieceIdentity, Int32 squareIndex, Int32 squareOldIndex)
+        /// <summary>
+        /// Use for a brand new game with vanilla settings. 
+        /// </summary>
+        public Board() 
         {
-            if (squareIndex >= 0 && squareIndex <= 63)
+            chessBoard = new Square[64];
+            pieceChest = new ChessPiece[32];
+
+            for (var i = 0; i < 64; i++)
             {
-                chessBoard[squareOldIndex] = new Square(0);
-                chessBoard[squareIndex] = new Square(pieceIdentity);
+                chessBoard[i] = new Square(null);
+            }
+
+            PopulatePieceChest();
+
+            PlaceChestPieces();
+        }
+
+        /// <summary>
+        /// Use for a game loaded from persistance. 
+        /// </summary>
+        public Board(ChessPiece[] customChest)
+        {
+            chessBoard = new Square[64];
+
+            for (var i = 0; i < 64; i++ )
+            {
+                chessBoard[i] = new Square(null);
+            }
+
+            pieceChest = customChest;
+
+            PopulatePieceChest();
+
+            PlaceChestPieces();
+        }
+
+        public bool MovePiece(int currentPositon, int newPosition)
+        {
+            bool success = false;
+
+            var occupant = chessBoard[currentPositon].getOccupant();
+
+            if (occupant != null)
+            {
+                var boardState = chessBoard.Select(sq => { var x = sq.getOccupant(); return x != null ? x.PieceType : Piece.Empty; }).ToArray();
+
+                if (occupant.legalMove(boardState, newPosition))
+                {
+                    success = placePiece(currentPositon, newPosition);
+                }
+            }
+            return success;
+        }
+
+        private bool placePiece(int currentPosition, int newPosition)
+        {
+            var aggressor = chessBoard[currentPosition].getOccupant();
+            var victim = chessBoard[newPosition].getOccupant();
+
+            if (newPosition >= 0 && newPosition <= 63)
+            {
+                chessBoard[currentPosition] = new Square(null);
+
+                if (victim != null)
+                    victim.Die();
+
+                chessBoard[newPosition] = new Square(aggressor);
                 return true;
             }
             else
             {
                 return false;
             }
-            
         }
 
-        public Square getSquare(Int32 index)
+        public Square getSquare(int index)
         {
             return chessBoard[index];
         }
-        public Boolean setSquareOccupant(Int32 index, Int32 pieceIdent)
+
+        public Boolean setSquareOccupant(int index, ChessItems.ChessPiece p)
         {
-            if (chessBoard[index].getOccupant() == 0) {
-            chessBoard[index].setOccupant(pieceIdent);
-            return true;
+            if (chessBoard[index].getOccupant() == null) {
+                chessBoard[index].setOccupant(p);
+                return true;
             }
-            else if (chessBoard[index].getOccupant() == pieceIdent)
+            else if (chessBoard[index].getOccupant().Equals(p))
             {
                 return true;
             }
@@ -47,7 +109,8 @@ namespace ChessSharp.ChessItems
             }
         }
 
-        public bool LoadSavedPieceChest(int gameId)
+        //TODO: Move this method into the model
+        private bool LoadSavedPieceChest(int gameId)
         {
             try
             {
@@ -73,7 +136,7 @@ namespace ChessSharp.ChessItems
             }
         }
 
-        public bool PopulatePieceChest()
+        private bool PopulatePieceChest()
         {
             try
             {
@@ -81,7 +144,7 @@ namespace ChessSharp.ChessItems
 
                 for (var i = 0; i < 32; i++)
                 {
-                    var boardPosition = i < 16 ? i : i + 16; //Grabs only the opposite ends of the fresh board (pieces only)
+                    var boardPosition = i < 16 ? i : i + 32; //Grabs only the opposite ends of the fresh board (pieces only)
                     pieceChest[i] = new ChessPiece(fresh.chessBoard[boardPosition], i, boardPosition);
                 }
                 return true;
@@ -92,13 +155,13 @@ namespace ChessSharp.ChessItems
             }
         }
 
-        public bool PlaceChestPieces()
+        private bool PlaceChestPieces()
         {
             try
             {
                 foreach (var p in pieceChest)
                 {
-                    chessBoard[p.currentSquare].setOccupant(p.id);
+                    chessBoard[p.currentSquare].setOccupant(p);
                 }
                 return true;
             }

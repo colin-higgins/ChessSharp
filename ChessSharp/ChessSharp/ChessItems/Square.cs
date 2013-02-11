@@ -8,24 +8,24 @@ namespace ChessSharp.ChessItems
 {
     public class Square
     {
-        private Int32 occupant; //if zero, there is no occupant
+        private ChessItems.ChessPiece occupant; //if null, there is no occupant
         //private Boolean occupied;
 
-        public Square(Int32 pieceIdentity)
+        public Square(ChessItems.ChessPiece piece)
         {
-            setOccupant(pieceIdentity);
+            setOccupant(piece);
         }
 
         //occupant getter setter
-        public void setOccupant(Int32 pieceIdentity)
+        public void setOccupant(ChessItems.ChessPiece piece)
         {
-            occupant = pieceIdentity;
+            occupant = piece;
             //if (pieceIdentity == 0)
             //    occupied = false;
             //else
             //    occupied = true;
         }
-        public Int32 getOccupant()
+        public ChessItems.ChessPiece getOccupant()
         {
             return occupant;
         }

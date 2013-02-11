@@ -13,33 +13,25 @@ namespace ChessSharp.Controllers
     {
         ChessSharpEntities db = new ChessSharpEntities();
         SharpCentral.FreshGame chessProp = new SharpCentral.FreshGame();
+        GameModel model { get; set; }
 
-        TempGameModel model { get; set; }
-
-        public ActionResult Index()
+        public ActionResult PlayChess()
         {
             //This is the initial state of a chessboard as per the Piece enum
             SharpCentral.Piece[] chessBoard = chessProp.chessBoard;
 
-            model = new TempGameModel()
-            {
-                board = chessBoard,
-                playerLightIdent = 1,
-                playerDarkIdent = 2,
-                lightScore = 0,
-                darkScore = 0,
-                moveHistory = ""
-            };
+            model = new GameModel(1, 2);
 
             return View(model);
         }
 
-        //[HttpPost, ActionName("Index")]
-        public JsonResult MakeMove(int startIndex, int moveToIndex)
+        [HttpPost]
+        public ActionResult PlayGame(FormCollection collection)
         {
-            bool validMove = false;
 
-            return new JsonResult { Data = new { valid = validMove } };
+
+
+            return View("PlayChess", model);
         }
     }
 }

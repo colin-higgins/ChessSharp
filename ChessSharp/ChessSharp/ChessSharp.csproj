@@ -107,7 +107,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
-    <Compile Include="Models\TempGameModel.cs" />
+    <Compile Include="Models\GameModel.cs" />
     <Compile Include="Models\Game.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

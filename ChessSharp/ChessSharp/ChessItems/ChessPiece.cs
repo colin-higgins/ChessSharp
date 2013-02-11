@@ -104,13 +104,18 @@ namespace ChessSharp.ChessItems
             isLight = p > Piece.Empty ? true : false;
         }
 
-        public bool legalMove(SharpCentral.Piece[] boardState, int newPosition, bool firstMove, bool inCheck = false)
+        public void Die()
+        {
+            alive = false;
+        }
+
+        public bool legalMove(SharpCentral.Piece[] boardState, int newPosition)
         {
             bool legalMove = false;
             if (newPosition > 63 || newPosition < 0) //Keeps the pieces on the board
                 return false;
 
-            switch (p)
+            switch (PieceType)
             {
                 case SharpCentral.Piece.lPawn:
                     legalMove = move.checkLightPawn(boardState, currentSquare, newPosition, firstMove);
@@ -157,52 +162,6 @@ namespace ChessSharp.ChessItems
         }
 
 
-        public string getImagePath()
-        {
-         switch (p)
-         {
-             case SharpCentral.Piece.dPawn:
-                 return "/Image/darkPawn.png";
-                 //break;
-             case SharpCentral.Piece.dKnight:
-                 return "/Image/darkKnight.png";
-                 //break;
-             case SharpCentral.Piece.dBishop:
-                 return "/Image/darkBishop.png"; ;
-                 //break;
-             case SharpCentral.Piece.dRook:
-                 return "/Image/darkRook.png"; ;
-                 //break;
-             case SharpCentral.Piece.dQueen:
-                 return "/Image/darkQueen.png";
-                 //break;
-             case SharpCentral.Piece.dKing:
-                 return "/Image/darkKing.png";
-                 //break;
-             case SharpCentral.Piece.lPawn:
-                 return "/Image/lightPawn.png";
-                 //break;
-             case SharpCentral.Piece.lKnight:
-                 return "/Image/lightKnight.png";
-                 //break;
-             case SharpCentral.Piece.lBishop:
-                 return "/Image/lightBishop.png"; ;
-                 //break;
-             case SharpCentral.Piece.lRook:
-                 return "/Image/lightRook.png"; ;
-                 //break;
-             case SharpCentral.Piece.lQueen:
-                 return "/Image/lightQueen.png";
-                 //break;
-             case SharpCentral.Piece.lKing:
-                 return "/Image/lightKing.png";
-                 //break;
-             default:
-                 return "";
-                 //this should be a blank png?
-                 //break;
-         }
-
-        } //end getImagePath
+       
     } //end class
 } //end namespace

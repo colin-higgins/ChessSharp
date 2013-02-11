@@ -21,22 +21,46 @@ namespace ChessSharp.Controllers
             return View();
         }
 
-        public ActionResult PlayChess()
-        {
-            //This is the initial state of a chessboard as per the Piece enum
-            SharpCentral.Piece[] chessBoard = (new SharpCentral.FreshGame()).chessBoard;
+        ChessSharpEntities db = new ChessSharpEntities();
+        SharpCentral.FreshGame chessProp = new SharpCentral.FreshGame();
+        GameModel model { get; set; }
 
-            var model = new TempGameModel()
+        public ActionResult PlayChess(FormCollection collection)
+        {
+            bool success = false;
+            int currentPosition, newPosition;
+
+            if (model == null)
             {
-                board = chessBoard,
-                playerLightIdent = 1,
-                playerDarkIdent = 2,
-                lightScore = 0,
-                darkScore = 0,
-                moveHistory = ""
-            };
+                //This is the initial state of a chessboard as per the Piece enum
+                SharpCentral.Piece[] chessBoard = chessProp.chessBoard;
+                model = new GameModel(1, 2);
+            }
+
+            if (collection.Get("currentPosition") != null && collection.Get("newPosition") != null)
+            {
+                int.TryParse(collection.Get("currentPosition").Replace("sq", ""), out currentPosition);
+                int.TryParse(collection.Get("newPosition").Replace("sq", ""), out newPosition);
+
+                success = model.board.MovePiece(currentPosition, newPosition);
+
+                if (!success)
+                {
+                    ViewBag.MoveFailed = "That was an illegal move! ";
+                }
+            }
 
             return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult PlayGame(FormCollection collection)
+        {
+
+            var currentPosition = collection.Get("currentPosition");
+            var newPosition = collection.Get("newPosition");
+
+            return View("PlayChess", model);
         }
     }
 }

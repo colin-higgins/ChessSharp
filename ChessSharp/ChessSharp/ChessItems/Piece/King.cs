@@ -31,26 +31,12 @@ namespace ChessSharp.ChessItems
             switch (positionChange)
             {
                 case 9:
-                    legal = true;
-                    break;
                 case -9:
-                    legal = true;
-                    break;
                 case 8:
-                    legal = true;
-                    break;
                 case -8:
-                    legal = true;
-                    break;
                 case 7:
-                    legal = true;
-                    break;
                 case -7:
-                    legal = true;
-                    break;
                 case 1:
-                    legal = true;
-                    break;
                 case -1:
                     legal = true;
                     break;

@@ -13,42 +13,43 @@ namespace ChessSharp.ChessItems
 {
     public class MoveValidate
     {
+        private bool checkPawn(SharpCentral.Piece[] boardState, int oldPosition, int newPosition, bool firstMove, SharpCentral.team team)
+        {
+            int d = team == SharpCentral.team.light ? -1 : 1;
+
+            int positionChange = (newPosition - oldPosition) * d;
+            bool legal = false;
+
+            switch (positionChange) {
+                case 8:
+                    if (boardState[newPosition] == SharpCentral.Piece.Empty)
+                        legal = true;
+                    break;
+                case 9:
+                case 7:
+                    if (boardState[newPosition] > SharpCentral.Piece.Empty)
+                        legal = true;
+                    break;
+                case 16:
+                    if (firstMove && boardState[oldPosition + (8 * d)] == SharpCentral.Piece.Empty)
+                        legal = true;
+                    break;
+                default:
+                    legal = false;
+                    break;
+            }
+
+            return legal; //if none of the legal moves were made
+        }
+
         public bool checkLightPawn(SharpCentral.Piece[] boardState, int oldPosition, int newPosition, bool firstMove)
         {
-            int positionChange = newPosition - oldPosition;
-
-            if (positionChange == 8 && boardState[newPosition] == SharpCentral.Piece.Empty)
-                return true;
-            else if (positionChange == 9)
-                if (boardState[newPosition] < SharpCentral.Piece.Empty)
-                    return true;
-            else if (positionChange == 7)
-                if (boardState[newPosition] < SharpCentral.Piece.Empty)
-                    return true;
-            else if (positionChange == 16)
-                if (firstMove && boardState[oldPosition + 8] == SharpCentral.Piece.Empty)
-                    return true;
-
-            return false; //if none of the legal moves were made
+            return checkPawn(boardState, oldPosition, newPosition, firstMove, SharpCentral.team.light);
         }
 
         public bool checkDarkPawn(SharpCentral.Piece[] boardState, int oldPosition, int newPosition, bool firstMove)
         {
-            int positionChange = newPosition - oldPosition;
-
-                if (positionChange == -8 && boardState[newPosition] == SharpCentral.Piece.Empty)
-                    return true;
-                else if (positionChange == -9)
-                    if (boardState[newPosition] > SharpCentral.Piece.Empty)
-                        return true;
-                else if (positionChange == -7)
-                    if (boardState[newPosition] > SharpCentral.Piece.Empty)
-                        return true;
-                else if (positionChange == -16)
-                    if (firstMove && boardState[oldPosition - 8] == SharpCentral.Piece.Empty)
-                        return true;
-
-            return false; //if none of the legal moves were made
+            return checkPawn(boardState, oldPosition, newPosition, firstMove, SharpCentral.team.dark);
         }
 
         public bool checkLightBishop(SharpCentral.Piece[] boardState, int oldPosition, int newPosition)
@@ -113,7 +114,7 @@ namespace ChessSharp.ChessItems
             return false; //if none of the legal moves were made
         }
 
-        public bool checkLightKnight(SharpCentral.Piece[] boardState, int oldPosition, int newPosition)
+        private bool checkKnight(int oldPosition, int newPosition)
         {
             int positionChange = newPosition - oldPosition;
             bool legal = false;
@@ -121,19 +122,15 @@ namespace ChessSharp.ChessItems
             switch (Math.Abs(positionChange))
             {
                 case 17:
-                case -17:
                     legal = true;
                     break;
                 case 15:
-                case -15:
                     legal = true;
                     break;
                 case 10:
-                case -10:
                     legal = true;
                     break;
                 case 6:
-                case -6:
                     legal = true;
                     break;
                 default:
@@ -141,39 +138,26 @@ namespace ChessSharp.ChessItems
                     break;
             }
 
+            return legal;
+        }
+
+        public bool checkLightKnight(SharpCentral.Piece[] boardState, int oldPosition, int newPosition)
+        {
+            bool legal = false;
+
+            legal = checkKnight(oldPosition, newPosition);
+
             if (boardState[newPosition] > SharpCentral.Piece.Empty)
-                legal = false;
+                legal &= false;
 
             return legal;
         }
 
         public bool checkDarkKnight(SharpCentral.Piece[] boardState, int oldPosition, int newPosition)
         {
-            int positionChange = newPosition - oldPosition;
             bool legal = false;
 
-            switch (Math.Abs(positionChange))
-            {
-                case 17:
-                case -17:
-                    legal = true;
-                    break;
-                case 15:
-                case -15:
-                    legal = true;
-                    break;
-                case 10:
-                case -10:
-                    legal = true;
-                    break;
-                case 6:
-                case -6:
-                    legal = true;
-                    break;
-                default:
-                    legal = false; //if none of the legal moves were made
-                    break;
-            }
+            legal = checkKnight(oldPosition, newPosition);
 
             if (boardState[newPosition] < SharpCentral.Piece.Empty)
                 legal = false;
