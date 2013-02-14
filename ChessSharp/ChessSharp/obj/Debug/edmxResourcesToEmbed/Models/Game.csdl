@@ -3,7 +3,7 @@
   <EntityContainer Name="ChessSharpEntities" annotation:LazyLoadingEnabled="true">
     <EntitySet Name="CompleteTypes" EntityType="ChessSharpModel.CompleteType" />
     <EntitySet Name="Games" EntityType="ChessSharpModel.Game" />
-    <EntitySet Name="GameSquares" EntityType="ChessSharpModel.GameSquare" />
+    <EntitySet Name="GamePieces" EntityType="ChessSharpModel.GamePiece" />
     <EntitySet Name="Players" EntityType="ChessSharpModel.Player" />
     <AssociationSet Name="FK_Game_CompleteTypeIdent" Association="ChessSharpModel.FK_Game_CompleteTypeIdent">
       <End Role="CompleteType" EntitySet="CompleteTypes" />
@@ -19,7 +19,7 @@
     </AssociationSet>
     <AssociationSet Name="FK_Game_Ident" Association="ChessSharpModel.FK_Game_Ident">
       <End Role="Game" EntitySet="Games" />
-      <End Role="GameSquare" EntitySet="GameSquares" />
+      <End Role="GameSquare" EntitySet="GamePieces" />
     </AssociationSet>
     <AssociationSet Name="FK_Game_Light_PlayerIdent" Association="ChessSharpModel.FK_Game_Light_PlayerIdent">
       <End Role="Player" EntitySet="Players" />
@@ -58,15 +58,17 @@
     <NavigationProperty Name="GameSquares" Relationship="ChessSharpModel.FK_Game_Ident" FromRole="Game" ToRole="GameSquare" />
     <NavigationProperty Name="Player2" Relationship="ChessSharpModel.FK_Game_Light_PlayerIdent" FromRole="Game" ToRole="Player" />
   </EntityType>
-  <EntityType Name="GameSquare">
+  <EntityType Name="GamePiece">
     <Key>
       <PropertyRef Name="Ident" />
     </Key>
     <Property Name="Ident" Type="Int32" Nullable="false" />
     <Property Name="GameIdent" Type="Int32" />
     <Property Name="SquareIndex" Type="Int32" />
-    <Property Name="PieceIdent" Type="Int32" />
+    <Property Name="PieceType" Type="Int32" />
     <NavigationProperty Name="Game" Relationship="ChessSharpModel.FK_Game_Ident" FromRole="GameSquare" ToRole="Game" />
+    <Property Type="Boolean" Name="Alive" Nullable="false" />
+    <Property Type="Int32" Name="MoveCount" Nullable="false" />
   </EntityType>
   <EntityType Name="Player">
     <Key>
@@ -127,7 +129,7 @@
   </Association>
   <Association Name="FK_Game_Ident">
     <End Role="Game" Type="ChessSharpModel.Game" Multiplicity="0..1" />
-    <End Role="GameSquare" Type="ChessSharpModel.GameSquare" Multiplicity="*" />
+    <End Role="GameSquare" Type="ChessSharpModel.GamePiece" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Game">
         <PropertyRef Name="Ident" />

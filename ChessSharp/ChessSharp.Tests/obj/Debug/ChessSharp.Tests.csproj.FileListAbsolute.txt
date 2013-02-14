@@ -3,7 +3,6 @@ D:\DotNet\ChessSharp\ChessSharp\ChessSharp.Tests\bin\Debug\ChessSharp.Tests.dll
 D:\DotNet\ChessSharp\ChessSharp\ChessSharp.Tests\bin\Debug\ChessSharp.Tests.pdb
 D:\DotNet\ChessSharp\ChessSharp\ChessSharp.Tests\bin\Debug\ChessSharp.dll
 D:\DotNet\ChessSharp\ChessSharp\ChessSharp.Tests\bin\Debug\ChessSharp.pdb
-D:\DotNet\ChessSharp\ChessSharp\ChessSharp.Tests\obj\Debug\ResolveAssemblyReference.cache
 D:\DotNet\ChessSharp\ChessSharp\ChessSharp.Tests\obj\Debug\ChessSharp.Tests.dll
 D:\DotNet\ChessSharp\ChessSharp\ChessSharp.Tests\obj\Debug\ChessSharp.Tests.pdb
 D:\DotNet\ChessSharp\ChessSharp\ChessSharp.Tests\bin\Debug\EntityFramework.dll
@@ -28,3 +27,4 @@ C:\Git\ChessSharp\ChessSharp\ChessSharp.Tests\bin\Debug\EntityFramework.xml
 C:\Git\ChessSharp\ChessSharp\ChessSharp.Tests\obj\Debug\ChessSharp.Tests.csprojResolveAssemblyReference.cache
 C:\Git\ChessSharp\ChessSharp\ChessSharp.Tests\obj\Debug\ChessSharp.Tests.dll
 C:\Git\ChessSharp\ChessSharp\ChessSharp.Tests\obj\Debug\ChessSharp.Tests.pdb
+D:\DotNet\ChessSharp\ChessSharp\ChessSharp.Tests\obj\Debug\ChessSharp.Tests.csprojResolveAssemblyReference.cache

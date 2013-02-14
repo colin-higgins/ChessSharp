@@ -9,7 +9,7 @@ namespace ChessSharp.ChessItems
     public class ChessPiece
     {
         private MoveValidate move = new MoveValidate();
-        private bool firstMove { get; set; }
+        private int moveCount { get; set; }
         public bool alive { get; private set; } //if a king has this false, game is over
         public int currentSquare { get; private set; }
         public int id { get; private set; }
@@ -30,12 +30,12 @@ namespace ChessSharp.ChessItems
             set { p = value; isLight = p > Piece.Empty ? true : false; } 
         }
 
-        public ChessPiece(SharpCentral.Piece piece, int pieceIdent, int piecePosition, bool pieceAlive = true, bool pieceFirstMove = true)
+        public ChessPiece(SharpCentral.Piece piece, int pieceIdent, int piecePosition, bool pieceAlive = true, int pieceMoves = 0)
         {
 
             currentSquare = piecePosition;
             alive = pieceAlive;
-            firstMove = pieceFirstMove;
+            moveCount = pieceMoves;
             p = piece;
             id = pieceIdent;
 
@@ -98,7 +98,6 @@ namespace ChessSharp.ChessItems
             }
 
             alive = pieceAlive;
-            firstMove = pieceFirstMove;
             inCheck = false;
 
             isLight = p > Piece.Empty ? true : false;
@@ -118,10 +117,10 @@ namespace ChessSharp.ChessItems
             switch (PieceType)
             {
                 case SharpCentral.Piece.lPawn:
-                    legalMove = move.checkLightPawn(boardState, currentSquare, newPosition, firstMove);
+                    legalMove = move.checkLightPawn(boardState, currentSquare, newPosition, moveCount > 0 ? false : true);
                     break;
                 case SharpCentral.Piece.lKing:
-                    legalMove = move.checkLightKing(boardState, currentSquare, newPosition, firstMove, inCheck);
+                    legalMove = move.checkLightKing(boardState, currentSquare, newPosition, moveCount > 0 ? false : true, inCheck);
                     break;
                 case SharpCentral.Piece.lQueen:
                     legalMove = move.checkLightQueen(boardState, currentSquare, newPosition);
@@ -136,10 +135,10 @@ namespace ChessSharp.ChessItems
                     legalMove = move.checkLightRook(boardState, currentSquare, newPosition);
                     break;
                 case SharpCentral.Piece.dPawn:
-                    legalMove = move.checkDarkPawn(boardState, currentSquare, newPosition, firstMove);
+                    legalMove = move.checkDarkPawn(boardState, currentSquare, newPosition, moveCount > 0 ? false : true);
                     break;
                 case SharpCentral.Piece.dKing:
-                    legalMove = move.checkDarkKing(boardState, currentSquare, newPosition, firstMove, inCheck);
+                    legalMove = move.checkDarkKing(boardState, currentSquare, newPosition, moveCount > 0 ? false : true, inCheck);
                     break;
                 case SharpCentral.Piece.dQueen:
                     legalMove = move.checkDarkQueen(boardState, currentSquare, newPosition);
@@ -160,8 +159,6 @@ namespace ChessSharp.ChessItems
 
             return legalMove;
         }
-
-
        
     } //end class
 } //end namespace

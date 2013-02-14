@@ -17,12 +17,13 @@
 
 <h2>Play Chess!</h2>
 
-@using (Html.BeginForm("PlayGame")) {
+@using (Html.BeginForm("PlayGame", "Home", new { GameModel = Model }, FormMethod.Post))
+{
 
 <div style="display:inline-block; float: left;">
 <table class="ChessBoard " >
 <tr>
-    <td><input id="cmdRevertMove" type="button" value="Revert" onclick="revertMove();"/></td>
+    <td><input id="cmdRevertMove" type="button" value="Revert" onclick="revertMove(); return false; "/></td>
     <td><input id="cmdCommitMove" type="submit" value="Commit" onclick="commitMove();"/>
         @Html.Hidden("currentPosition")
         @Html.Hidden("newPosition")
@@ -40,10 +41,12 @@
     </span>
 </td>
 </tr>
-    @for (int r = 0; r < 8; r++) {
+    @for (int r = 0; r < 8; r++)
+    {
         <tr>
-        @for (int c = 0; c < 8; c++) {
-            
+        @for (int c = 0; c < 8; c++)
+        {
+
             occupant = Model.board.chessBoard[bP].getOccupant();
                  
             <td id="@("sq" + bP)" class="square" onclick="movePiece(this.id);" >
@@ -57,7 +60,7 @@
                 {
                     <span class="team" style="display:none;">dark</span>
                 }
-                    <img src="@(Url.Content( seeker.GetImagePath(occupant.PieceType)))" style="width: 100%; height: 100%;" alt="@(seeker.GetName(occupant.PieceType))" />
+                    <img src="@(Url.Content(seeker.GetImagePath(occupant.PieceType)))" style="width: 100%; height: 100%;" alt="@(seeker.GetName(occupant.PieceType))" />
             }
                 </td>
             

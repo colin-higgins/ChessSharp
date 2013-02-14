@@ -22,7 +22,7 @@ using System.Xml.Serialization;
 [assembly: EdmRelationshipAttribute("ChessSharpModel", "FK_Game_CompleteTypeIdent", "CompleteType", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(ChessSharp.Models.CompleteType), "Game", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ChessSharp.Models.Game), true)]
 [assembly: EdmRelationshipAttribute("ChessSharpModel", "FK_Game_Add_PlayerIdent", "Player", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(ChessSharp.Models.Player), "Game", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ChessSharp.Models.Game), true)]
 [assembly: EdmRelationshipAttribute("ChessSharpModel", "FK_Game_Dark_PlayerIdent", "Player", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(ChessSharp.Models.Player), "Game", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ChessSharp.Models.Game), true)]
-[assembly: EdmRelationshipAttribute("ChessSharpModel", "FK_Game_Ident", "Game", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(ChessSharp.Models.Game), "GameSquare", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ChessSharp.Models.GameSquare), true)]
+[assembly: EdmRelationshipAttribute("ChessSharpModel", "FK_Game_Ident", "Game", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(ChessSharp.Models.Game), "GameSquare", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ChessSharp.Models.GamePiece), true)]
 [assembly: EdmRelationshipAttribute("ChessSharpModel", "FK_Game_Light_PlayerIdent", "Player", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(ChessSharp.Models.Player), "Game", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ChessSharp.Models.Game), true)]
 [assembly: EdmRelationshipAttribute("ChessSharpModel", "FK_Player_Player", "Player", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(ChessSharp.Models.Player), "Player1", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(ChessSharp.Models.Player), true)]
 
@@ -111,18 +111,18 @@ namespace ChessSharp.Models
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        public ObjectSet<GameSquare> GameSquares
+        public ObjectSet<GamePiece> GamePieces
         {
             get
             {
-                if ((_GameSquares == null))
+                if ((_GamePieces == null))
                 {
-                    _GameSquares = base.CreateObjectSet<GameSquare>("GameSquares");
+                    _GamePieces = base.CreateObjectSet<GamePiece>("GamePieces");
                 }
-                return _GameSquares;
+                return _GamePieces;
             }
         }
-        private ObjectSet<GameSquare> _GameSquares;
+        private ObjectSet<GamePiece> _GamePieces;
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -161,11 +161,11 @@ namespace ChessSharp.Models
         }
     
         /// <summary>
-        /// Deprecated Method for adding a new object to the GameSquares EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// Deprecated Method for adding a new object to the GamePieces EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
-        public void AddToGameSquares(GameSquare gameSquare)
+        public void AddToGamePieces(GamePiece gamePiece)
         {
-            base.AddObject("GameSquares", gameSquare);
+            base.AddObject("GamePieces", gamePiece);
         }
     
         /// <summary>
@@ -685,17 +685,17 @@ namespace ChessSharp.Models
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
         [EdmRelationshipNavigationPropertyAttribute("ChessSharpModel", "FK_Game_Ident", "GameSquare")]
-        public EntityCollection<GameSquare> GameSquares
+        public EntityCollection<GamePiece> GameSquares
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<GameSquare>("ChessSharpModel.FK_Game_Ident", "GameSquare");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<GamePiece>("ChessSharpModel.FK_Game_Ident", "GameSquare");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<GameSquare>("ChessSharpModel.FK_Game_Ident", "GameSquare", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<GamePiece>("ChessSharpModel.FK_Game_Ident", "GameSquare", value);
                 }
             }
         }
@@ -745,22 +745,26 @@ namespace ChessSharp.Models
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="ChessSharpModel", Name="GameSquare")]
+    [EdmEntityTypeAttribute(NamespaceName="ChessSharpModel", Name="GamePiece")]
     [Serializable()]
     [DataContractAttribute(IsReference=true)]
-    public partial class GameSquare : EntityObject
+    public partial class GamePiece : EntityObject
     {
         #region Factory Method
     
         /// <summary>
-        /// Create a new GameSquare object.
+        /// Create a new GamePiece object.
         /// </summary>
         /// <param name="ident">Initial value of the Ident property.</param>
-        public static GameSquare CreateGameSquare(global::System.Int32 ident)
+        /// <param name="alive">Initial value of the Alive property.</param>
+        /// <param name="moveCount">Initial value of the MoveCount property.</param>
+        public static GamePiece CreateGamePiece(global::System.Int32 ident, global::System.Boolean alive, global::System.Int32 moveCount)
         {
-            GameSquare gameSquare = new GameSquare();
-            gameSquare.Ident = ident;
-            return gameSquare;
+            GamePiece gamePiece = new GamePiece();
+            gamePiece.Ident = ident;
+            gamePiece.Alive = alive;
+            gamePiece.MoveCount = moveCount;
+            return gamePiece;
         }
 
         #endregion
@@ -847,24 +851,72 @@ namespace ChessSharp.Models
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
-        public Nullable<global::System.Int32> PieceIdent
+        public Nullable<global::System.Int32> PieceType
         {
             get
             {
-                return _PieceIdent;
+                return _PieceType;
             }
             set
             {
-                OnPieceIdentChanging(value);
-                ReportPropertyChanging("PieceIdent");
-                _PieceIdent = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("PieceIdent");
-                OnPieceIdentChanged();
+                OnPieceTypeChanging(value);
+                ReportPropertyChanging("PieceType");
+                _PieceType = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("PieceType");
+                OnPieceTypeChanged();
             }
         }
-        private Nullable<global::System.Int32> _PieceIdent;
-        partial void OnPieceIdentChanging(Nullable<global::System.Int32> value);
-        partial void OnPieceIdentChanged();
+        private Nullable<global::System.Int32> _PieceType;
+        partial void OnPieceTypeChanging(Nullable<global::System.Int32> value);
+        partial void OnPieceTypeChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Boolean Alive
+        {
+            get
+            {
+                return _Alive;
+            }
+            set
+            {
+                OnAliveChanging(value);
+                ReportPropertyChanging("Alive");
+                _Alive = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("Alive");
+                OnAliveChanged();
+            }
+        }
+        private global::System.Boolean _Alive;
+        partial void OnAliveChanging(global::System.Boolean value);
+        partial void OnAliveChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 MoveCount
+        {
+            get
+            {
+                return _MoveCount;
+            }
+            set
+            {
+                OnMoveCountChanging(value);
+                ReportPropertyChanging("MoveCount");
+                _MoveCount = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("MoveCount");
+                OnMoveCountChanged();
+            }
+        }
+        private global::System.Int32 _MoveCount;
+        partial void OnMoveCountChanging(global::System.Int32 value);
+        partial void OnMoveCountChanged();
 
         #endregion
 

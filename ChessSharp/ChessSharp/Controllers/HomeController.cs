@@ -25,8 +25,24 @@ namespace ChessSharp.Controllers
         SharpCentral.FreshGame chessProp = new SharpCentral.FreshGame();
         GameModel model { get; set; }
 
-        public ActionResult PlayChess(FormCollection collection)
+        public ActionResult PlayChess()
         {
+
+            if (model == null)
+            {
+                //This is the initial state of a chessboard as per the Piece enum
+                SharpCentral.Piece[] chessBoard = chessProp.chessBoard;
+                model = new GameModel(1, 2);
+            }
+
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult PlayGame(FormCollection collection)
+        {
+
             bool success = false;
             int currentPosition, newPosition;
 
@@ -37,29 +53,26 @@ namespace ChessSharp.Controllers
                 model = new GameModel(1, 2);
             }
 
-            if (collection.Get("currentPosition") != null && collection.Get("newPosition") != null)
+            model = model;
+            if (collection != null)
             {
-                int.TryParse(collection.Get("currentPosition").Replace("sq", ""), out currentPosition);
-                int.TryParse(collection.Get("newPosition").Replace("sq", ""), out newPosition);
-
-                success = model.board.MovePiece(currentPosition, newPosition);
-
-                if (!success)
+                if (collection.Get("currentPosition") != null && collection.Get("newPosition") != null)
                 {
-                    ViewBag.MoveFailed = "That was an illegal move! ";
+                    int.TryParse(collection.Get("currentPosition").Replace("sq", ""), out currentPosition);
+                    int.TryParse(collection.Get("newPosition").Replace("sq", ""), out newPosition);
+
+                    success = model.board.MovePiece(currentPosition, newPosition);
+
+                    if (!success)
+                    {
+                        ViewBag.MoveFailed = "That was an illegal move! ";
+                    }
+                    else
+                    {
+                        //Save the move and return the model
+                    }
                 }
             }
-
-            return View(model);
-        }
-
-        [HttpPost]
-        public ActionResult PlayGame(FormCollection collection)
-        {
-
-            var currentPosition = collection.Get("currentPosition");
-            var newPosition = collection.Get("newPosition");
-
             return View("PlayChess", model);
         }
     }

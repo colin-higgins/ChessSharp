@@ -2,16 +2,16 @@
 <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
   <EntityContainerMapping StorageEntityContainer="ChessSharpModelStoreContainer" CdmEntityContainer="ChessSharpEntities">
     <EntitySetMapping Name="CompleteTypes">
-      <EntityTypeMapping TypeName="ChessSharpModel.CompleteType">
-        <MappingFragment StoreEntitySet="CompleteType">
+      <EntityTypeMapping TypeName="IsTypeOf(ChessSharpModel.CompleteType)">
+        <MappingFragment StoreEntitySet="CompleteTypes">
           <ScalarProperty Name="Ident" ColumnName="Ident" />
           <ScalarProperty Name="CompleteTypeName" ColumnName="CompleteTypeName" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="Games">
-      <EntityTypeMapping TypeName="ChessSharpModel.Game">
-        <MappingFragment StoreEntitySet="Game">
+      <EntityTypeMapping TypeName="IsTypeOf(ChessSharpModel.Game)">
+        <MappingFragment StoreEntitySet="Games">
           <ScalarProperty Name="Ident" ColumnName="Ident" />
           <ScalarProperty Name="GameName" ColumnName="GameName" />
           <ScalarProperty Name="Light_PlayerIdent" ColumnName="Light_PlayerIdent" />
@@ -25,19 +25,21 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="GameSquares">
-      <EntityTypeMapping TypeName="ChessSharpModel.GameSquare">
-        <MappingFragment StoreEntitySet="GameSquare">
+    <EntitySetMapping Name="GamePieces">
+      <EntityTypeMapping TypeName="IsTypeOf(ChessSharpModel.GamePiece)">
+        <MappingFragment StoreEntitySet="GamePieces">
           <ScalarProperty Name="Ident" ColumnName="Ident" />
           <ScalarProperty Name="GameIdent" ColumnName="GameIdent" />
           <ScalarProperty Name="SquareIndex" ColumnName="SquareIndex" />
-          <ScalarProperty Name="PieceIdent" ColumnName="PieceIdent" />
+          <ScalarProperty Name="PieceType" ColumnName="PieceType" />
+          <ScalarProperty Name="Alive" ColumnName="Alive" />
+          <ScalarProperty Name="MoveCount" ColumnName="MoveCount" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="Players">
-      <EntityTypeMapping TypeName="ChessSharpModel.Player">
-        <MappingFragment StoreEntitySet="Player">
+      <EntityTypeMapping TypeName="IsTypeOf(ChessSharpModel.Player)">
+        <MappingFragment StoreEntitySet="Players">
           <ScalarProperty Name="Ident" ColumnName="Ident" />
           <ScalarProperty Name="PlayerName" ColumnName="PlayerName" />
           <ScalarProperty Name="Rating" ColumnName="Rating" />

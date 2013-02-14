@@ -4,165 +4,166 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="ChessSharpModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
-        <EntityContainer Name="ChessSharpModelStoreContainer">
-          <EntitySet Name="CompleteType" EntityType="ChessSharpModel.Store.CompleteType" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Game" EntityType="ChessSharpModel.Store.Game" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="GameSquare" EntityType="ChessSharpModel.Store.GameSquare" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Player" EntityType="ChessSharpModel.Store.Player" store:Type="Tables" Schema="dbo" />
-          <AssociationSet Name="FK_Game_Add_PlayerIdent" Association="ChessSharpModel.Store.FK_Game_Add_PlayerIdent">
-            <End Role="Player" EntitySet="Player" />
-            <End Role="Game" EntitySet="Game" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Game_CompleteTypeIdent" Association="ChessSharpModel.Store.FK_Game_CompleteTypeIdent">
-            <End Role="CompleteType" EntitySet="CompleteType" />
-            <End Role="Game" EntitySet="Game" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Game_Dark_PlayerIdent" Association="ChessSharpModel.Store.FK_Game_Dark_PlayerIdent">
-            <End Role="Player" EntitySet="Player" />
-            <End Role="Game" EntitySet="Game" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Game_Ident" Association="ChessSharpModel.Store.FK_Game_Ident">
-            <End Role="Game" EntitySet="Game" />
-            <End Role="GameSquare" EntitySet="GameSquare" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Game_Light_PlayerIdent" Association="ChessSharpModel.Store.FK_Game_Light_PlayerIdent">
-            <End Role="Player" EntitySet="Player" />
-            <End Role="Game" EntitySet="Game" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Player_Player" Association="ChessSharpModel.Store.FK_Player_Player">
-            <End Role="Player" EntitySet="Player" />
-            <End Role="Player1" EntitySet="Player" />
-          </AssociationSet>
-        </EntityContainer>
-        <EntityType Name="CompleteType">
-          <Key>
-            <PropertyRef Name="Ident" />
-          </Key>
-          <Property Name="Ident" Type="int" Nullable="false" />
-          <Property Name="CompleteTypeName" Type="nvarchar" MaxLength="75" />
-        </EntityType>
-        <EntityType Name="Game">
-          <Key>
-            <PropertyRef Name="Ident" />
-          </Key>
-          <Property Name="Ident" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="GameName" Type="nvarchar" MaxLength="75" />
-          <Property Name="Light_PlayerIdent" Type="int" />
-          <Property Name="Dark_PlayerIdent" Type="int" />
-          <Property Name="Add_PlayerIdent" Type="int" />
-          <Property Name="Add_Date" Type="datetime" />
-          <Property Name="Start_Date" Type="datetime" />
-          <Property Name="Complete_Date" Type="datetime" />
-          <Property Name="CompleteTypeIdent" Type="int" />
-          <Property Name="MoveHistory" Type="varchar(max)" />
-        </EntityType>
-        <EntityType Name="GameSquare">
-          <Key>
-            <PropertyRef Name="Ident" />
-          </Key>
-          <Property Name="Ident" Type="int" Nullable="false" />
-          <Property Name="GameIdent" Type="int" />
-          <Property Name="SquareIndex" Type="int" />
-          <Property Name="PieceIdent" Type="int" />
-        </EntityType>
-        <EntityType Name="Player">
-          <Key>
-            <PropertyRef Name="Ident" />
-          </Key>
-          <Property Name="Ident" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="PlayerName" Type="nvarchar" MaxLength="75" />
-          <Property Name="Rating" Type="int" />
-          <Property Name="WinCount" Type="int" />
-          <Property Name="LossCount" Type="int" />
-          <Property Name="DrawCount" Type="int" />
-          <Property Name="ForfeitCount" Type="int" />
-          <Property Name="JoinDate" Type="datetime" />
-          <Property Name="LastSeenDate" Type="datetime" />
-          <Property Name="Email" Type="nvarchar" MaxLength="250" />
-          <Property Name="Password" Type="nvarchar" MaxLength="64" />
-        </EntityType>
-        <Association Name="FK_Game_Add_PlayerIdent">
-          <End Role="Player" Type="ChessSharpModel.Store.Player" Multiplicity="0..1" />
-          <End Role="Game" Type="ChessSharpModel.Store.Game" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Player">
-              <PropertyRef Name="Ident" />
-            </Principal>
-            <Dependent Role="Game">
-              <PropertyRef Name="Add_PlayerIdent" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Game_CompleteTypeIdent">
-          <End Role="CompleteType" Type="ChessSharpModel.Store.CompleteType" Multiplicity="0..1" />
-          <End Role="Game" Type="ChessSharpModel.Store.Game" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CompleteType">
-              <PropertyRef Name="Ident" />
-            </Principal>
-            <Dependent Role="Game">
-              <PropertyRef Name="CompleteTypeIdent" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Game_Dark_PlayerIdent">
-          <End Role="Player" Type="ChessSharpModel.Store.Player" Multiplicity="0..1" />
-          <End Role="Game" Type="ChessSharpModel.Store.Game" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Player">
-              <PropertyRef Name="Ident" />
-            </Principal>
-            <Dependent Role="Game">
-              <PropertyRef Name="Dark_PlayerIdent" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Game_Ident">
-          <End Role="Game" Type="ChessSharpModel.Store.Game" Multiplicity="0..1" />
-          <End Role="GameSquare" Type="ChessSharpModel.Store.GameSquare" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Game">
-              <PropertyRef Name="Ident" />
-            </Principal>
-            <Dependent Role="GameSquare">
-              <PropertyRef Name="GameIdent" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Game_Light_PlayerIdent">
-          <End Role="Player" Type="ChessSharpModel.Store.Player" Multiplicity="0..1" />
-          <End Role="Game" Type="ChessSharpModel.Store.Game" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Player">
-              <PropertyRef Name="Ident" />
-            </Principal>
-            <Dependent Role="Game">
-              <PropertyRef Name="Light_PlayerIdent" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Player_Player">
-          <End Role="Player" Type="ChessSharpModel.Store.Player" Multiplicity="1" />
-          <End Role="Player1" Type="ChessSharpModel.Store.Player" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="Player">
-              <PropertyRef Name="Ident" />
-            </Principal>
-            <Dependent Role="Player1">
-              <PropertyRef Name="Ident" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-      </Schema>
-    </edmx:StorageModels>
+    <Schema Namespace="ChessSharpModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+  <EntityContainer Name="ChessSharpModelStoreContainer">
+    <EntitySet Name="CompleteTypes" EntityType="ChessSharpModel.Store.CompleteTypes" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Games" EntityType="ChessSharpModel.Store.Games" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="GamePieces" EntityType="ChessSharpModel.Store.GamePieces" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Players" EntityType="ChessSharpModel.Store.Players" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="FK_Game_CompleteTypeIdent" Association="ChessSharpModel.Store.FK_Game_CompleteTypeIdent">
+      <End Role="CompleteType" EntitySet="CompleteTypes" />
+      <End Role="Game" EntitySet="Games" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Game_Add_PlayerIdent" Association="ChessSharpModel.Store.FK_Game_Add_PlayerIdent">
+      <End Role="Player" EntitySet="Players" />
+      <End Role="Game" EntitySet="Games" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Game_Dark_PlayerIdent" Association="ChessSharpModel.Store.FK_Game_Dark_PlayerIdent">
+      <End Role="Player" EntitySet="Players" />
+      <End Role="Game" EntitySet="Games" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Game_Ident" Association="ChessSharpModel.Store.FK_Game_Ident">
+      <End Role="Game" EntitySet="Games" />
+      <End Role="GameSquare" EntitySet="GamePieces" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Game_Light_PlayerIdent" Association="ChessSharpModel.Store.FK_Game_Light_PlayerIdent">
+      <End Role="Player" EntitySet="Players" />
+      <End Role="Game" EntitySet="Games" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Player_Player" Association="ChessSharpModel.Store.FK_Player_Player">
+      <End Role="Player" EntitySet="Players" />
+      <End Role="Player1" EntitySet="Players" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="CompleteTypes">
+    <Key>
+      <PropertyRef Name="Ident" />
+    </Key>
+    <Property Name="Ident" Type="int" Nullable="false" />
+    <Property Name="CompleteTypeName" Type="nvarchar" Nullable="true" MaxLength="75" />
+  </EntityType>
+  <EntityType Name="Games">
+    <Key>
+      <PropertyRef Name="Ident" />
+    </Key>
+    <Property Name="Ident" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="GameName" Type="nvarchar" Nullable="true" MaxLength="75" />
+    <Property Name="Light_PlayerIdent" Type="int" Nullable="true" />
+    <Property Name="Dark_PlayerIdent" Type="int" Nullable="true" />
+    <Property Name="Add_PlayerIdent" Type="int" Nullable="true" />
+    <Property Name="Add_Date" Type="datetime" Nullable="true" />
+    <Property Name="Start_Date" Type="datetime" Nullable="true" />
+    <Property Name="Complete_Date" Type="datetime" Nullable="true" />
+    <Property Name="CompleteTypeIdent" Type="int" Nullable="true" />
+    <Property Name="MoveHistory" Type="varchar(max)" Nullable="true" />
+  </EntityType>
+  <EntityType Name="GamePieces">
+    <Key>
+      <PropertyRef Name="Ident" />
+    </Key>
+    <Property Name="Ident" Type="int" Nullable="false" />
+    <Property Name="GameIdent" Type="int" Nullable="true" />
+    <Property Name="SquareIndex" Type="int" Nullable="true" />
+    <Property Name="PieceType" Type="int" Nullable="true" />
+    <Property Name="Alive" Type="bit" Nullable="false" />
+    <Property Name="MoveCount" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Players">
+    <Key>
+      <PropertyRef Name="Ident" />
+    </Key>
+    <Property Name="Ident" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="PlayerName" Type="nvarchar" Nullable="true" MaxLength="75" />
+    <Property Name="Rating" Type="int" Nullable="true" />
+    <Property Name="WinCount" Type="int" Nullable="true" />
+    <Property Name="LossCount" Type="int" Nullable="true" />
+    <Property Name="DrawCount" Type="int" Nullable="true" />
+    <Property Name="ForfeitCount" Type="int" Nullable="true" />
+    <Property Name="JoinDate" Type="datetime" Nullable="true" />
+    <Property Name="LastSeenDate" Type="datetime" Nullable="true" />
+    <Property Name="Email" Type="nvarchar" Nullable="true" MaxLength="250" />
+    <Property Name="Password" Type="nvarchar" Nullable="true" MaxLength="64" />
+  </EntityType>
+  <Association Name="FK_Game_CompleteTypeIdent">
+    <End Role="CompleteType" Type="ChessSharpModel.Store.CompleteTypes" Multiplicity="0..1" />
+    <End Role="Game" Type="ChessSharpModel.Store.Games" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CompleteType">
+        <PropertyRef Name="Ident" />
+      </Principal>
+      <Dependent Role="Game">
+        <PropertyRef Name="CompleteTypeIdent" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Game_Add_PlayerIdent">
+    <End Role="Player" Type="ChessSharpModel.Store.Players" Multiplicity="0..1" />
+    <End Role="Game" Type="ChessSharpModel.Store.Games" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Player">
+        <PropertyRef Name="Ident" />
+      </Principal>
+      <Dependent Role="Game">
+        <PropertyRef Name="Add_PlayerIdent" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Game_Dark_PlayerIdent">
+    <End Role="Player" Type="ChessSharpModel.Store.Players" Multiplicity="0..1" />
+    <End Role="Game" Type="ChessSharpModel.Store.Games" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Player">
+        <PropertyRef Name="Ident" />
+      </Principal>
+      <Dependent Role="Game">
+        <PropertyRef Name="Dark_PlayerIdent" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Game_Ident">
+    <End Role="Game" Type="ChessSharpModel.Store.Games" Multiplicity="0..1" />
+    <End Role="GameSquare" Type="ChessSharpModel.Store.GamePieces" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Game">
+        <PropertyRef Name="Ident" />
+      </Principal>
+      <Dependent Role="GameSquare">
+        <PropertyRef Name="GameIdent" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Game_Light_PlayerIdent">
+    <End Role="Player" Type="ChessSharpModel.Store.Players" Multiplicity="0..1" />
+    <End Role="Game" Type="ChessSharpModel.Store.Games" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Player">
+        <PropertyRef Name="Ident" />
+      </Principal>
+      <Dependent Role="Game">
+        <PropertyRef Name="Light_PlayerIdent" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Player_Player">
+    <End Role="Player" Type="ChessSharpModel.Store.Players" Multiplicity="1" />
+    <End Role="Player1" Type="ChessSharpModel.Store.Players" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Player">
+        <PropertyRef Name="Ident" />
+      </Principal>
+      <Dependent Role="Player1">
+        <PropertyRef Name="Ident" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="ChessSharpModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
         <EntityContainer Name="ChessSharpEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="CompleteTypes" EntityType="ChessSharpModel.CompleteType" />
           <EntitySet Name="Games" EntityType="ChessSharpModel.Game" />
-          <EntitySet Name="GameSquares" EntityType="ChessSharpModel.GameSquare" />
+          <EntitySet Name="GamePieces" EntityType="ChessSharpModel.GamePiece" />
           <EntitySet Name="Players" EntityType="ChessSharpModel.Player" />
           <AssociationSet Name="FK_Game_CompleteTypeIdent" Association="ChessSharpModel.FK_Game_CompleteTypeIdent">
             <End Role="CompleteType" EntitySet="CompleteTypes" />
@@ -178,7 +179,7 @@
           </AssociationSet>
           <AssociationSet Name="FK_Game_Ident" Association="ChessSharpModel.FK_Game_Ident">
             <End Role="Game" EntitySet="Games" />
-            <End Role="GameSquare" EntitySet="GameSquares" />
+            <End Role="GameSquare" EntitySet="GamePieces" />
           </AssociationSet>
           <AssociationSet Name="FK_Game_Light_PlayerIdent" Association="ChessSharpModel.FK_Game_Light_PlayerIdent">
             <End Role="Player" EntitySet="Players" />
@@ -217,15 +218,17 @@
           <NavigationProperty Name="GameSquares" Relationship="ChessSharpModel.FK_Game_Ident" FromRole="Game" ToRole="GameSquare" />
           <NavigationProperty Name="Player2" Relationship="ChessSharpModel.FK_Game_Light_PlayerIdent" FromRole="Game" ToRole="Player" />
         </EntityType>
-        <EntityType Name="GameSquare">
+        <EntityType Name="GamePiece">
           <Key>
             <PropertyRef Name="Ident" />
           </Key>
           <Property Name="Ident" Type="Int32" Nullable="false" />
           <Property Name="GameIdent" Type="Int32" />
           <Property Name="SquareIndex" Type="Int32" />
-          <Property Name="PieceIdent" Type="Int32" />
+          <Property Name="PieceType" Type="Int32" />
           <NavigationProperty Name="Game" Relationship="ChessSharpModel.FK_Game_Ident" FromRole="GameSquare" ToRole="Game" />
+          <Property Type="Boolean" Name="Alive" Nullable="false" />
+          <Property Type="Int32" Name="MoveCount" Nullable="false" />
         </EntityType>
         <EntityType Name="Player">
           <Key>
@@ -286,7 +289,7 @@
         </Association>
         <Association Name="FK_Game_Ident">
           <End Role="Game" Type="ChessSharpModel.Game" Multiplicity="0..1" />
-          <End Role="GameSquare" Type="ChessSharpModel.GameSquare" Multiplicity="*" />
+          <End Role="GameSquare" Type="ChessSharpModel.GamePiece" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Game">
               <PropertyRef Name="Ident" />
@@ -324,46 +327,63 @@
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
-      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="ChessSharpModelStoreContainer" CdmEntityContainer="ChessSharpEntities">
-          <EntitySetMapping Name="CompleteTypes"><EntityTypeMapping TypeName="ChessSharpModel.CompleteType"><MappingFragment StoreEntitySet="CompleteType">
-            <ScalarProperty Name="Ident" ColumnName="Ident" />
-            <ScalarProperty Name="CompleteTypeName" ColumnName="CompleteTypeName" />
-          </MappingFragment></EntityTypeMapping></EntitySetMapping>
-          <EntitySetMapping Name="Games"><EntityTypeMapping TypeName="ChessSharpModel.Game"><MappingFragment StoreEntitySet="Game">
-            <ScalarProperty Name="Ident" ColumnName="Ident" />
-            <ScalarProperty Name="GameName" ColumnName="GameName" />
-            <ScalarProperty Name="Light_PlayerIdent" ColumnName="Light_PlayerIdent" />
-            <ScalarProperty Name="Dark_PlayerIdent" ColumnName="Dark_PlayerIdent" />
-            <ScalarProperty Name="Add_PlayerIdent" ColumnName="Add_PlayerIdent" />
-            <ScalarProperty Name="Add_Date" ColumnName="Add_Date" />
-            <ScalarProperty Name="Start_Date" ColumnName="Start_Date" />
-            <ScalarProperty Name="Complete_Date" ColumnName="Complete_Date" />
-            <ScalarProperty Name="CompleteTypeIdent" ColumnName="CompleteTypeIdent" />
-            <ScalarProperty Name="MoveHistory" ColumnName="MoveHistory" />
-          </MappingFragment></EntityTypeMapping></EntitySetMapping>
-          <EntitySetMapping Name="GameSquares"><EntityTypeMapping TypeName="ChessSharpModel.GameSquare"><MappingFragment StoreEntitySet="GameSquare">
-            <ScalarProperty Name="Ident" ColumnName="Ident" />
-            <ScalarProperty Name="GameIdent" ColumnName="GameIdent" />
-            <ScalarProperty Name="SquareIndex" ColumnName="SquareIndex" />
-            <ScalarProperty Name="PieceIdent" ColumnName="PieceIdent" />
-          </MappingFragment></EntityTypeMapping></EntitySetMapping>
-          <EntitySetMapping Name="Players"><EntityTypeMapping TypeName="ChessSharpModel.Player"><MappingFragment StoreEntitySet="Player">
-            <ScalarProperty Name="Ident" ColumnName="Ident" />
-            <ScalarProperty Name="PlayerName" ColumnName="PlayerName" />
-            <ScalarProperty Name="Rating" ColumnName="Rating" />
-            <ScalarProperty Name="WinCount" ColumnName="WinCount" />
-            <ScalarProperty Name="LossCount" ColumnName="LossCount" />
-            <ScalarProperty Name="DrawCount" ColumnName="DrawCount" />
-            <ScalarProperty Name="ForfeitCount" ColumnName="ForfeitCount" />
-            <ScalarProperty Name="JoinDate" ColumnName="JoinDate" />
-            <ScalarProperty Name="LastSeenDate" ColumnName="LastSeenDate" />
-            <ScalarProperty Name="Email" ColumnName="Email" />
-            <ScalarProperty Name="Password" ColumnName="Password" />
-          </MappingFragment></EntityTypeMapping></EntitySetMapping>
-        </EntityContainerMapping>
-      </Mapping>
-    </edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="ChessSharpModelStoreContainer" CdmEntityContainer="ChessSharpEntities">
+    <EntitySetMapping Name="CompleteTypes">
+      <EntityTypeMapping TypeName="IsTypeOf(ChessSharpModel.CompleteType)">
+        <MappingFragment StoreEntitySet="CompleteTypes">
+          <ScalarProperty Name="Ident" ColumnName="Ident" />
+          <ScalarProperty Name="CompleteTypeName" ColumnName="CompleteTypeName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Games">
+      <EntityTypeMapping TypeName="IsTypeOf(ChessSharpModel.Game)">
+        <MappingFragment StoreEntitySet="Games">
+          <ScalarProperty Name="Ident" ColumnName="Ident" />
+          <ScalarProperty Name="GameName" ColumnName="GameName" />
+          <ScalarProperty Name="Light_PlayerIdent" ColumnName="Light_PlayerIdent" />
+          <ScalarProperty Name="Dark_PlayerIdent" ColumnName="Dark_PlayerIdent" />
+          <ScalarProperty Name="Add_PlayerIdent" ColumnName="Add_PlayerIdent" />
+          <ScalarProperty Name="Add_Date" ColumnName="Add_Date" />
+          <ScalarProperty Name="Start_Date" ColumnName="Start_Date" />
+          <ScalarProperty Name="Complete_Date" ColumnName="Complete_Date" />
+          <ScalarProperty Name="CompleteTypeIdent" ColumnName="CompleteTypeIdent" />
+          <ScalarProperty Name="MoveHistory" ColumnName="MoveHistory" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="GamePieces">
+      <EntityTypeMapping TypeName="IsTypeOf(ChessSharpModel.GamePiece)">
+        <MappingFragment StoreEntitySet="GamePieces">
+          <ScalarProperty Name="Ident" ColumnName="Ident" />
+          <ScalarProperty Name="GameIdent" ColumnName="GameIdent" />
+          <ScalarProperty Name="SquareIndex" ColumnName="SquareIndex" />
+          <ScalarProperty Name="PieceType" ColumnName="PieceType" />
+          <ScalarProperty Name="Alive" ColumnName="Alive" />
+          <ScalarProperty Name="MoveCount" ColumnName="MoveCount" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Players">
+      <EntityTypeMapping TypeName="IsTypeOf(ChessSharpModel.Player)">
+        <MappingFragment StoreEntitySet="Players">
+          <ScalarProperty Name="Ident" ColumnName="Ident" />
+          <ScalarProperty Name="PlayerName" ColumnName="PlayerName" />
+          <ScalarProperty Name="Rating" ColumnName="Rating" />
+          <ScalarProperty Name="WinCount" ColumnName="WinCount" />
+          <ScalarProperty Name="LossCount" ColumnName="LossCount" />
+          <ScalarProperty Name="DrawCount" ColumnName="DrawCount" />
+          <ScalarProperty Name="ForfeitCount" ColumnName="ForfeitCount" />
+          <ScalarProperty Name="JoinDate" ColumnName="JoinDate" />
+          <ScalarProperty Name="LastSeenDate" ColumnName="LastSeenDate" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
   </edmx:Runtime>
   <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
   <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
@@ -384,7 +404,7 @@
       <Diagram Name="Game">
         <EntityTypeShape EntityType="ChessSharpModel.CompleteType" Width="1.5" PointX="0.75" PointY="7.25" Height="1.5956835937499996" IsExpanded="true" />
         <EntityTypeShape EntityType="ChessSharpModel.Game" Width="1.5" PointX="3" PointY="1.125" Height="3.9033007812499996" IsExpanded="true" />
-        <EntityTypeShape EntityType="ChessSharpModel.GameSquare" Width="1.5" PointX="5.25" PointY="2.125" Height="1.9802864583333335" IsExpanded="true" />
+        <EntityTypeShape EntityType="ChessSharpModel.GamePiece" Width="1.5" PointX="5.25" PointY="2.125" Height="1.9802864583333335" IsExpanded="true" />
         <EntityTypeShape EntityType="ChessSharpModel.Player" Width="1.5" PointX="0.75" PointY="1" Height="4.0956022135416656" IsExpanded="true" />
         <AssociationConnector Association="ChessSharpModel.FK_Game_CompleteTypeIdent" ManuallyRouted="false">
           <ConnectorPoint PointX="2.25" PointY="8.047841796875" />
