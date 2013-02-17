@@ -24,7 +24,7 @@ namespace ChessSharp.Models
         /// </summary>
         /// <param name="playerLight"></param>
         /// <param name="playerDark"></param>
-        public GameModel(int playerLight, int playerDark) 
+        public GameModel(int playerLight, int playerDark)
         {
             id = -1;
             board = new ChessItems.Board();
@@ -40,8 +40,11 @@ namespace ChessSharp.Models
         {
             bool success = false;
 
-            if ( board.MovePiece(currentPosition, newPosition) )
+            if (board.MovePiece(currentPosition, newPosition, moveCount))
+            {
                 success = true;
+                moveCount++;
+            }
 
             return success;
         }
@@ -78,14 +81,14 @@ namespace ChessSharp.Models
 
             GamePiece[] freshChest = new GamePiece[32];
 
-            for (var i = 0; i < 32 ; i++)
-            { 
-                freshChest[i] = new GamePiece() 
-                { 
-                    Alive = true, 
-                    GameIdent = freshGame.Ident, 
-                    MoveCount = 0, 
-                    PieceType = (int)sqBox[i].PieceType, 
+            for (var i = 0; i < 32; i++)
+            {
+                freshChest[i] = new GamePiece()
+                {
+                    Alive = true,
+                    GameIdent = freshGame.Ident,
+                    MoveCount = 0,
+                    PieceType = (int)sqBox[i].PieceType,
                     SquareIndex = sqBox[i].currentSquare,
                     Game = freshGame
                 };
@@ -109,10 +112,10 @@ namespace ChessSharp.Models
             var sqQuery = from gp in db.GamePieces
                           where gp.GameIdent == game.id
                           select gp;
-             //var sqQuery = from gp in db.GamePieces
-             //             where gp.GameIdent == game.id
-             //             select new 
-             //             ChessItems.ChessPiece((Piece)gp.PieceType, gp.Ident, (int)gp.SquareIndex, gp.Alive, gp.MoveCount > 0 ? false : true);
+            //var sqQuery = from gp in db.GamePieces
+            //             where gp.GameIdent == game.id
+            //             select new 
+            //             ChessItems.ChessPiece((Piece)gp.PieceType, gp.Ident, (int)gp.SquareIndex, gp.Alive, gp.MoveCount > 0 ? false : true);
 
             GamePiece[] freshChest = new GamePiece[32];
 
@@ -129,4 +132,4 @@ namespace ChessSharp.Models
             return success;
         }
     }
-}   
+}

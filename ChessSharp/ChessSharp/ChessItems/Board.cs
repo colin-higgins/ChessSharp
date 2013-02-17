@@ -15,7 +15,7 @@ namespace ChessSharp.ChessItems
         /// <summary>
         /// Use for a brand new game with vanilla settings. 
         /// </summary>
-        public Board() 
+        public Board()
         {
             chessBoard = new Square[64];
             pieceChest = new ChessPiece[32];
@@ -37,7 +37,7 @@ namespace ChessSharp.ChessItems
         {
             chessBoard = new Square[64];
 
-            for (var i = 0; i < 64; i++ )
+            for (var i = 0; i < 64; i++)
             {
                 chessBoard[i] = new Square(null);
             }
@@ -49,7 +49,7 @@ namespace ChessSharp.ChessItems
             PlaceChestPieces();
         }
 
-        public bool MovePiece(int currentPositon, int newPosition)
+        public bool MovePiece(int currentPositon, int newPosition, int moveCount)
         {
             bool success = false;
 
@@ -57,11 +57,18 @@ namespace ChessSharp.ChessItems
 
             if (occupant != null)
             {
-                var boardState = chessBoard.Select(sq => { var x = sq.getOccupant(); return x != null ? x.PieceType : Piece.Empty; }).ToArray();
-
-                if (occupant.legalMove(boardState, newPosition))
+                if (moveCount % 2 == 0 ? occupant.PieceType > Piece.Empty : occupant.PieceType < Piece.Empty)
                 {
-                    success = placePiece(currentPositon, newPosition);
+                    var boardState = chessBoard.Select(sq => { var x = sq.getOccupant(); return x != null ? x.PieceType : Piece.Empty; }).ToArray();
+
+                    if (occupant.legalMove(boardState, newPosition))
+                    {
+                        success = placePiece(currentPositon, newPosition);
+                    }
+                }
+                else
+                {
+                    //Error: you can not move the other team's piece!
                 }
             }
             return success;
@@ -80,6 +87,7 @@ namespace ChessSharp.ChessItems
                     victim.Die();
 
                 chessBoard[newPosition] = new Square(aggressor);
+                chessBoard[newPosition].getOccupant().currentSquare = newPosition;
                 return true;
             }
             else
@@ -95,7 +103,8 @@ namespace ChessSharp.ChessItems
 
         public Boolean setSquareOccupant(int index, ChessItems.ChessPiece p)
         {
-            if (chessBoard[index].getOccupant() == null) {
+            if (chessBoard[index].getOccupant() == null)
+            {
                 chessBoard[index].setOccupant(p);
                 return true;
             }

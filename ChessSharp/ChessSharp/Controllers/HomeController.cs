@@ -25,17 +25,40 @@ namespace ChessSharp.Controllers
         SharpCentral.FreshGame chessProp = new SharpCentral.FreshGame();
         GameModel model { get; set; }
 
-        public ActionResult PlayChess()
+        public ActionResult PlayChess(FormCollection collection)
         {
+            bool success = false;
+            int currentPosition, newPosition;
+
+            model = (GameModel)Session["model"];
 
             if (model == null)
             {
                 //This is the initial state of a chessboard as per the Piece enum
                 SharpCentral.Piece[] chessBoard = chessProp.chessBoard;
                 model = new GameModel(1, 2);
+                Session["model"] = model;
             }
 
+            if (collection != null)
+            {
+                if (collection.Get("currentPosition") != null && collection.Get("newPosition") != null)
+                {
+                    int.TryParse(collection.Get("currentPosition").Replace("sq", ""), out currentPosition);
+                    int.TryParse(collection.Get("newPosition").Replace("sq", ""), out newPosition);
 
+                    success = model.MovePiece(currentPosition, newPosition);
+
+                    if (!success)
+                    {
+                        ViewBag.MoveFailed = "That was an illegal move! ";
+                    }
+                    else
+                    {
+                        //Save the move and return the model
+                    }
+                }
+            }
             return View(model);
         }
 
@@ -46,6 +69,8 @@ namespace ChessSharp.Controllers
             bool success = false;
             int currentPosition, newPosition;
 
+            model = (GameModel)Session["model"];
+
             if (model == null)
             {
                 //This is the initial state of a chessboard as per the Piece enum
@@ -53,7 +78,6 @@ namespace ChessSharp.Controllers
                 model = new GameModel(1, 2);
             }
 
-            model = model;
             if (collection != null)
             {
                 if (collection.Get("currentPosition") != null && collection.Get("newPosition") != null)
@@ -61,7 +85,7 @@ namespace ChessSharp.Controllers
                     int.TryParse(collection.Get("currentPosition").Replace("sq", ""), out currentPosition);
                     int.TryParse(collection.Get("newPosition").Replace("sq", ""), out newPosition);
 
-                    success = model.board.MovePiece(currentPosition, newPosition);
+                    success = model.MovePiece(currentPosition, newPosition);
 
                     if (!success)
                     {

@@ -3,11 +3,14 @@
 
 @{
     ViewBag.Title = "Play Chess!";
-    
+
+    bool lightTurn = Model.moveCount % 2 == 0;
     var seeker = new SharpCentral.Seeker();
 
     int bP = 0;
     ChessPiece occupant;
+    SharpCentral.Piece sqType;
+    bool addJs;
 }
 
 
@@ -29,7 +32,7 @@
         @Html.Hidden("newPosition")
         @if (ViewBag.MoveFailed != null)
         {
-            <p>@ViewBag.MoveFailed</p>
+            <p style="background-color: silver;">@ViewBag.MoveFailed</p>
         }
     </td>
     <td colspan="6">
@@ -48,15 +51,20 @@
         {
 
             occupant = Model.board.chessBoard[bP].getOccupant();
-                 
-            <td id="@("sq" + bP)" class="square" onclick="movePiece(this.id);" >
-            @if (occupant != null)
+
+              sqType = occupant != null ? occupant.PieceType : SharpCentral.Piece.Empty;
+              addJs = lightTurn ? sqType > SharpCentral.Piece.Empty : sqType < SharpCentral.Piece.Empty;
+                           
+            
+            <td id="@("sq" + bP)" class="@(addJs ? "rtm " : "")square" onclick="movePiece(this.id); " >
+            
+            @if (sqType != SharpCentral.Piece.Empty)
             {
-                if (occupant.PieceType > SharpCentral.Piece.Empty)
+                if (sqType > SharpCentral.Piece.Empty)
                 {
                     <span class="team" style="display:none;">light</span>
                 }
-                else if (occupant.PieceType < SharpCentral.Piece.Empty)
+                else if (sqType < SharpCentral.Piece.Empty)
                 {
                     <span class="team" style="display:none;">dark</span>
                 }
@@ -94,7 +102,7 @@
         //alert("GAH, they pressed the dino!");
     })
 
-    for (var i = 0; i < square.length; i++ ) {
+    for (var i = 0; i < square.length; i++) {
         if (Math.floor(i / 8) % 2 === 0) {
             if (i % 2 === 0) {
                 $(square[i]).addClass('b');
@@ -109,7 +117,7 @@
             }
         }
     }
-    
+
     square.onclick = "movePiece(this.id);";
 
     var movePiece = function (squareID) {
@@ -145,11 +153,15 @@
                     $("#newPosition").val(squareID);
                 }
             } else {
-                $("#" + squareID).addClass("readyToMove");
+                var sqToMove = $("#" + squareID);
 
-                previousSquareId = squareID;
-                //At this point, load the list of valid moves for the piece
-                //Async highlight available moves
+                if (sqToMove.hasClass("rtm")) {
+                    //Only do this if the class stating it is ready to move exists
+                    $("#" + squareID).addClass("readyToMove");
+                    previousSquareId = squareID;
+                    //At this point, load the list of valid moves for the piece
+                    //Async highlight available moves
+                }
             }
         }
 
@@ -190,6 +202,6 @@
         }
         return false;
     };
- 
+
 </script>
 

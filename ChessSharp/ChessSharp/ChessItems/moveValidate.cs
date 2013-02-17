@@ -20,14 +20,15 @@ namespace ChessSharp.ChessItems
             int positionChange = (newPosition - oldPosition) * d;
             bool legal = false;
 
-            switch (positionChange) {
+            switch (positionChange)
+            {
                 case 8:
                     if (boardState[newPosition] == SharpCentral.Piece.Empty)
                         legal = true;
                     break;
                 case 9:
                 case 7:
-                    if (boardState[newPosition] > SharpCentral.Piece.Empty)
+                    if ((int)boardState[newPosition] * d > (int)SharpCentral.Piece.Empty)
                         legal = true;
                     break;
                 case 16:
@@ -52,66 +53,58 @@ namespace ChessSharp.ChessItems
             return checkPawn(boardState, oldPosition, newPosition, firstMove, SharpCentral.team.dark);
         }
 
-        public bool checkLightBishop(SharpCentral.Piece[] boardState, int oldPosition, int newPosition)
+        public bool checkBishop(SharpCentral.Piece[] boardState, int oldPosition, int newPosition)
         {
             int positionChange = newPosition - oldPosition;
+            int modifier = 1;
+            bool legal = false;
             int d = positionChange < 0 ? -1 : 1;
 
             if (positionChange % 9 == 0)
             {
-                for (var i = oldPosition; i < newPosition; i += (9 * d))
-                {
-                    if (boardState[i] != SharpCentral.Piece.Empty)
-                        return false;
-                }
-                if (boardState[newPosition] <= SharpCentral.Piece.Empty)
-                    return true;
-
-                return false;
+                legal = true;
+                modifier = 9 * d;
             }
             else if (positionChange % 7 == 0)
             {
-                for (var i = oldPosition; i < newPosition; i += (7 * d))
-                {
-                    if (boardState[i] != SharpCentral.Piece.Empty)
-                        return false;
-                }
-                if (boardState[newPosition] <= SharpCentral.Piece.Empty)
-                    return true;
+                legal = true;
+                modifier = 7 * d;
             }
 
-            return false; //if none of the legal moves were made
+            for (var i = oldPosition + modifier; i < newPosition; i += modifier)
+            {
+                if (boardState[i] != SharpCentral.Piece.Empty)
+                    legal = false;
+            }
+
+            if (boardState[newPosition] > SharpCentral.Piece.Empty)
+                legal = false;
+
+            return legal;
+        }
+
+        public bool checkLightBishop(SharpCentral.Piece[] boardState, int oldPosition, int newPosition)
+        {
+            bool legal = false;
+
+            legal = checkBishop(boardState, oldPosition, newPosition);
+
+            if (boardState[newPosition] > SharpCentral.Piece.Empty)
+                legal = false;
+
+            return legal;
         }
 
         public bool checkDarkBishop(SharpCentral.Piece[] boardState, int oldPosition, int newPosition)
         {
-            int positionChange = newPosition - oldPosition;
-            int d = positionChange < 0 ? -1 : 1;
+            bool legal = false;
 
-            if (positionChange % 9 == 0)
-            {
-                for (var i = oldPosition; i < newPosition; i += (9 * d))
-                {
-                    if (boardState[i] != SharpCentral.Piece.Empty)
-                        return false;
-                }
-                if (boardState[newPosition] >= SharpCentral.Piece.Empty)
-                    return true;
+            legal = checkBishop(boardState, oldPosition, newPosition);
 
-                return false;
-            }
-            else if (positionChange % 7 == 0)
-            {
-                for (var i = oldPosition; i < newPosition; i += (7 * d))
-                {
-                    if (boardState[i] != SharpCentral.Piece.Empty)
-                        return false;
-                }
-                if (boardState[newPosition] >= SharpCentral.Piece.Empty)
-                    return true;
-            }
+            if (boardState[newPosition] < SharpCentral.Piece.Empty)
+                legal = false;
 
-            return false; //if none of the legal moves were made
+            return legal;
         }
 
         private bool checkKnight(int oldPosition, int newPosition)
@@ -165,14 +158,14 @@ namespace ChessSharp.ChessItems
             return legal;
         }
 
-        public bool checkLightRook(SharpCentral.Piece[] boardState, int oldPosition, int newPosition)
+        public bool checkRook(SharpCentral.Piece[] boardState, int oldPosition, int newPosition)
         {
             int positionChange = newPosition - oldPosition;
             int d = positionChange < 0 ? -1 : 1;
             int modifier = 1;
             bool legal = false;
 
-            if (positionChange > 8) //Same row
+            if (sameRow(oldPosition, newPosition)) //Same row
             {
                 modifier = d;
                 legal = true;
@@ -183,9 +176,19 @@ namespace ChessSharp.ChessItems
                 legal = true;
             }
 
-            for (var i = oldPosition; i != newPosition; i += modifier)
+            for (var i = oldPosition + modifier; i != newPosition; i += modifier)
                 if (boardState[i] != SharpCentral.Piece.Empty)
                     return false;
+
+            return legal; //if none of the legal moves were made
+        }
+
+        public bool checkLightRook(SharpCentral.Piece[] boardState, int oldPosition, int newPosition)
+        {
+
+            bool legal = false;
+
+            legal = checkRook(boardState, oldPosition, newPosition);
 
             if (boardState[newPosition] > SharpCentral.Piece.Empty)
                 legal = false;
@@ -195,25 +198,9 @@ namespace ChessSharp.ChessItems
 
         public bool checkDarkRook(SharpCentral.Piece[] boardState, int oldPosition, int newPosition)
         {
-            int positionChange = newPosition - oldPosition;
-            int d = positionChange < 0 ? -1 : 1;
-            int modifier = 1;
             bool legal = false;
 
-            if (positionChange > 8) //Same row
-            {
-                modifier = d;
-                legal = true;
-            }
-            else if (positionChange % 8 == 0) //same column
-            {
-                modifier = 8 * d;
-                legal = true;
-            }
-
-            for (var i = oldPosition; i != newPosition; i += modifier)
-                if (boardState[i] != SharpCentral.Piece.Empty)
-                    return false;
+            legal = checkRook(boardState, oldPosition, newPosition);
 
             if (boardState[newPosition] < SharpCentral.Piece.Empty)
                 legal = false;
@@ -221,19 +208,14 @@ namespace ChessSharp.ChessItems
             return legal; //if none of the legal moves were made
         }
 
-        public bool checkLightQueen(SharpCentral.Piece[] boardState, int oldPosition, int newPosition)
+        public bool checkQueen(SharpCentral.Piece[] boardState, int oldPosition, int newPosition)
         {
             int positionChange = newPosition - oldPosition;
             int d = positionChange < 0 ? -1 : 1;
             int modifier = 1;
             bool legal = false;
-
-            if (positionChange < 8)
-            {
-                modifier = d;
-                legal = true;
-            }
-            else if (positionChange % 8 == 0)
+            
+            if (positionChange % 8 == 0)
             {
                 modifier = 8 * d;
                 legal = true;
@@ -248,10 +230,39 @@ namespace ChessSharp.ChessItems
                 modifier = 7 * d;
                 legal = true;
             }
-
-            for (var i = oldPosition; i != newPosition; i += modifier)
+            else if (sameRow(oldPosition, newPosition))
+            {
+                modifier = d;
+                legal = true;
+            }
+            //0 to 7
+            int rowLower = oldPosition % 8 - 7;
+            int rowUpper = 7 - rowLower;
+ 
+            for (var i = oldPosition + modifier; i != newPosition; i += modifier)
                 if (boardState[i] != SharpCentral.Piece.Empty)
                     return false;
+
+            return legal; //if none of the legal moves were made
+        }
+
+        private bool sameRow(int oldPosition, int newPosition)
+        {
+            bool same = false;
+            //0 to 7
+            int rowLower = oldPosition % 8 - 7;
+            int rowUpper = 7 - rowLower;
+
+            same = (rowLower < newPosition && newPosition < rowUpper);
+
+            return same;
+        }
+
+        public bool checkLightQueen(SharpCentral.Piece[] boardState, int oldPosition, int newPosition)
+        {
+            bool legal = false;
+
+            legal = checkQueen(boardState, oldPosition, newPosition);
 
             if (boardState[newPosition] > SharpCentral.Piece.Empty)
                 legal = false;
@@ -261,35 +272,9 @@ namespace ChessSharp.ChessItems
 
         public bool checkDarkQueen(SharpCentral.Piece[] boardState, int oldPosition, int newPosition)
         {
-            int positionChange = newPosition - oldPosition;
-            int d = positionChange < 0 ? -1 : 1;
-            int modifier = 1;
             bool legal = false;
 
-            if (positionChange < 8)
-            {
-                modifier = d;
-                legal = true;
-            }
-            else if (positionChange % 8 == 0)
-            {
-                modifier = 8 * d;
-                legal = true;
-            }
-            else if (positionChange % 9 == 0)
-            {
-                modifier = 9 * d;
-                legal = true;
-            }
-            else if (positionChange % 7 == 0)
-            {
-                modifier = 7 * d;
-                legal = true;
-            }
-
-            for (var i = oldPosition; i != newPosition; i += modifier)
-                if (boardState[i] != SharpCentral.Piece.Empty)
-                    return false;
+            legal = checkQueen(boardState, oldPosition, newPosition);
 
             if (boardState[newPosition] < SharpCentral.Piece.Empty)
                 legal = false;

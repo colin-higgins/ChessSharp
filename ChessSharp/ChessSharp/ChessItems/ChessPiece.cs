@@ -11,7 +11,7 @@ namespace ChessSharp.ChessItems
         private MoveValidate move = new MoveValidate();
         private int moveCount { get; set; }
         public bool alive { get; private set; } //if a king has this false, game is over
-        public int currentSquare { get; private set; }
+        public int currentSquare { get; set; }
         public int id { get; private set; }
         private int scoreValue { get; set; }
         private int actionValue { get; set; } //this may be used to help the CPU attack with weaker pieces later on?
@@ -22,12 +22,12 @@ namespace ChessSharp.ChessItems
 
         public bool IsLight { get { return isLight; } }
         private bool isLight;
-        
+
         private SharpCentral.Piece p;
         public SharpCentral.Piece PieceType
         {
             get { return p; }
-            set { p = value; isLight = p > Piece.Empty ? true : false; } 
+            set { p = value; isLight = p > Piece.Empty ? true : false; }
         }
 
         public ChessPiece(SharpCentral.Piece piece, int pieceIdent, int piecePosition, bool pieceAlive = true, int pieceMoves = 0)
@@ -66,25 +66,25 @@ namespace ChessSharp.ChessItems
                     scoreValue = 32767;
                     break;
                 case SharpCentral.Piece.dPawn:
-                    actionValue = 10;   
-                    scoreValue = -100;   
-                    break;              
+                    actionValue = 10;
+                    scoreValue = -100;
+                    break;
                 case SharpCentral.Piece.dKnight:
-                    actionValue = 8;    
-                    scoreValue = -320;   
-                    break;              
+                    actionValue = 8;
+                    scoreValue = -320;
+                    break;
                 case SharpCentral.Piece.dBishop:
-                    actionValue = 8;    
-                    scoreValue = -325;   
-                    break;              
+                    actionValue = 8;
+                    scoreValue = -325;
+                    break;
                 case SharpCentral.Piece.dRook:
-                    actionValue = 6;    
-                    scoreValue = -500;   
-                    break;              
+                    actionValue = 6;
+                    scoreValue = -500;
+                    break;
                 case SharpCentral.Piece.dQueen:
-                    actionValue = 3;    
-                    scoreValue = -1000;  
-                    break;              
+                    actionValue = 3;
+                    scoreValue = -1000;
+                    break;
                 case SharpCentral.Piece.dKing:
                     actionValue = 1;
                     scoreValue = -32767;
@@ -159,6 +159,6 @@ namespace ChessSharp.ChessItems
 
             return legalMove;
         }
-       
+
     } //end class
 } //end namespace
