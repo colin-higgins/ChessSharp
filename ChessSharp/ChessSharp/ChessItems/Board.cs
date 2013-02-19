@@ -11,6 +11,7 @@ namespace ChessSharp.ChessItems
     {
         public Square[] chessBoard { get; private set; }
         public ChessPiece[] pieceChest { get; private set; }
+        public int LastSquare { get; private set; }
 
         /// <summary>
         /// Use for a brand new game with vanilla settings. 
@@ -61,9 +62,13 @@ namespace ChessSharp.ChessItems
                 {
                     var boardState = chessBoard.Select(sq => { var x = sq.getOccupant(); return x != null ? x.PieceType : Piece.Empty; }).ToArray();
 
-                    if (occupant.legalMove(boardState, newPosition))
+                    if (occupant.legalMove(boardState, newPosition, LastSquare))
                     {
                         success = placePiece(currentPositon, newPosition);
+                        if (success)
+                        {
+                            LastSquare = newPosition;
+                        }
                     }
                 }
                 else
@@ -74,20 +79,34 @@ namespace ChessSharp.ChessItems
             return success;
         }
 
-        private bool placePiece(int currentPosition, int newPosition)
+        private bool placePiece(int currentPosition, int newPosition, bool enPassant = false)
         {
             var aggressor = chessBoard[currentPosition].getOccupant();
-            var victim = chessBoard[newPosition].getOccupant();
+            ChessPiece victim;
+
+            if (!enPassant)
+            {
+                victim = chessBoard[newPosition].getOccupant();
+            }
+            else
+            {
+                //If it is en passant, we can assume the piece is a pawn, absolute value of 1
+                victim = chessBoard[newPosition - (8 * (int)aggressor.PieceType)].getOccupant(); 
+            }
 
             if (newPosition >= 0 && newPosition <= 63)
             {
-                chessBoard[currentPosition] = new Square(null);
+                chessBoard[currentPosition].setOccupant(null);
 
                 if (victim != null)
+                {
                     victim.Die();
+                }
 
-                chessBoard[newPosition] = new Square(aggressor);
-                chessBoard[newPosition].getOccupant().currentSquare = newPosition;
+                chessBoard[newPosition].setOccupant(aggressor);
+                aggressor.currentSquare = newPosition;
+                aggressor.lastSquare = currentPosition;
+                aggressor.moveCount++;
                 return true;
             }
             else

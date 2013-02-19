@@ -18,6 +18,7 @@ namespace ChessSharp.Models
         public int darkScore { get; private set; }
         public int moveCount { get; private set; }
         public string moveHistory { get; private set; }
+        public int? EnPassantOpportunityIndex { get; private set; }
 
         /// <summary>
         /// Use this method to start a new game. 
@@ -44,6 +45,14 @@ namespace ChessSharp.Models
             {
                 success = true;
                 moveCount++;
+                EnPassantOpportunityIndex = null;
+                if (board.getSquare(newPosition).getOccupant().PieceType == Piece.dPawn || board.getSquare(newPosition).getOccupant().PieceType == Piece.lPawn)
+                {
+                    if (Math.Abs(currentPosition - newPosition) == 2)
+                    {
+                        EnPassantOpportunityIndex = newPosition;
+                    }
+                }
             }
 
             return success;

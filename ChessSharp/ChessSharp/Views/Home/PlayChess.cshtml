@@ -5,8 +5,31 @@
     ViewBag.Title = "Play Chess!";
 
     bool lightTurn = Model.moveCount % 2 == 0;
-    var seeker = new SharpCentral.Seeker();
 
+    
+    var seeker = new SharpCentral.Seeker();
+    int passantRow = lightTurn ? 3 : 4;
+    int? passantSpot = null;
+    
+    List<int> passantAttacker; 
+    if (Model.EnPassantOpportunityIndex.HasValue)
+    {
+     int modifier = lightTurn ? 1 : -1;
+        //Set the passant spot in both
+        if ((Model.EnPassantOpportunityIndex - 1) / 8 == passantRow)
+        {
+            passantAttacker.Add(Model.EnPassantOpportunityIndex - 1); 
+            passantSpot = Model.EnPassantOpportunityIndex + 7 * modifier;;
+        }
+        if ((Model.EnPassantOpportunityIndex + 1) / 8 == passantRow)
+        {
+            passantAttacker.Add(Model.EnPassantOpportunityIndex + 1); 
+            passantSpot = Model.EnPassantOpportunityIndex + 9 * modifier;
+        }
+    }
+    
+    int? passantSquare;
+    int? passantAttacker = Model.EnPassantOpportunityIndex.HasValue ? 
     int bP = 0;
     ChessPiece occupant;
     SharpCentral.Piece sqType;
@@ -93,32 +116,46 @@
 }
 
 <script type="text/javascript" >
-    var lastMoveHtml = lastMoveHtml || null;
-    var previousSquareId = previousSquareId || null;
-    var pawn = $('#pawn');
-    var square = $(".square");
 
-    pawn.click(function () {
-        //alert("GAH, they pressed the dino!");
-    })
+    $(document).ready(function () {
+        var lastMoveHtml = lastMoveHtml || null;
+        var previousSquareId = previousSquareId || null;
+        var pawn = $('#pawn');
+        var square = $(".square");
 
-    for (var i = 0; i < square.length; i++) {
-        if (Math.floor(i / 8) % 2 === 0) {
-            if (i % 2 === 0) {
-                $(square[i]).addClass('b');
+        pawn.click(function () {
+            //alert("GAH, they pressed the dino!");
+        })
+
+        for (var i = 0; i < square.length; i++) {
+            if (Math.floor(i / 8) % 2 === 0) {
+                if (i % 2 === 0) {
+                    $(square[i]).addClass('b');
+                } else {
+                    $(square[i]).addClass('w');
+                }
             } else {
-                $(square[i]).addClass('w');
-            }
-        } else {
-            if (i % 2 === 0) {
-                $(square[i]).addClass('w');
-            } else {
-                $(square[i]).addClass('b');
+                if (i % 2 === 0) {
+                    $(square[i]).addClass('w');
+                } else {
+                    $(square[i]).addClass('b');
+                }
             }
         }
-    }
 
-    square.onclick = "movePiece(this.id);";
+        square.onclick = "movePiece(this.id);";
+
+    });
+
+    var enPassant = function (squareID) {
+        var victimId = 'sq@(Model.EnPassantOppoetunityIndex)';
+        var attackerId = $(".readyToMove");
+        var attackPoss = {
+            @foreach (var item in passantAttacker) {
+                @(item)   
+            }
+        };
+    };
 
     var movePiece = function (squareID) {
 

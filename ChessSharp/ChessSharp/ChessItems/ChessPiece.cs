@@ -9,8 +9,9 @@ namespace ChessSharp.ChessItems
     public class ChessPiece
     {
         private MoveValidate move = new MoveValidate();
-        private int moveCount { get; set; }
+        public int moveCount { get; set; }
         public bool alive { get; private set; } //if a king has this false, game is over
+        public int lastSquare { get; set; }
         public int currentSquare { get; set; }
         public int id { get; private set; }
         private int scoreValue { get; set; }
@@ -108,7 +109,7 @@ namespace ChessSharp.ChessItems
             alive = false;
         }
 
-        public bool legalMove(SharpCentral.Piece[] boardState, int newPosition)
+        public bool legalMove(SharpCentral.Piece[] boardState, int newPosition, int lastSquareEffected)
         {
             bool legalMove = false;
             if (newPosition > 63 || newPosition < 0) //Keeps the pieces on the board
@@ -117,7 +118,7 @@ namespace ChessSharp.ChessItems
             switch (PieceType)
             {
                 case SharpCentral.Piece.lPawn:
-                    legalMove = move.checkLightPawn(boardState, currentSquare, newPosition, moveCount > 0 ? false : true);
+                    legalMove = move.checkLightPawn(boardState, currentSquare, newPosition, moveCount > 0 ? false : true, lastSquareEffected);
                     break;
                 case SharpCentral.Piece.lKing:
                     legalMove = move.checkLightKing(boardState, currentSquare, newPosition, moveCount > 0 ? false : true, inCheck);
@@ -135,7 +136,7 @@ namespace ChessSharp.ChessItems
                     legalMove = move.checkLightRook(boardState, currentSquare, newPosition);
                     break;
                 case SharpCentral.Piece.dPawn:
-                    legalMove = move.checkDarkPawn(boardState, currentSquare, newPosition, moveCount > 0 ? false : true);
+                    legalMove = move.checkDarkPawn(boardState, currentSquare, newPosition, moveCount > 0 ? false : true, lastSquareEffected);
                     break;
                 case SharpCentral.Piece.dKing:
                     legalMove = move.checkDarkKing(boardState, currentSquare, newPosition, moveCount > 0 ? false : true, inCheck);
