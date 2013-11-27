@@ -1,13 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
+using Chess.Data;
+using Chess.Data.Entities;
 using ChessSharp.Models;
 
 namespace ChessSharp.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : ApplicationController
     {
         public ActionResult Index()
         {
@@ -21,83 +20,43 @@ namespace ChessSharp.Controllers
             return View();
         }
 
-        ChessSharpEntities db = new ChessSharpEntities();
-        SharpCentral.FreshGame chessProp = new SharpCentral.FreshGame();
-        GameModel model { get; set; }
-
-        public ActionResult PlayChess(FormCollection collection)
+        [HttpGet]
+        public ActionResult PlayChess(long? gameId = null)
         {
-            bool success = false;
-            int currentPosition, newPosition;
+            var model = GetGame(gameId ?? 0);
 
-            model = (GameModel)Session["model"];
-
-            if (model == null)
-            {
-                //This is the initial state of a chessboard as per the Piece enum
-                SharpCentral.Piece[] chessBoard = chessProp.chessBoard;
-                model = new GameModel(1, 2);
-                Session["model"] = model;
-            }
-
-            if (collection != null)
-            {
-                if (collection.Get("currentPosition") != null && collection.Get("newPosition") != null)
-                {
-                    int.TryParse(collection.Get("currentPosition").Replace("sq", ""), out currentPosition);
-                    int.TryParse(collection.Get("newPosition").Replace("sq", ""), out newPosition);
-
-                    success = model.MovePiece(currentPosition, newPosition);
-
-                    if (!success)
-                    {
-                        ViewBag.MoveFailed = "That was an illegal move! ";
-                    }
-                    else
-                    {
-                        //Save the move and return the model
-                    }
-                }
-            }
             return View(model);
         }
 
-        [HttpPost]
-        public ActionResult PlayGame(FormCollection collection)
+        public Square[][] MakeMove(long gameId, Move move)
         {
+            var game = GetGame(gameId);
 
-            bool success = false;
-            int currentPosition, newPosition;
+            var success = game.MovePiece(move);
 
-            model = (GameModel)Session["model"];
+            if (success)
+                return game.Board.Squares;
 
-            if (model == null)
+            var start = move.StartColumn + ", " + move.StartRow;
+            var end = move.EndColumn + ", " + move.EndRow;
+
+            AddUserError(String.Format("Moving {0} to {1} is illegal for game {2}",
+                start, end, gameId));
+
+            return game.Board.Squares;
+        }
+
+        public GameModel GetGame(long gameId)
+        {
+            var game = (GameModel)Session["model"];
+
+            if (game == null)
             {
-                //This is the initial state of a chessboard as per the Piece enum
-                SharpCentral.Piece[] chessBoard = chessProp.chessBoard;
-                model = new GameModel(1, 2);
+                game = new GameModel();
+                Session["model"] = game;
             }
 
-            if (collection != null)
-            {
-                if (collection.Get("currentPosition") != null && collection.Get("newPosition") != null)
-                {
-                    int.TryParse(collection.Get("currentPosition").Replace("sq", ""), out currentPosition);
-                    int.TryParse(collection.Get("newPosition").Replace("sq", ""), out newPosition);
-
-                    success = model.MovePiece(currentPosition, newPosition);
-
-                    if (!success)
-                    {
-                        ViewBag.MoveFailed = "That was an illegal move! ";
-                    }
-                    else
-                    {
-                        //Save the move and return the model
-                    }
-                }
-            }
-            return View("PlayChess", model);
+            return game;
         }
     }
 }

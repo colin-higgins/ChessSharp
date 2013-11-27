@@ -28,13 +28,3 @@ C:\Git\ChessSharp\ChessSharp\ChessSharp.Tests\obj\Debug\ChessSharp.Tests.csprojR
 C:\Git\ChessSharp\ChessSharp\ChessSharp.Tests\obj\Debug\ChessSharp.Tests.dll
 C:\Git\ChessSharp\ChessSharp\ChessSharp.Tests\obj\Debug\ChessSharp.Tests.pdb
 D:\DotNet\ChessSharp\ChessSharp\ChessSharp.Tests\obj\Debug\ChessSharp.Tests.csprojResolveAssemblyReference.cache
-C:\Users\colin.h\Documents\GitHub\ChessSharp\ChessSharp\ChessSharp.Tests\bin\Debug\ChessSharp.Tests.dll.config
-C:\Users\colin.h\Documents\GitHub\ChessSharp\ChessSharp\ChessSharp.Tests\bin\Debug\ChessSharp.Tests.dll
-C:\Users\colin.h\Documents\GitHub\ChessSharp\ChessSharp\ChessSharp.Tests\bin\Debug\ChessSharp.Tests.pdb
-C:\Users\colin.h\Documents\GitHub\ChessSharp\ChessSharp\ChessSharp.Tests\bin\Debug\ChessSharp.dll
-C:\Users\colin.h\Documents\GitHub\ChessSharp\ChessSharp\ChessSharp.Tests\bin\Debug\EntityFramework.dll
-C:\Users\colin.h\Documents\GitHub\ChessSharp\ChessSharp\ChessSharp.Tests\bin\Debug\ChessSharp.pdb
-C:\Users\colin.h\Documents\GitHub\ChessSharp\ChessSharp\ChessSharp.Tests\bin\Debug\EntityFramework.xml
-C:\Users\colin.h\Documents\GitHub\ChessSharp\ChessSharp\ChessSharp.Tests\obj\Debug\ChessSharp.Tests.csprojResolveAssemblyReference.cache
-C:\Users\colin.h\Documents\GitHub\ChessSharp\ChessSharp\ChessSharp.Tests\obj\Debug\ChessSharp.Tests.dll
-C:\Users\colin.h\Documents\GitHub\ChessSharp\ChessSharp\ChessSharp.Tests\obj\Debug\ChessSharp.Tests.pdb

@@ -1,6 +1,0 @@
-﻿@{
-    ViewBag.Title = "Welcome";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
-
-<h2>Welcome</h2>

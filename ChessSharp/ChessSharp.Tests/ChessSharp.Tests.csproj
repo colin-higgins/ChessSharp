@@ -56,9 +56,9 @@
     <Content Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ChessSharp\ChessSharp.csproj">
+    <ProjectReference Include="..\ChessSharp\Chess.Web.csproj">
       <Project>{0D0B6005-B7BA-478A-9DD9-9027DF05E967}</Project>
-      <Name>ChessSharp</Name>
+      <Name>Chess.Web</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

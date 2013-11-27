@@ -1,55 +1,22 @@
-﻿@using ChessSharp.ChessItems
+﻿@using Chess.Data.Entities
+@using Chess.Data.Enum
 @Model ChessSharp.Models.GameModel
 
 @{
     ViewBag.Title = "Play Chess!";
 
-    bool lightTurn = Model.moveCount % 2 == 0;
-
-    
-    var seeker = new SharpCentral.Seeker();
-    int passantRow = lightTurn ? 3 : 4;
-    int? passantSpot = null;
-    
-    List<int> passantAttacker; 
-    if (Model.EnPassantOpportunityIndex.HasValue)
-    {
-     int modifier = lightTurn ? 1 : -1;
-        //Set the passant spot in both
-        if ((Model.EnPassantOpportunityIndex - 1) / 8 == passantRow)
-        {
-            passantAttacker.Add(Model.EnPassantOpportunityIndex - 1); 
-            passantSpot = Model.EnPassantOpportunityIndex + 7 * modifier;;
-        }
-        if ((Model.EnPassantOpportunityIndex + 1) / 8 == passantRow)
-        {
-            passantAttacker.Add(Model.EnPassantOpportunityIndex + 1); 
-            passantSpot = Model.EnPassantOpportunityIndex + 9 * modifier;
-        }
-    }
-    
-    int? passantSquare;
-    int? passantAttacker = Model.EnPassantOpportunityIndex.HasValue ? 
-    int bP = 0;
-    ChessPiece occupant;
-    SharpCentral.Piece sqType;
-    bool addJs;
+    bool lightTurn = Model.MoveCount % 2 == 0;
 }
-
-
-    <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.0/themes/base/jquery-ui.css" />
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js" type="text/javascript"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/jquery-ui.min.js" type="text/javascript"></script>
 
 <h2>Play Chess!</h2>
 
 @using (Html.BeginForm("PlayGame", "Home", new { GameModel = Model }, FormMethod.Post))
 {
 
-<div style="display:inline-block; float: left;">
+<div style="float: left;">
 <table class="ChessBoard " >
 <tr>
-    <td><input id="cmdRevertMove" type="button" value="Revert" onclick="revertMove(); return false; "/></td>
+    <td><input id="cmdRevepreparedove" type="button" value="Revert" onclick="revertMove(); return false; "/></td>
     <td><input id="cmdCommitMove" type="submit" value="Commit" onclick="commitMove();"/>
         @Html.Hidden("currentPosition")
         @Html.Hidden("newPosition")
@@ -72,30 +39,30 @@
         <tr>
         @for (int c = 0; c < 8; c++)
         {
+            ChessPiece occupant = Model.Board.Squares[r][c].ChessPiece;
 
-            occupant = Model.board.chessBoard[bP].getOccupant();
+            var addMoveScript = false;
+            var squarePieceType = PieceType.Empty;
 
-              sqType = occupant != null ? occupant.PieceType : SharpCentral.Piece.Empty;
-              addJs = lightTurn ? sqType > SharpCentral.Piece.Empty : sqType < SharpCentral.Piece.Empty;
-                           
-            
-            <td id="@("sq" + bP)" class="@(addJs ? "rtm " : "")square" onclick="movePiece(this.id); " >
-            
-            @if (sqType != SharpCentral.Piece.Empty)
+            if (occupant != null)
             {
-                if (sqType > SharpCentral.Piece.Empty)
+                addMoveScript = lightTurn ? occupant.Team == Team.Light : occupant.Team == Team.Dark;
+                squarePieceType = occupant.PieceType;
+            }
+            
+            <td id="@("column" + c + "row" + r)" class="@(addMoveScript ? "prepared " : "")square" onclick="movePiece(this.id); " >
+            
+            @if (squarePieceType != PieceType.Empty)
+            {
+                if (occupant != null)
                 {
-                    <span class="team" style="display:none;">light</span>
+                    <span class="team" style="display: none;">
+                        @(occupant.Team == Team.Light ? "light" : occupant.Team == Team.Dark ? "dark" : "")
+                    </span>
                 }
-                else if (sqType < SharpCentral.Piece.Empty)
-                {
-                    <span class="team" style="display:none;">dark</span>
-                }
-                    <img src="@(Url.Content(seeker.GetImagePath(occupant.PieceType)))" style="width: 100%; height: 100%;" alt="@(seeker.GetName(occupant.PieceType))" />
+                <img src="~/Images/lightPawn.png" style="width: 100%; height: 100%;" alt="@(squarePieceType.ToString())" class="@(squarePieceType.ToString())" />
             }
                 </td>
-            
-            bP++;
         }
         </tr>
     }
@@ -116,46 +83,26 @@
 }
 
 <script type="text/javascript" >
+    var lastMoveHtml = lastMoveHtml || null;
+    var previousSquareId = previousSquareId || null;
+    var pawns = $('#pawn');
+    var squares = $(".square");
 
-    $(document).ready(function () {
-        var lastMoveHtml = lastMoveHtml || null;
-        var previousSquareId = previousSquareId || null;
-        var pawn = $('#pawn');
-        var square = $(".square");
-
-        pawn.click(function () {
-            //alert("GAH, they pressed the dino!");
-        })
-
-        for (var i = 0; i < square.length; i++) {
-            if (Math.floor(i / 8) % 2 === 0) {
-                if (i % 2 === 0) {
-                    $(square[i]).addClass('b');
-                } else {
-                    $(square[i]).addClass('w');
-                }
+    for (var i = 0; i < square.length; i++ ) {
+        if (Math.floor(i / 8) % 2 === 0) {
+            if (i % 2 === 0) {
+                $(squares[i]).addClass('b');
             } else {
-                if (i % 2 === 0) {
-                    $(square[i]).addClass('w');
-                } else {
-                    $(square[i]).addClass('b');
-                }
+                $(squares[i]).addClass('w');
+            } 
+        } else {
+            if (i % 2 === 0) {
+                $(squares[i]).addClass('w');
+            } else {
+                $(squares[i]).addClass('b');
             }
         }
-
-        square.onclick = "movePiece(this.id);";
-
-    });
-
-    var enPassant = function (squareID) {
-        var victimId = 'sq@(Model.EnPassantOppoetunityIndex)';
-        var attackerId = $(".readyToMove");
-        var attackPoss = {
-            @foreach (var item in passantAttacker) {
-                @(item)   
-            }
-        };
-    };
+    }
 
     var movePiece = function (squareID) {
 
@@ -166,7 +113,7 @@
         //TODO: Call web service to validate move
         //OR: Have a preloaded list of valid moves for each piece... That seems silly... but should we validate twice?
 
-        if ((usedUp.length === 0)) {
+        if (usedUp.length === 0) {
             if (prevChose.length > 0) {
                 if (prevChose[0].id === squareID) {
                     prevChose.removeClass("readyToMove");
@@ -192,7 +139,7 @@
             } else {
                 var sqToMove = $("#" + squareID);
 
-                if (sqToMove.hasClass("rtm")) {
+                if (sqToMove.hasClass("prepared")) {
                     //Only do this if the class stating it is ready to move exists
                     $("#" + squareID).addClass("readyToMove");
                     previousSquareId = squareID;
@@ -239,6 +186,6 @@
         }
         return false;
     };
-
+ 
 </script>
 

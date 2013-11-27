@@ -1,9 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChessSharp", "ChessSharp\ChessSharp.csproj", "{0D0B6005-B7BA-478A-9DD9-9027DF05E967}"
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chess.Web", "ChessSharp\Chess.Web.csproj", "{0D0B6005-B7BA-478A-9DD9-9027DF05E967}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChessSharp.Tests", "ChessSharp.Tests\ChessSharp.Tests.csproj", "{C43DDB1E-AED5-4B21-845F-CDA9F1184600}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chess.Domain", "Chess.Domain\Chess.Domain.csproj", "{BF8B09DA-13F6-4277-B0C5-049982639741}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chess.Data", "Chess.Data\Chess.Data.csproj", "{065793C0-A130-4440-8E67-FFCEAB1ACFE6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,10 +19,14 @@ Global
 		{0D0B6005-B7BA-478A-9DD9-9027DF05E967}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0D0B6005-B7BA-478A-9DD9-9027DF05E967}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0D0B6005-B7BA-478A-9DD9-9027DF05E967}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C43DDB1E-AED5-4B21-845F-CDA9F1184600}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C43DDB1E-AED5-4B21-845F-CDA9F1184600}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C43DDB1E-AED5-4B21-845F-CDA9F1184600}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C43DDB1E-AED5-4B21-845F-CDA9F1184600}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BF8B09DA-13F6-4277-B0C5-049982639741}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF8B09DA-13F6-4277-B0C5-049982639741}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF8B09DA-13F6-4277-B0C5-049982639741}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF8B09DA-13F6-4277-B0C5-049982639741}.Release|Any CPU.Build.0 = Release|Any CPU
+		{065793C0-A130-4440-8E67-FFCEAB1ACFE6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{065793C0-A130-4440-8E67-FFCEAB1ACFE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{065793C0-A130-4440-8E67-FFCEAB1ACFE6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{065793C0-A130-4440-8E67-FFCEAB1ACFE6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
