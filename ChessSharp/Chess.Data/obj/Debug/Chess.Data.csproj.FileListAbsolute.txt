@@ -6,3 +6,11 @@ C:\Git\ChessSharp\ChessSharp\Chess.Data\obj\Debug\Chess.Data.pdb
 C:\Git\ChessSharp\ChessSharp\Chess.Data\bin\Debug\Chess.Data.dll.config
 C:\Git\ChessSharp\ChessSharp\Chess.Data\bin\Debug\EntityFramework.dll
 C:\Git\ChessSharp\ChessSharp\Chess.Data\bin\Debug\EntityFramework.xml
+D:\Git\ChessSharp\ChessSharp\Chess.Data\bin\Debug\Chess.Data.dll.config
+D:\Git\ChessSharp\ChessSharp\Chess.Data\bin\Debug\Chess.Data.dll
+D:\Git\ChessSharp\ChessSharp\Chess.Data\bin\Debug\Chess.Data.pdb
+D:\Git\ChessSharp\ChessSharp\Chess.Data\bin\Debug\EntityFramework.dll
+D:\Git\ChessSharp\ChessSharp\Chess.Data\bin\Debug\EntityFramework.xml
+D:\Git\ChessSharp\ChessSharp\Chess.Data\obj\Debug\Chess.Data.csprojResolveAssemblyReference.cache
+D:\Git\ChessSharp\ChessSharp\Chess.Data\obj\Debug\Chess.Data.dll
+D:\Git\ChessSharp\ChessSharp\Chess.Data\obj\Debug\Chess.Data.pdb

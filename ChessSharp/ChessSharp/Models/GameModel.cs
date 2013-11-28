@@ -1,10 +1,12 @@
-﻿using Chess.Data;
+﻿using System;
+using Chess.Data;
 
 namespace ChessSharp.Models
 {
+    [Serializable]
     public class GameModel
     {
-        public int GameId { get; set; }
+        public long GameId { get; set; }
         public Board Board { get; set; }
         public int PlayerLightId { get; set; }
         public int PlayerDarkId { get; set; }
@@ -24,7 +26,7 @@ namespace ChessSharp.Models
 
         public bool MovePiece(Move move)
         {
-            var piece = Board.Squares[move.StartColumn][move.StartRow].ChessPiece;
+            var piece = Board.Squares[move.StartRow][move.StartColumn].ChessPiece;
 
             if (!piece.IsLegalMove(move.EndColumn, move.EndRow))
                 return false;

@@ -2,7 +2,17 @@
     ViewBag.Title = "Home Page";
 }
 
-<h2>@ViewBag.Message</h2>
-<p>
-    To learn more about ASP.NET MVC visit <a href="http://asp.net/mvc" title="ASP.NET MVC Website">http://asp.net/mvc</a>.
-</p>
+<script src="~/Scripts/angular.js"></script>
+
+<script src="~/Angular/Router.js"></script>
+<script src="~/Angular/ChessService.js"></script>
+<script src="~/Angular/ChessController.js"></script>
+
+<div ng-app="csChessApp">
+
+    <div ng-view>
+
+    </div>
+
+</div>
+

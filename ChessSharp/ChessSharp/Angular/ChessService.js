@@ -1,23 +1,83 @@
-﻿var chessSharp = angular.module('chessSharp', []);
+﻿//var chessSharp = angular.module('chessSharp', []);
 
-chessSharp.factory('gameService', function () {
-    var shinyNewServiceInstance = {};
-    //factory function body that constructs shinyNewServiceInstance
+//chessSharp.factory('gameService', function () {
+//    var shinyNewServiceInstance = {};
+//    //factory function body that constructs shinyNewServiceInstance
 
-    shinyNewServiceInstance.getGame = function(gameId, callback) {
+//    shinyNewServiceInstance.getGame = function(gameId, callback) {
 
-        $.getJSON("/Home/GetGame/" + gameId,
-            function(data) {
+//        $.getJSON("/Home/GetGame/" + gameId,
+//            function(data) {
+//                callback(data);
+//            }).
+//            fail(function(data) {
+//                if (console) {
+//                    console.log("Get game failure.");
+//                    console.log(data);
+//                }
+//                //failure(data);
+//            });
+//    };
+
+//    return shinyNewServiceInstance;
+//});
+
+chessSharp.factory('gameApi', ['$http', function ($http) {
+    var mockBoard = [
+    ];
+
+    for (var col = 0; col < 8; col++) {
+        var squares = [];
+
+        for (var row = 0; row < 8; row++) {
+
+            var piece = {
+                pieceType: "generic",
+                alive: true
+            };
+
+            if (row < 2 || row > 5)
+                squares.push(piece);
+            else
+                squares.push({});
+        }
+
+        mockBoard.push(squares);
+    }
+
+    return {
+        challengePlayer: function (playerId) {
+
+        },
+        getPlayer: function (playerId) {
+            return {
+                playerId: playerId,
+                playerName: "Bob Dole",
+                wins: 5,
+                losses: 5
+            };
+        },
+        getGame: function (gameId, callback) {
+            $http({
+                method: 'GET',
+                url: '/ChessApi/GetGame/' + gameId
+            })
+            .success(function (data) {
                 callback(data);
-            }).
-            fail(function(data) {
-                if (console) {
-                    console.log("Get game failure.");
-                    console.log(data);
-                }
-                //failure(data);
             });
-    };
+        },
+        getActiveGames: function (playerId) {
 
-    return shinyNewServiceInstance;
-});
+        },
+        makeMove: function (gameId, move, callback) {
+            $http({
+                method: 'POST',
+                url: '/ChessApi/MakeMove',
+                data: { id: gameId, move: move }
+            })
+            .success(function (data) {
+                callback(data);
+            }); 
+        }
+    };
+}]);

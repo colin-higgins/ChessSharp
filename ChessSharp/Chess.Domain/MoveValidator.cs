@@ -16,8 +16,8 @@ namespace Chess.Domain
 
         public bool IsLegalMoveBishop(Square[][] board, Move move)
         {
-            var attacker = board[move.StartColumn][move.StartRow].ChessPiece;
-            var occupant = board[move.EndColumn][move.EndRow].ChessPiece;
+            var attacker = board[move.StartRow][move.StartColumn].ChessPiece;
+            var occupant = board[move.EndRow][move.EndColumn].ChessPiece;
 
             if (occupant.Team == attacker.Team)
                 return false;
@@ -31,8 +31,8 @@ namespace Chess.Domain
 
         private bool IsLegalMoveKnight(Square[][] board, Move move)
         {
-            var attacker = board[move.StartColumn][move.StartRow].ChessPiece;
-            var occupant = board[move.EndColumn][move.EndRow].ChessPiece;
+            var attacker = board[move.StartRow][move.StartColumn].ChessPiece;
+            var occupant = board[move.EndRow][move.EndColumn].ChessPiece;
 
             if (occupant.Team == attacker.Team)
                 return false;
@@ -49,8 +49,8 @@ namespace Chess.Domain
             if (move.RowChange != 0 && move.ColumnChange != 0)
                 return false;
 
-            var attacker = board[move.StartColumn][move.StartRow].ChessPiece;
-            var occupant = board[move.EndColumn][move.EndRow].ChessPiece;
+            var attacker = board[move.StartRow][move.StartColumn].ChessPiece;
+            var occupant = board[move.EndRow][move.EndColumn].ChessPiece;
             
             if (occupant.Team == attacker.Team)
                 return false;
@@ -62,8 +62,8 @@ namespace Chess.Domain
 
         public bool IsLegalMoveQueen(Square[][] board, Move move)
         {
-            var attacker = board[move.StartColumn][move.StartRow].ChessPiece;
-            var occupant = board[move.EndColumn][move.EndRow].ChessPiece;
+            var attacker = board[move.StartRow][move.StartColumn].ChessPiece;
+            var occupant = board[move.EndRow][move.EndColumn].ChessPiece;
 
             if (occupant.Team == attacker.Team)
                 return false;
@@ -80,8 +80,8 @@ namespace Chess.Domain
 
         public bool IsLegalMoveKing(Square[][] board, Move move)
         {
-            var attacker = board[move.StartColumn][move.StartRow].ChessPiece;
-            var occupant = board[move.EndColumn][move.EndRow].ChessPiece;
+            var attacker = board[move.StartRow][move.StartColumn].ChessPiece;
+            var occupant = board[move.EndRow][move.EndColumn].ChessPiece;
 
             if (occupant.Team == attacker.Team || Math.Abs(move.RowChange) > 1)
                 return false;
@@ -109,8 +109,8 @@ namespace Chess.Domain
 
         public bool IsLegalCastle(Square[][] board, Move move)
         {
-            var attacker = board[move.StartColumn][move.StartRow].ChessPiece;
-            var occupant = board[move.EndColumn][move.EndRow].ChessPiece;
+            var attacker = board[move.StartRow][move.StartColumn].ChessPiece;
+            var occupant = board[move.EndRow][move.EndColumn].ChessPiece;
 
             if (IsInCheck(board, move.StartColumn, move.StartRow))
                 return false;
