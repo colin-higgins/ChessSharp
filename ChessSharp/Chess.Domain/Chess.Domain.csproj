@@ -41,7 +41,6 @@
   <ItemGroup>
     <Compile Include="MoveGetter.cs" />
     <Compile Include="PieceChecker.cs" />
-    <Compile Include="MoveValidator.cs" />
     <Compile Include="PieceValuator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

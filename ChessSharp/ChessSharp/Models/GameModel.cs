@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Linq;
 using Chess.Data;
+using Chess.Data.Enum;
+using WebGrease.Css.Extensions;
 
 namespace ChessSharp.Models
 {
@@ -24,16 +27,39 @@ namespace ChessSharp.Models
             MoveHistory = "";
         }
 
+        private Team TeamToMove()
+        {
+            if (MoveCount % 2 == 0)
+                return Team.Light;
+            return Team.Dark;
+        }
+
         public bool MovePiece(Move move)
         {
             var piece = Board.Squares[move.StartRow][move.StartColumn].ChessPiece;
+            var currentTeam = TeamToMove();
 
-            if (!piece.IsLegalMove(move.EndColumn, move.EndRow))
+            if (piece.Team != currentTeam)
+                return false;
+            if (!piece.IsLegalMove(Board.Squares, move))
                 return false;
 
-            piece.Move(move.EndColumn, move.EndRow);
+            piece.Move(Board.Squares, move);
 
-            return true;
+            var nextTeamToMove = TeamToMove();
+            var kingIsSafe = true;
+
+            foreach (var row in Board.Squares)
+                row.Where(sq => sq.ChessPiece != null 
+                                && sq.ChessPiece.PieceType == PieceType.King 
+                                && sq.ChessPiece.Team == currentTeam)
+                    .ForEach(sq =>
+                    {
+                        if (sq.TargetedByTeam(Board.Squares, nextTeamToMove))
+                            kingIsSafe = false;
+                    });
+
+            return kingIsSafe;
         }
     }
 }
