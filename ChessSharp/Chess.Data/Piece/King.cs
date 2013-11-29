@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Linq;
 using Chess.Data.Entities;
-using Enum = Chess.Data.Enum;
 
 namespace Chess.Data.Piece
 {
@@ -14,52 +12,44 @@ namespace Chess.Data.Piece
 
         public override bool IsLegalMove(Square[][] board, Move move)
         {
+            var destination = board[move.EndRow][move.EndColumn];
+
             if (AttackingSameTeam(board, move) || Math.Abs(move.RowChange) > 1)
                 return false;
             if (move.ColumnChange > 1)
                 return IsLegalCastle(board, move);
 
-            var rowModifier = GetMovementModifier(move.RowChange);
-            var columnModifier = GetMovementModifier(move.ColumnChange);
-
-            return !IsInCheck(board);
+            return !destination.TargetedByTeam(board, GetOppositeTeam());
         }
 
         public bool IsLegalCastle(Square[][] board, Move move)
         {
-            var occupant = GetDestinationPiece(board, move);
+            var destination = board[move.EndRow][move.EndColumn];
             var direction = move.ColumnChange;
+            var rook = board[move.EndRow][move.EndColumn + direction].ChessPiece;
 
-            if (move.RowChange != 0 || MoveCount > 0 || occupant != null)
+            if (move.RowChange != 0 || MoveCount > 0 || destination.ChessPiece != null)
                 return false;
-
+            if (rook == null || rook.PieceType != Enum.PieceType.Rook || rook.MoveCount > 0)
+                return false;
+            if (HasCollision(board, move))
+                return false;
             if (IsInCheck(board))
                 return false;
 
-            if (Team == Enum.Team.Dark)
-            {
-            }
-            else if (Team == Enum.Team.Light)
-            {
-            }
-
-            return !IsInCheck(board);
+            return !destination.TargetedByTeam(board, GetOppositeTeam());
         }
 
         public bool IsInCheck(Square[][] board)
         {
             if (Alive && CurrentColumn.HasValue && CurrentRow.HasValue)
             {
-                var possibleMove = new Move() { EndColumn = CurrentColumn.Value, EndRow = CurrentRow.Value };
+                var square = board[CurrentRow.Value][CurrentColumn.Value];
 
-                foreach (var row in board)
-                    foreach (var square in row.Where(square => square.ChessPiece != null))
-                    {
-                        possibleMove.EndColumn = square.Column;
-                        possibleMove.EndRow = square.Row;
-                        if (square.ChessPiece.IsLegalMove(board, possibleMove))
-                            return true;
-                    }
+                var team = GetOppositeTeam();
+
+                if (square.TargetedByTeam(board, team))
+                    return true;
             }
             return false;
         }

@@ -28,6 +28,14 @@ namespace Chess.Data.Entities
             return board[move.StartRow][move.StartColumn].ChessPiece;
         }
 
+        protected Team GetOppositeTeam()
+        {
+            if (Team == Team.Light)
+                return Team.Dark;
+
+            return Team.Light;
+        }
+
         protected ChessPiece GetDestinationPiece(Square[][] board, Move move)
         {
             return board[move.EndRow][move.EndColumn].ChessPiece;
