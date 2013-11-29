@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Chess.Data.Entities;
 
 namespace Chess.Data.Piece
@@ -10,14 +11,17 @@ namespace Chess.Data.Piece
             throw new System.NotImplementedException();
         }
 
-        public override bool IsLegalMove(int column, int row)
-        {
-            throw new System.NotImplementedException();
-        }
 
-        public override void Move(int column, int row)
+        public override bool IsLegalMove(Square[][] board, Move move)
         {
-            throw new System.NotImplementedException();
+            if (AttackingSameTeam(board, move))
+                return false;
+            if (Math.Abs(move.RowChange) != Math.Abs(move.ColumnChange))
+                return false;
+            if (HasCollision(board, move))
+                return false;
+
+            return true;
         }
     }
 }

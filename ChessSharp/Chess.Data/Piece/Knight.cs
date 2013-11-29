@@ -10,14 +10,16 @@ namespace Chess.Data.Piece
             throw new NotImplementedException();
         }
 
-        public override bool IsLegalMove(int column, int row)
+        public override bool IsLegalMove(Square[][] board, Move move)
         {
-            throw new NotImplementedException();
-        }
+            if (AttackingSameTeam(board, move))
+                return false;
+            if (!InBounds(move.EndRow, move.EndColumn))
+                return false;
+            if (Math.Abs(move.RowChange) + Math.Abs(move.ColumnChange) != 3) //L-movement
+                return false;
 
-        public override void Move(int column, int row)
-        {
-            throw new NotImplementedException();
+            return true;
         }
     }
 }

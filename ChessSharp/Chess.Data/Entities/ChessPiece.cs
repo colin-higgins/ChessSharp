@@ -23,8 +23,77 @@ namespace Chess.Data.Entities
             return PieceType;
         }
 
+        protected ChessPiece GetAttacker(Square[][] board, Move move)
+        {
+            return board[move.StartRow][move.StartColumn].ChessPiece;
+        }
+
+        protected ChessPiece GetDestinationPiece(Square[][] board, Move move)
+        {
+            return board[move.EndRow][move.EndColumn].ChessPiece;
+        }
+
+        protected bool AttackingSameTeam(Square[][] board, Move move)
+        {
+            var attacker = GetAttacker(board, move);
+            var occupant = GetDestinationPiece(board, move);
+
+            return occupant.Team == attacker.Team;
+        }
+
+        protected bool InBounds(int row, int column)
+        {
+            var rowInBounds = 0 <= row && row <= 7;
+            var columnInBounds = (0 <= column && column <= 7);
+            return rowInBounds && columnInBounds;
+        }
+        
+        protected int GetMovementModifier(int change)
+        {
+            return change > 0 ? 1 : change < 0 ? -1 : 0;
+        }
+
+        protected bool HasCollision(Square[][] board, Move move)
+        {
+            var rowModifier = GetMovementModifier(move.RowChange);
+            var columnModifier = GetMovementModifier(move.ColumnChange);
+
+            var row = move.StartRow + rowModifier;
+            var column = move.StartColumn + columnModifier;
+
+            while (row != move.EndRow || column != move.EndColumn)
+            {
+                if (!InBounds(row, column))
+                    return true; //out of bounds
+                if (board[row][column].ChessPiece != null)
+                    return true; //collison
+
+                row += rowModifier;
+                column += columnModifier;
+            }
+            return false;
+        }
+        
         public abstract IEnumerable<Move> GetValidMoves();
-        public abstract bool IsLegalMove(int column, int row);
-        public abstract void Move(int column, int row);
+        public abstract bool IsLegalMove(Square[][] board, Move move);
+
+        public void Move(Square[][] board, Move move)
+        {
+            var occupant = GetDestinationPiece(board, move);
+
+            if (occupant != null && occupant.PieceType != PieceType.Empty)
+            {
+                occupant.Alive = false;
+                occupant.CurrentColumn = null;
+                occupant.CurrentRow = null;
+            }
+
+            board[move.EndRow][move.EndColumn].ChessPiece = this;
+            board[move.StartRow][move.StartColumn].ChessPiece = null;
+
+            CurrentColumn = move.EndRow;
+            CurrentRow = move.EndRow;
+            MoveCount++;
+        }
     }
 } 

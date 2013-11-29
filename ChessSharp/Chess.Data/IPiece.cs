@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Chess.Data.Entities;
 using Chess.Data.Enum;
 
 namespace Chess.Data
@@ -7,7 +8,7 @@ namespace Chess.Data
     {
         PieceType GetPieceType();
         IEnumerable<Move> GetValidMoves();
-        bool IsLegalMove(int column, int row);
-        void Move(int column, int row);
+        bool IsLegalMove(Square[][] board, Move move);
+        void Move(Square[][] board, Move move);
     }
 }
