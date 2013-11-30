@@ -26,7 +26,7 @@ namespace Chess.Data.Piece
         public bool IsLegalCastle(Square[][] board, Move move)
         {
             var destination = board[move.EndRow][move.EndColumn];
-            var direction = move.ColumnChange;
+            var direction = GetMovementModifier(move.ColumnChange);
             var rook = board[move.EndRow][move.EndColumn + direction].ChessPiece;
 
             if (move.RowChange != 0 || MoveCount > 0 || destination.ChessPiece != null)
