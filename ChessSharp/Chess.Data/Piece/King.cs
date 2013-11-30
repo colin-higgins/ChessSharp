@@ -27,7 +27,10 @@ namespace Chess.Data.Piece
         {
             var destination = board[move.EndRow][move.EndColumn];
             var direction = GetMovementModifier(move.ColumnChange);
-            var rook = board[move.EndRow][move.EndColumn + direction].ChessPiece;
+
+            var rook = direction > 0 
+                ? board[move.EndRow][7].ChessPiece 
+                : board[move.EndRow][0].ChessPiece;
 
             if (move.RowChange != 0 || MoveCount > 0 || destination.ChessPiece != null)
                 return false;

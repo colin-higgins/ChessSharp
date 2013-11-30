@@ -77,13 +77,17 @@ namespace ChessSharp.Models
         private void MoveRookForCastle(Move move)
         {
             var direction = move.ColumnChange > 0 ? 1 : -1;
-            var rook = Board.Squares[move.EndRow][move.EndColumn + direction].ChessPiece;
+
+            var rook = direction > 0
+                ? Board.Squares[move.EndRow][7].ChessPiece
+                : Board.Squares[move.EndRow][0].ChessPiece;
+
             var rookMove = new Move()
             {
                 EndColumn = move.EndColumn - direction,
                 EndRow = move.EndRow,
-                StartColumn = move.EndColumn + direction,
-                StartRow = move.EndRow,
+                StartColumn = rook.CurrentColumn ?? 0,
+                StartRow = move.StartRow,
             };
 
             rook.Move(Board.Squares, rookMove);
