@@ -79,8 +79,8 @@ namespace ChessSharp.Models
             {
                 EndColumn = move.EndColumn - direction,
                 EndRow = move.EndRow,
-                StartColumn = rook.CurrentColumn ?? 0,
-                StartRow = rook.CurrentRow ?? 0,
+                StartColumn = move.EndColumn + direction,
+                StartRow = move.EndRow,
             };
 
             rook.Move(Board.Squares, rookMove);

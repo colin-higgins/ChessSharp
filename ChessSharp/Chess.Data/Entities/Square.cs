@@ -15,7 +15,7 @@ namespace Chess.Data.Entities
             var possibleMove = new Move() { EndColumn = Column, EndRow = Row };
 
             foreach (var row in board)
-                foreach (var square in row.Where(square => square.ChessPiece != null))
+                foreach (var square in row.Where(square => square.ChessPiece != null && square.ChessPiece.Team == team))
                 {
                     possibleMove.EndColumn = square.Column;
                     possibleMove.EndRow = square.Row;
