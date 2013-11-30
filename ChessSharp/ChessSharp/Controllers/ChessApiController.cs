@@ -13,14 +13,14 @@ namespace ChessSharp.Controllers
             throw new NotImplementedException("This method has not been implemented.");
         }
 
-        public Square[][] MakeMove(long id, Move move)
+        public ActionResult MakeMove(long id, Move move)
         {
             var game = GetChessGame(id);
 
             var success = game.MovePiece(move);
 
             if (success)
-                return game.Board.Squares;
+                return Json(game.Board.Squares, JsonRequestBehavior.AllowGet);
 
             var start = move.StartColumn + ", " + move.StartRow;
             var end = move.EndColumn + ", " + move.EndRow;

@@ -159,9 +159,6 @@
     <Content Include="Angular\ChessService.js" />
     <Content Include="Angular\Models\Game.js" />
     <Content Include="Angular\Templates\PlayChess.html" />
-    <Content Include="chessScripts\colorboard.js" />
-    <Content Include="chessScripts\drawboard.js" />
-    <Content Include="chessScripts\drawpiece.js" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Chess.css" />

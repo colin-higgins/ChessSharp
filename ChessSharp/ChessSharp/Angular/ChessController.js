@@ -71,16 +71,29 @@ chessSharp.controller('ChessController', ['$scope', 'gameApi', function ($scope,
     };
 
     $scope.setFocus = function (square) {
+        var moveCount = $scope.game.Board.MoveCount;
+        var team = teamEnum.Light;
+        if (moveCount % 2 == 1)
+            team = teamEnum.Dark;
+        
         if (!$scope.readyToMove) {
+            if (team != square.ChessPiece.Team)
+                return;
             $scope.readyToMove = square;
+            $scope.destination = null;
             return;
         }
-        else if ($scope.readyToMove === square) {
+        if ($scope.readyToMove === square) {
             $scope.readyToMove = null;
             $scope.destination = null;
             return;
         }
-        else if ($scope.destination === square) {
+        if ($scope.destination === square) {
+            $scope.destination = null;
+            return;
+        }
+        if (square.ChessPiece && $scope.readyToMove.ChessPiece.Team === square.ChessPiece.Team) {
+            $scope.readyToMove = square;
             $scope.destination = null;
             return;
         }
