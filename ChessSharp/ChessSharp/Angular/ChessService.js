@@ -57,27 +57,33 @@ chessSharp.factory('gameApi', ['$http', function ($http) {
                 losses: 5
             };
         },
-        getGame: function (gameId, callback) {
+        getGame: function (gameId, onSuccess, onFailure) {
             $http({
                 method: 'GET',
                 url: '/ChessApi/GetGame/' + gameId
             })
             .success(function (data) {
-                callback(data);
+                onSuccess(data);
+            })
+            .error(function (data) {
+                onFailure(data);
             });
         },
         getActiveGames: function (playerId) {
 
         },
-        makeMove: function (gameId, move, callback) {
+        makeMove: function (gameId, move, onSuccess, onFailure) {
             $http({
                 method: 'POST',
                 url: '/ChessApi/MakeMove',
                 data: { id: gameId, move: move }
             })
             .success(function (data) {
-                callback(data);
-            }); 
+                onSuccess(data);
+            })
+            .error(function (data, message) {
+                onFailure(data);
+            });;
         }
     };
 }]);

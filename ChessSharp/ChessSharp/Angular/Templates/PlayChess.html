@@ -25,6 +25,8 @@
     }
 </style>
 
+<button class="btn btn-lg btn-success" ng-click="MakeMove()">Commit Move</button>
+
 <div class="ChessBoard">
     <div ng-repeat="row in game.Board.Squares" class="row">
         <span ng-repeat="square in row" class="square" 
@@ -35,5 +37,4 @@
     </div>
 </div>
 
-<button ng-click="MakeMove()">Commit Move</button>
 

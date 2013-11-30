@@ -13,12 +13,17 @@ chessSharp.controller('ChessController', ['$scope', 'gameApi', function ($scope,
     getGame();
 
     var tryMakeMove = function (move) {
-        var callback = function (squares) {
-            $scope.game.Board.Squares = squares;
+        var onSuccess = function (game) {
+            $scope.game = game;
             $scope.readyToMove = null;
             $scope.destination = null;
         };
-        gameApi.makeMove($scope.game.GameId, move, callback);
+        var onFailure = function(error) {
+            $scope.Failure = error;
+            $scope.readyToMove = null;
+            $scope.destination = null;
+        };
+        gameApi.makeMove($scope.game.GameId, move, onSuccess, onFailure);
     };
 
     $scope.isReady = function(square) {
@@ -71,7 +76,7 @@ chessSharp.controller('ChessController', ['$scope', 'gameApi', function ($scope,
     };
 
     $scope.setFocus = function (square) {
-        var moveCount = $scope.game.Board.MoveCount;
+        var moveCount = $scope.game.MoveCount;
         var team = teamEnum.Light;
         if (moveCount % 2 == 1)
             team = teamEnum.Dark;

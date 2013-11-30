@@ -20,7 +20,7 @@ namespace ChessSharp.Controllers
             var success = game.MovePiece(move);
 
             if (success)
-                return Json(game.Board.Squares, JsonRequestBehavior.AllowGet);
+                return Json(game, JsonRequestBehavior.AllowGet);
 
             var start = move.StartColumn + ", " + move.StartRow;
             var end = move.EndColumn + ", " + move.EndRow;

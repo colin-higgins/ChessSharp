@@ -46,6 +46,9 @@ namespace Chess.Data.Entities
             var attacker = GetAttacker(board, move);
             var occupant = GetDestinationPiece(board, move);
 
+            if (occupant == null)
+                return false;
+
             return occupant.Team == attacker.Team;
         }
 
