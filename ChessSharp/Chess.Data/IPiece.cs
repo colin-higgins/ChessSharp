@@ -8,7 +8,7 @@ namespace Chess.Data
     {
         PieceType GetPieceType();
         IEnumerable<Move> GetValidMoves();
-        bool IsLegalMove(Square[][] board, Move move);
+        bool IsLegalMove(Square[][] board, Move move, IEnumerable<Move> pastMoves = null);
         void Move(Square[][] board, Move move);
     }
 }

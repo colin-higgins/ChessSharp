@@ -75,7 +75,7 @@ namespace Chess.Data
 
         private static Square[] BackRow(int row, Team team)
         {
-            var c = 0; // firow++es closure on ref parameter
+            var c = 0; // fires closure on ref parameter
 
             Func<Team, Square> rook = t => NewSquare(c++, row, new Rook() { Team = t, PieceType = PieceType.Rook });
             Func<Team, Square> knight = t => NewSquare(c++, row, new Knight() { Team = t, PieceType = PieceType.Knight });

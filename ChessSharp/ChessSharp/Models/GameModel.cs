@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Chess.Data;
 using Chess.Data.Enum;
@@ -16,7 +17,7 @@ namespace ChessSharp.Models
         public int LightScore { get; private set; }
         public int DarkScore { get; private set; }
         public int MoveCount { get; private set; }
-        public string MoveHistory { get; private set; }
+        public ICollection<Move> MoveHistory { get; private set; }
 
         public GameModel()
         {
@@ -24,7 +25,7 @@ namespace ChessSharp.Models
             LightScore = 0;
             DarkScore = 0;
             MoveCount = 0;
-            MoveHistory = "";
+            MoveHistory = new List<Move>();
         }
 
         private Team TeamToMove()

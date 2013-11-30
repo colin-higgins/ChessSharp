@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Chess.Data.Entities;
 
 namespace Chess.Data.Piece
@@ -22,7 +23,7 @@ namespace Chess.Data.Piece
             return false;
         }
 
-        public override bool IsLegalMove(Square[][] board, Move move)
+        public override bool IsLegalMove(Square[][] board, Move move, IEnumerable<Move> pastMoves = null)
         {
             if (AttackingSameTeam(board, move))
                 return false;

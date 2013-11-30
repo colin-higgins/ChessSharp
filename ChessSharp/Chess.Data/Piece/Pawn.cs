@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Chess.Data.Entities;
 using Chess.Data.Enum;
 
@@ -26,7 +28,7 @@ namespace Chess.Data.Piece
                 && destinationPiece == null;
         }
 
-        public override bool IsLegalMove(Square[][] board, Move move)
+        public override bool IsLegalMove(Square[][] board, Move move, IEnumerable<Move> pastMoves = null)
         {
             var defender = GetDestinationPiece(board, move);
 
@@ -41,7 +43,8 @@ namespace Chess.Data.Piece
                 if (move.RowChange != LegalDirectionByTeam())
                     return false;
                 if (defender == null)
-                    return false;
+                    if (!IsLegalEnPassant(board, move, pastMoves)) 
+                        return false;
                 if (AttackingSameTeam(board, move))
                     return false;
                 return true;
@@ -50,6 +53,26 @@ namespace Chess.Data.Piece
             if (defender != null)
                 return false;
 
+            return true;
+        }
+
+        private bool IsLegalEnPassant(Square[][] board, Move move, IEnumerable<Move> pastMoves)
+        {
+            if (pastMoves != null)
+            {
+                var lastMove = pastMoves.FirstOrDefault();
+                if (lastMove != null)
+                {
+                    var piece = GetDestinationPiece(board, lastMove);
+                    if (!(piece.PieceType == PieceType.Pawn
+                          && lastMove.EndRow == move.EndRow - LegalDirectionByTeam()
+                          && lastMove.EndColumn == move.EndColumn
+                          && piece.MoveCount == 1))
+                    {
+                        return false;
+                    }
+                }
+            }
             return true;
         }
     }

@@ -83,7 +83,7 @@ namespace Chess.Data.Entities
         }
         
         public abstract IEnumerable<Move> GetValidMoves();
-        public abstract bool IsLegalMove(Square[][] board, Move move);
+        public abstract bool IsLegalMove(Square[][] board, Move move, IEnumerable<Move> pastMoves = null);
 
         public void Move(Square[][] board, Move move)
         {
