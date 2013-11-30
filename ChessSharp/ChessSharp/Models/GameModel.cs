@@ -7,7 +7,6 @@ using WebGrease.Css.Extensions;
 
 namespace ChessSharp.Models
 {
-    [Serializable]
     public class GameModel
     {
         public long GameId { get; set; }
@@ -45,14 +44,17 @@ namespace ChessSharp.Models
             if (!piece.IsLegalMove(Board.Squares, move))
                 return false;
 
+            if (piece.PieceType == PieceType.King && Math.Abs(move.ColumnChange) > 1)
+                MoveRookForCastle(move);
+
             piece.Move(Board.Squares, move);
 
             var nextTeamToMove = TeamToMove();
             var kingIsSafe = true;
 
             foreach (var row in Board.Squares)
-                row.Where(sq => sq.ChessPiece != null 
-                                && sq.ChessPiece.PieceType == PieceType.King 
+                row.Where(sq => sq.ChessPiece != null
+                                && sq.ChessPiece.PieceType == PieceType.King
                                 && sq.ChessPiece.Team == currentTeam)
                     .ForEach(sq =>
                     {
@@ -61,6 +63,21 @@ namespace ChessSharp.Models
                     });
 
             return kingIsSafe;
+        }
+
+        private void MoveRookForCastle(Move move)
+        {
+            var direction = move.ColumnChange > 0 ? 1 : -1;
+            var rook = Board.Squares[move.EndRow][move.EndColumn + direction].ChessPiece;
+            var rookMove = new Move()
+            {
+                EndColumn = move.EndColumn - direction,
+                EndRow = move.EndRow,
+                StartColumn = rook.CurrentColumn ?? 0,
+                StartRow = rook.CurrentRow ?? 0,
+            };
+
+            rook.Move(Board.Squares, rookMove);
         }
     }
 }
