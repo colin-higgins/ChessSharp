@@ -22,9 +22,9 @@ namespace Chess.Data.Piece
 
         public bool ValidOpeningPushWithNoDefender(ChessPiece destinationPiece, Move move)
         {
-            return MoveCount != 0 
-                && move.RowChange != LegalDirectionByTeam() * 2 
-                && move.ColumnChange != 0
+            return MoveCount == 0 
+                && move.RowChange == LegalDirectionByTeam() * 2 
+                && move.ColumnChange == 0
                 && destinationPiece == null;
         }
 

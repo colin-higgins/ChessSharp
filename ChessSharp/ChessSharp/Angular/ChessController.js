@@ -77,6 +77,11 @@ chessSharp.controller('ChessController', ['$scope', 'gameApi', function ($scope,
         }
         else if ($scope.readyToMove === square) {
             $scope.readyToMove = null;
+            $scope.destination = null;
+            return;
+        }
+        else if ($scope.destination === square) {
+            $scope.destination = null;
             return;
         }
         

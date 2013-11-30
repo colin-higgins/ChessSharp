@@ -48,20 +48,26 @@ namespace ChessSharp.Models
                 MoveRookForCastle(move);
 
             piece.Move(Board.Squares, move);
+            MoveCount++;
 
-            var nextTeamToMove = TeamToMove();
-            var kingIsSafe = true;
+            return IsKingInCheck(currentTeam);
+        }
 
+        private bool IsKingInCheck(Team currentTeam)
+        {
+            var enemy = Team.Light;
+            if (currentTeam == Team.Light) enemy = Team.Dark;
+
+            bool kingIsSafe = true;
             foreach (var row in Board.Squares)
                 row.Where(sq => sq.ChessPiece != null
                                 && sq.ChessPiece.PieceType == PieceType.King
                                 && sq.ChessPiece.Team == currentTeam)
                     .ForEach(sq =>
                     {
-                        if (sq.TargetedByTeam(Board.Squares, nextTeamToMove))
+                        if (sq.TargetedByTeam(Board.Squares, enemy))
                             kingIsSafe = false;
                     });
-
             return kingIsSafe;
         }
 
