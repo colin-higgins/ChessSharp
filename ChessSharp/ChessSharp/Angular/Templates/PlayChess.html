@@ -24,9 +24,19 @@
     .destination {
         background-color: green;
     }
+
+    .ChessBoard {
+        margin-top: 10px;
+        float: left;
+    }
+
+    .commit {
+        float: left;
+        margin-top: 10px;
+        margin-left: 10px;
+    }
 </style>
 
-<button class="btn btn-lg btn-success" ng-click="MakeMove()">Commit Move</button>
 
 <table class="ChessBoard">
     <tr ng-repeat="row in game.Board.Squares" class="row">
@@ -39,3 +49,4 @@
 </table>
 
 
+<button class="commit btn btn-lg btn-success" ng-click="MakeMove()">Commit Move</button>

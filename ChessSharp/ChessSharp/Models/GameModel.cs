@@ -37,6 +37,7 @@ namespace ChessSharp.Models
         public bool MovePiece(Move move)
         {
             var piece = Board.Squares[move.StartRow][move.StartColumn].ChessPiece;
+            var defender = Board.Squares[move.EndRow][move.EndColumn].ChessPiece;
             var currentTeam = TeamToMove();
 
             if (piece.Team != currentTeam)
@@ -44,6 +45,8 @@ namespace ChessSharp.Models
             if (!piece.IsLegalMove(Board.Squares, move))
                 return false;
 
+            if (defender == null && piece.PieceType == PieceType.Pawn && Math.Abs(move.ColumnChange) == 1)
+                PerformEnPassant(move);
             if (piece.PieceType == PieceType.King && Math.Abs(move.ColumnChange) > 1)
                 MoveRookForCastle(move);
 
@@ -84,6 +87,15 @@ namespace ChessSharp.Models
             };
 
             rook.Move(Board.Squares, rookMove);
+        }
+
+        private void PerformEnPassant(Move move)
+        {
+            var direction = move.RowChange > 0 ? 1 : -1;
+            var enemySquare = Board.Squares[move.EndRow - direction][move.EndColumn];
+
+            enemySquare.ChessPiece.Alive = false;
+            enemySquare.ChessPiece = null;
         }
     }
 }
