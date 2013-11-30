@@ -8,33 +8,34 @@
     .square {
         width: 80px;
         height: 80px;
-        border: thin black solid;
+        padding: 0;
+        margin: 0;
         display: inline-block;
     }
 
-    .square.dark {
-        background-color: #888888;
-    }
+        .square.dark {
+            background-color: #888888;
+        }
 
     .ready {
-        border: medium solid yellow;
+        background-color: yellow;
     }
 
     .destination {
-        border: medium solid green;
+        background-color: green;
     }
 </style>
 
 <button class="btn btn-lg btn-success" ng-click="MakeMove()">Commit Move</button>
 
-<div class="ChessBoard">
-    <div ng-repeat="row in game.Board.Squares" class="row">
-        <span ng-repeat="square in row" class="square" 
-              ng-class="{ 'dark': isDark(square), 'ready': isReady(square), 'destination': isDestination(square) }" 
-              ng-click="setFocus(square)">
-            <img ng-show="isOccupied(square)" ng-src="{{pieceImage(square.ChessPiece)}}" />
-        </span>
-    </div>
-</div>
+<table class="ChessBoard">
+    <tr ng-repeat="row in game.Board.Squares" class="row">
+        <td ng-repeat="square in row"
+             ng-class="{ 'dark': isDark(square), 'ready': isReady(square), 'destination': isDestination(square) }"
+             ng-click="setFocus(square)" class="square">
+                <img ng-class="{ 'empty': !isOccupied(square) }" ng-src="{{pieceImage(square.ChessPiece)}}" />
+        </td>
+    </tr>
+</table>
 
 

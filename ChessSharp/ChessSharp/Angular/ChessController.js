@@ -110,6 +110,8 @@ chessSharp.controller('ChessController', ['$scope', 'gameApi', function ($scope,
         var oddColumn = square.Column % 2 == 1;
         var oddRow = square.Row % 2 == 1;
 
+        if ($scope.isReady(square) || $scope.isDestination(square))
+            return false;
         if (oddColumn && !oddRow)
             return false;
         if (!oddColumn && oddRow)
