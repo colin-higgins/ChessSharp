@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Chess.Data;
 using Chess.Data.Entities;
 using Chess.Data.Enum;
 
-namespace Chess.Data.Piece
+namespace Chess.Domain.Piece
 {
     public class Pawn : ChessPiece
     {

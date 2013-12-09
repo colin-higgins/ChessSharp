@@ -1,22 +1,24 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using Chess.Data;
 using Chess.Data.Entities;
 
-namespace Chess.Data.Piece
+namespace Chess.Domain.Piece
 {
-    public class Rook : ChessPiece
+    public class Knight : ChessPiece
     {
         public override System.Collections.Generic.IEnumerable<Move> GetValidMoves()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public override bool IsLegalMove(Square[][] board, Move move, IEnumerable<Move> pastMoves = null)
         {
             if (AttackingSameTeam(board, move))
                 return false;
-            if (move.RowChange != 0 && move.ColumnChange != 0)
+            if (!InBounds(move.EndRow, move.EndColumn))
                 return false;
-            if (HasCollision(board, move))
+            if (Math.Abs(move.RowChange) + Math.Abs(move.ColumnChange) != 3) //L-movement
                 return false;
 
             return true;

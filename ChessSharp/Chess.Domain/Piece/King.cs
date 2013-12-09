@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using Chess.Data;
 using Chess.Data.Entities;
 
-namespace Chess.Data.Piece
+namespace Chess.Domain.Piece
 {
     public class King : ChessPiece
     {
@@ -34,7 +35,7 @@ namespace Chess.Data.Piece
 
             if (move.RowChange != 0 || MoveCount > 0 || destination.ChessPiece != null)
                 return false;
-            if (rook == null || rook.PieceType != Enum.PieceType.Rook || rook.MoveCount > 0)
+            if (rook == null || rook.PieceType != Data.Enum.PieceType.Rook || rook.MoveCount > 0)
                 return false;
             if (HasCollision(board, move))
                 return false;

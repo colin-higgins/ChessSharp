@@ -2,16 +2,19 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using Chess.Data.Entities;
 
 namespace Chess.Data
 {
     public class ChessContext : DbContext, IUnitOfWork
     {
-        public ChessContext()
-            : base("name=ChessContext")
-        {
+        public ChessContext() {}
 
-        }
+        public DbSet<Game> Games { get; set; }
+        public DbSet<Player> Players { get; set; }
+        public DbSet<Square> Squares { get; set; }
+        public DbSet<Move> Moves { get; set; }
+        public DbSet<ChessPiece> ChessPieces { get; set; }
 
         public T Find<T>(params object[] keyValues) where T : class, IEntity
         {

@@ -1,14 +1,20 @@
-﻿using System.Linq;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace Chess.Data.Entities
 {
     public class Square
     {
-        public int SquareId { get; set; }
+        [Key]
+        public long SquareId { get; set; }
+
+        public long GameId { get; set; }
+
         public int Column { get; set; }
         public int Row { get; set; }
+
         public int? ChessPieceId { get; set; }
-        public virtual ChessPiece ChessPiece { get; set; } //if null, there is no occupant
+        public virtual ChessPiece ChessPiece { get; set; }
 
         public bool TargetedByTeam(Square[][] board, Enum.Team team)
         {

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Chess.Data;
+using Chess.Data.Entities;
 using Chess.Data.Enum;
 using WebGrease.Css.Extensions;
 

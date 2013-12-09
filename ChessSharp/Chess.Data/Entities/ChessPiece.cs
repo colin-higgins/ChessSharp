@@ -1,11 +1,17 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using Chess.Data.Enum;
 
 namespace Chess.Data.Entities
 {
     public abstract class ChessPiece : IPiece, IModifiable
     {
-        public int Id { get; set; }
+        [Key]
+        public int ChessPieceId { get; set; }
+
+        public long GameId { get; set; }
+
         public int MoveCount { get; set; }
         public bool Alive { get; set; }
         public int? CurrentRow { get; set; }

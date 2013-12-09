@@ -1,13 +1,18 @@
 ﻿/// <reference path="../Scripts/angular.js" />
+/// <reference path="ChessController.js" />
 
 chessSharp.controller('ChessController', ['$scope', 'gameApi', function ($scope, gameApi) {
 
     var getGame = function (gameId) {
-        var callback = function (game) {
+        var onSuccess = function (game) {
             $scope.game = game;
+            $scope.busy = false;
         };
-
-        gameApi.getGame(gameId, callback);
+        var onFail = function (data) {
+            $scope.busy = false;
+        };
+        $scope.busy = true;
+        gameApi.getGame(gameId, onSuccess, onFail);
     };
 
     getGame();
@@ -17,12 +22,15 @@ chessSharp.controller('ChessController', ['$scope', 'gameApi', function ($scope,
             $scope.game = game;
             $scope.readyToMove = null;
             $scope.destination = null;
+            $scope.busy = false;
         };
         var onFailure = function(error) {
             $scope.Failure = error;
             $scope.readyToMove = null;
             $scope.destination = null;
+            $scope.busy = false;
         };
+        $scope.busy = true;
         gameApi.makeMove($scope.game.GameId, move, onSuccess, onFailure);
     };
 

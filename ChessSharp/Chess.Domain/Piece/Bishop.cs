@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using Chess.Data;
 using Chess.Data.Entities;
 
-namespace Chess.Data.Piece
+namespace Chess.Domain.Piece
 {
     public class Bishop : ChessPiece
     {

@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using Chess.Data.Entities;
 using Chess.Data.Enum;
-using Chess.Data.Piece;
 using System.Linq;
+using Chess.Domain.Piece;
 
 namespace Chess.Data
 {

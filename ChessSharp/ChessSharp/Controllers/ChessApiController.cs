@@ -8,6 +8,13 @@ namespace ChessSharp.Controllers
 {
     public class ChessApiController : ApplicationController
     {
+        private readonly IUnitOfWork _unitOfWork;
+
+        public ChessApiController()
+        {
+            _unitOfWork = new ChessContext();
+        }
+
         public ActionResult Index()
         {
             throw new NotImplementedException("This method has not been implemented.");
@@ -20,7 +27,9 @@ namespace ChessSharp.Controllers
             var success = game.MovePiece(move);
 
             if (success)
+            {
                 return Json(game, JsonRequestBehavior.AllowGet);
+            }
 
             var start = move.StartColumn + ", " + move.StartRow;
             var end = move.EndColumn + ", " + move.EndRow;
