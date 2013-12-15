@@ -16,6 +16,7 @@ namespace Chess.Data.Entities
         [ForeignKey("Player")]
         public long? WinnerPlayerId { get; set; }
 
+        public string Name { get; set; }
         public int LightScore { get; set; }
         public int DarkScore { get; set; }
         public int MoveCount { get; set; }

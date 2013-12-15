@@ -13,6 +13,10 @@ D:\Git\ChessSharp\ChessSharp\Chess.Domain\bin\Debug\Chess.Data.dll
 D:\Git\ChessSharp\ChessSharp\Chess.Domain\bin\Debug\EntityFramework.dll
 D:\Git\ChessSharp\ChessSharp\Chess.Domain\bin\Debug\Chess.Data.pdb
 D:\Git\ChessSharp\ChessSharp\Chess.Domain\bin\Debug\EntityFramework.xml
-D:\Git\ChessSharp\ChessSharp\Chess.Domain\obj\Debug\Chess.Domain.csprojResolveAssemblyReference.cache
 D:\Git\ChessSharp\ChessSharp\Chess.Domain\obj\Debug\Chess.Domain.dll
 D:\Git\ChessSharp\ChessSharp\Chess.Domain\obj\Debug\Chess.Domain.pdb
+D:\Git\ChessSharp\ChessSharp\Chess.Domain\bin\Debug\Microsoft.AspNet.Identity.EntityFramework.dll
+D:\Git\ChessSharp\ChessSharp\Chess.Domain\bin\Debug\Microsoft.AspNet.Identity.Core.dll
+D:\Git\ChessSharp\ChessSharp\Chess.Domain\bin\Debug\Microsoft.AspNet.Identity.EntityFramework.xml
+D:\Git\ChessSharp\ChessSharp\Chess.Domain\bin\Debug\Microsoft.AspNet.Identity.Core.xml
+D:\Git\ChessSharp\ChessSharp\Chess.Domain\obj\Debug\Chess.Domain.csprojResolveAssemblyReference.cache

@@ -1,0 +1,52 @@
+﻿<style>
+
+    .square {
+        width: 80px;
+        height: 80px;
+        padding: 0;
+        margin: 0;
+        display: inline-block;
+    }
+
+        .square.dark {
+            background-color: #888888;
+        }
+
+    .ready {
+        background-color: yellow;
+    }
+
+    .destination {
+        background-color: green;
+    }
+
+    .chessboard {
+        float: left;
+        margin: 10px;
+    }
+
+    .chessbox {
+        padding-top: 15px;
+    }
+
+    button.commit {
+        float: left;
+        margin: 10px;
+        width: 200px;
+        height: 70px;
+    }
+</style>
+
+<div class="chessbox">
+    <table class="chessboard">
+        <tr ng-repeat="row in game.Board.Squares" class="row">
+            <td ng-repeat="square in row"
+                ng-class="{ 'dark': isDark(square), 'ready': isReady(square), 'destination': isDestination(square) }"
+                ng-click="setFocus(square)" class="square">
+                <img ng-class="{ 'empty': !isOccupied(square) }" ng-src="{{pieceImage(square.ChessPiece)}}" />
+            </td>
+        </tr>
+    </table>
+
+    <button class="commit btn btn-lg btn-success" ng-disabled="busy" ng-click="MakeMove()">Commit Move</button>
+</div>

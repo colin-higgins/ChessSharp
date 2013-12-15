@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>CodeFirstMembershipProviderSharp</id>
+    <version>1.0.0</version>
+    <title>C# CodeFirst Membership Provider</title>
+    <authors>Darko Pečnik</authors>
+    <owners>Darko Pečnik</owners>
+    <licenseUrl>http://codefirstmembership.codeplex.com/license</licenseUrl>
+    <projectUrl>http://codefirstmembership.codeplex.com/</projectUrl>
+    <iconUrl>http://img33.imageshack.us/img33/179/groupkey.png</iconUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <description>Code-First Membership Provider C# Version
+1-Click use in ASP.NET MVC 4</description>
+    <summary>Code-First Membership Provider C# Version
+1-Click use in ASP.NET MVC 4</summary>
+    <releaseNotes>Final version for MVC 4</releaseNotes>
+    <copyright />
+    <language />
+  </metadata>
+</package>

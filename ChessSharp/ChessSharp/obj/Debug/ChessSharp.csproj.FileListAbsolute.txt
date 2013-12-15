@@ -17,3 +17,7 @@ D:\Git\ChessSharp\ChessSharp\ChessSharp\bin\System.Web.Http.xml
 D:\Git\ChessSharp\ChessSharp\ChessSharp\bin\System.Web.Http.WebHost.xml
 D:\Git\ChessSharp\ChessSharp\ChessSharp\obj\Debug\ChessSharp.dll
 D:\Git\ChessSharp\ChessSharp\ChessSharp\obj\Debug\ChessSharp.pdb
+D:\Git\ChessSharp\ChessSharp\ChessSharp\bin\EntityFramework.dll
+D:\Git\ChessSharp\ChessSharp\ChessSharp\bin\EntityFramework.SqlServer.dll
+D:\Git\ChessSharp\ChessSharp\ChessSharp\bin\EntityFramework.xml
+D:\Git\ChessSharp\ChessSharp\ChessSharp\bin\EntityFramework.SqlServer.xml
