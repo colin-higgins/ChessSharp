@@ -1,6 +1,6 @@
 ﻿/// <reference path="../Scripts/angular.js" />
 
-var chessSharp = angular.module('csChessApp', []);
+var chessSharp = angular.module('csChessApp', ['ngRoute']);
 
 chessSharp.config(['$routeProvider', function ($routeProvider) {
     $routeProvider

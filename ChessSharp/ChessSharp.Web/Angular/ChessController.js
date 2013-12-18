@@ -1,6 +1,4 @@
-﻿/// <reference path="../Scripts/angular.js" />
-/// <reference path="ChessController.js" />
-
+﻿
 chessSharp.controller('ChessController', ['$scope', 'gameApi', function ($scope, gameApi) {
 
     var getGame = function (gameId) {

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNet.Identity.EntityFramework;
 
@@ -7,6 +6,9 @@ namespace Chess.Data.Entities
 {
     public class ChessUser : IdentityUser, IModifiable
     {
+        [Key]
+        public long ChessUserId { get; set; }
+
         [Required]
         public virtual String Username { get; set; }
         public virtual String Email { get; set; }

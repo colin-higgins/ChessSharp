@@ -1,14 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
+using System.Reflection;
 using Chess.Data.Entities;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace Chess.Data
 {
     public class ChessContext : DbContext, IUnitOfWork
     {
-        public ChessContext() : base("DefaultConnection") {}
+        public ChessContext() : base("DefaultConnection")
+        {
+        }
 
         public DbSet<Game> Games { get; set; }
         public DbSet<Player> Players { get; set; }
@@ -61,6 +66,14 @@ namespace Chess.Data
         public void Commit()
         {
             SaveChanges();
+        }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<IdentityUserLogin>().HasKey<string>(l => l.UserId);
+            modelBuilder.Entity<IdentityRole>().HasKey<string>(r => r.Id);
+            modelBuilder.Entity<IdentityUserRole>().HasKey(r => new { r.RoleId, r.UserId });
         }
     }
 }

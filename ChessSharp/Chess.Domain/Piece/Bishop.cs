@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Chess.Data;
 using Chess.Data.Entities;
 
 namespace Chess.Domain.Piece
@@ -11,7 +10,6 @@ namespace Chess.Domain.Piece
         {
             throw new System.NotImplementedException();
         }
-
 
         public override bool IsLegalMove(Square[][] board, Move move, IEnumerable<Move> pastMoves = null)
         {

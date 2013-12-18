@@ -1,0 +1,60 @@
+﻿@model ChessSharp.Web.Models.ChallengeViewModel
+
+@{
+    ViewBag.Title = "Challenge";
+}
+
+<h2>Challenge</h2>
+
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>Challenge</h4>
+        <hr />
+        @Html.ValidationSummary(true)
+
+        @Html.HiddenFor(model => model.ChallengeId)
+        @Html.HiddenFor(model => model.PlayerId)
+        @Html.HiddenFor(model => model.OpponentId)
+        @Html.HiddenFor(model => model.PlayerId)
+        
+        <select>
+            <option value="0">Please select an opponent...</option>
+            @foreach (var player in Model.Players)
+            {
+                <option value="@(player.PlayerId)">
+                    @(player.Name)
+                </option>
+            }
+        </select>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.IsPlayerDark, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.IsPlayerDark)
+                @Html.ValidationMessageFor(model => model.IsPlayerDark)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Name, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Name)
+                @Html.ValidationMessageFor(model => model.Name)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

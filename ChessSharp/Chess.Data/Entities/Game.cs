@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Chess.Data.Entities
 {
@@ -9,11 +8,8 @@ namespace Chess.Data.Entities
         [Key]
         public long GameId { get; set; }
 
-        [ForeignKey("Player")]
         public long LightPlayerId { get; set; }
-        [ForeignKey("Player")]
         public long DarkPlayerId { get; set; }
-        [ForeignKey("Player")]
         public long? WinnerPlayerId { get; set; }
 
         public string Name { get; set; }

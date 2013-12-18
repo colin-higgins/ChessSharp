@@ -164,6 +164,8 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\PlayerViewModel.cs" />
+    <Compile Include="Models\ChallengeViewModel.cs" />
     <Compile Include="Models\ActiveGameViewModel.cs" />
     <Compile Include="Models\GameModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -517,6 +519,7 @@
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Home\Play.cshtml" />
+    <Content Include="Views\Home\Challenge.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Angular\Controllers\" />
