@@ -8,11 +8,7 @@ namespace Chess.Data.Entities
     {
         [Key]
         public long ChessUserId { get; set; }
-
-        [Required]
-        public virtual String Username { get; set; }
         public virtual String Email { get; set; }
-
         public virtual String FirstName { get; set; }
         public virtual String LastName { get; set; }
 

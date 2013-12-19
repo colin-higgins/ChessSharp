@@ -6,7 +6,6 @@ namespace Chess.Data.Entities
 {
     internal class Piece : ChessPiece
     {
-
         public override IEnumerable<Move> GetValidMoves()
         {
             throw new System.NotImplementedException();
