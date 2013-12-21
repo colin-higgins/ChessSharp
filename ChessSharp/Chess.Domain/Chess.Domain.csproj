@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="Board.cs" />
     <Compile Include="MoveGetter.cs" />
+    <Compile Include="Repositories\PlayerRepository.cs" />
     <Compile Include="PieceChecker.cs" />
     <Compile Include="PieceValuator.cs" />
     <Compile Include="Piece\Bishop.cs" />

@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using Chess.Data;
 using Chess.Data.Entities;
+using Chess.Domain.Repositories;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin.Security;
@@ -17,9 +18,12 @@ namespace ChessSharp.Web.Controllers
     [Authorize]
     public class AccountController : Controller
     {
-        public AccountController()
+        private readonly IUnitOfWork _unitOfWork;
+
+        public AccountController(IUnitOfWork unitOfWork)
             : this(new UserManager<ChessUser>(new UserStore<ChessUser>(new ChessContext())))
         {
+            _unitOfWork = unitOfWork; 
         }
 
         public AccountController(UserManager<ChessUser> userManager)
@@ -84,6 +88,10 @@ namespace ChessSharp.Web.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+                    var repository = new PlayerRepository(_unitOfWork);
+                    repository.AddFromUser(user);
+                    _unitOfWork.Commit();
+
                     await SignInAsync(user, isPersistent: false);
                     return RedirectToAction("Index", "Home");
                 }

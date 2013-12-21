@@ -1,4 +1,5 @@
 ﻿using Chess.Data;
+using Chess.Data.Entities;
 
 namespace Chess.Domain.Repositories
 {
@@ -11,6 +12,30 @@ namespace Chess.Domain.Repositories
             _unitOfWork = unitOfWork;
         }
 
+        public void AddFromUser(ChessUser entity)
+        {
+            var newPlayer = new Player()
+            {
+                ChessUserId = entity.ChessUserId,
+                DisplayName = entity.UserName,
+            };
 
+            _unitOfWork.Add(newPlayer);
+        }
+
+        public void SaveOrUpdate(Player entity)
+        {
+            var attached = _unitOfWork.Exists(entity);
+
+            if (entity.PlayerId > 0 && !attached)
+                _unitOfWork.Attach(entity);
+            else
+                _unitOfWork.Add(entity);
+        }
+
+        public void Remove(Player entity)
+        {
+            _unitOfWork.Remove(entity);
+        }
     }
 }

@@ -60,6 +60,13 @@ namespace Chess.Data
             _sets.Set<T>().Add(entity);
         }
 
+
+        public bool Exists<T>(T entity) where T : class, IModifiable
+        {
+            return _sets.Set<T>().Local.Any(e => e == entity);
+        }
+
+
         public void Commit()
         {
             CommitCount++;

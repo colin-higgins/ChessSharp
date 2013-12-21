@@ -61,6 +61,11 @@ namespace Chess.Data
             Set<T>().Attach(entity);
         }
 
+        public bool Exists<T>(T entity) where T : class, IModifiable
+        {
+            return Set<T>().Local.Any(e => e == entity);
+        }
+
         public void Commit()
         {
             SaveChanges();

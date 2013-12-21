@@ -21,6 +21,8 @@ namespace Chess.Data
 
         void Attach<T>(T entity) where T : class, IModifiable;
 
+        bool Exists<T>(T entity) where T : class, IModifiable;
+
         void Commit();
     }
 
