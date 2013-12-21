@@ -20,3 +20,6 @@ D:\Git\ChessSharp\ChessSharp\Chess.Domain\bin\Debug\Microsoft.AspNet.Identity.Co
 D:\Git\ChessSharp\ChessSharp\Chess.Domain\bin\Debug\Microsoft.AspNet.Identity.EntityFramework.xml
 D:\Git\ChessSharp\ChessSharp\Chess.Domain\bin\Debug\Microsoft.AspNet.Identity.Core.xml
 D:\Git\ChessSharp\ChessSharp\Chess.Domain\obj\Debug\Chess.Domain.csprojResolveAssemblyReference.cache
+D:\Git\ChessSharp\ChessSharp\Chess.Domain\bin\Debug\Chess.Domain.dll.config
+D:\Git\ChessSharp\ChessSharp\Chess.Domain\bin\Debug\EntityFramework.SqlServer.dll
+D:\Git\ChessSharp\ChessSharp\Chess.Domain\bin\Debug\EntityFramework.SqlServer.xml

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Web.Mvc;
 using Chess.Data;
 using Chess.Data.Entities;
@@ -30,9 +31,13 @@ namespace ChessSharp.Web.Controllers
         [Authorize]
         public ActionResult Challenge()
         {
-            var currentUser = HttpContext.User;
-            var username = currentUser.Identity.Name;
-            var playersToChallenge = _unitOfWork.All<Player>(p => p.ChessUser.UserName != username);
+            var username = HttpContext.User.Identity.Name;
+            var allUsers = _unitOfWork.All<ChessUser>().ToList();
+            var currentChessUser = _unitOfWork
+                                    .All<ChessUser>(u => String.Equals(u.UserName, username, 
+                                                                       StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
+
+            var playersToChallenge = _unitOfWork.All<Player>(p => p.ChessUserId != currentChessUser.ChessUserId);
 
             var model = new ChallengeViewModel
             {

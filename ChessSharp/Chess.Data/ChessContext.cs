@@ -20,6 +20,15 @@ namespace Chess.Data
         public DbSet<ChessPiece> ChessPieces { get; set; }
         public DbSet<ChessUser> ChessUsers { get; set; }
 
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<ChessUser>().HasKey<long>(u => u.ChessUserId);
+            modelBuilder.Entity<IdentityUserLogin>().HasKey<string>(l => l.UserId);
+            modelBuilder.Entity<IdentityRole>().HasKey<string>(r => r.Id);
+            modelBuilder.Entity<IdentityUserRole>().HasKey(r => new { r.RoleId, r.UserId });
+        }
+
         public T Find<T>(params object[] keyValues) where T : class, IEntity
         {
             return Set<T>().Find(keyValues);
@@ -69,14 +78,6 @@ namespace Chess.Data
         public void Commit()
         {
             SaveChanges();
-        }
-
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
-            base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<IdentityUserLogin>().HasKey<string>(l => l.UserId);
-            modelBuilder.Entity<IdentityRole>().HasKey<string>(r => r.Id);
-            modelBuilder.Entity<IdentityUserRole>().HasKey(r => new { r.RoleId, r.UserId });
         }
     }
 }

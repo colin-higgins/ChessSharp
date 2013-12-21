@@ -11,7 +11,7 @@ namespace ChessSharp.Web
     {
         protected void Application_Start()
         {
-            Database.SetInitializer<ChessContext>(new ChessInitializer());
+            Database.SetInitializer(new ChessInitializer());
 
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
