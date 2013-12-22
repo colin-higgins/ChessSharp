@@ -16,21 +16,24 @@
         <hr />
         @Html.ValidationSummary(true)
 
-        @Html.HiddenFor(model => model.ChallengeId)
         @Html.HiddenFor(model => model.PlayerId)
         @Html.HiddenFor(model => model.OpponentId)
         @Html.HiddenFor(model => model.PlayerId)
         
-        <select>
-            <option value="0">Please select an opponent...</option>
-            @foreach (var player in Model.Players)
-            {
-                <option value="@(player.PlayerId)">
-                    @(player.Name)
-                </option>
-            }
-        </select>
-
+        <div class="form-group">
+            @Html.LabelFor(model => model.PlayerId, new { @class = "control-label col-md-2" })
+            <div>
+                <select>
+                    <option value="0">Please select an opponent...</option>
+                    @foreach (var player in Model.Players)
+                    {
+                        <option value="@(player.PlayerId)">
+                            @(player.Name)
+                        </option>
+                    }
+                </select>
+            </div>
+        </div>
         <div class="form-group">
             @Html.LabelFor(model => model.IsPlayerDark, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
