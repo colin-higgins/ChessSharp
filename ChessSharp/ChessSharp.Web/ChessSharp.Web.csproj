@@ -177,6 +177,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\CreateChallengeViewModel.cs" />
     <Compile Include="Models\PlayerViewModel.cs" />
     <Compile Include="Models\ChallengeViewModel.cs" />
     <Compile Include="Models\ActiveGameViewModel.cs" />

@@ -3,6 +3,7 @@ using System.Linq;
 using System.Web.Mvc;
 using Chess.Data;
 using Chess.Data.Entities;
+using ChessSharp.Web.App_Start;
 using ChessSharp.Web.Models;
 using Microsoft.AspNet.Identity;
 
@@ -29,26 +30,40 @@ namespace ChessSharp.Web.Controllers
         }
 
         [Authorize]
+        [HttpGet]
         public ActionResult Challenge()
         {
             var username = HttpContext.User.Identity.Name;
-            var allUsers = _unitOfWork.All<ChessUser>().ToList();
             var currentChessUser = _unitOfWork
-                                    .All<ChessUser>(u => String.Equals(u.UserName, username, 
-                                                                       StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
-
+                                    .All<ChessUser>(u => String.Equals(u.UserName, username, StringComparison.CurrentCultureIgnoreCase))
+                                    .FirstOrDefault();
             var playersToChallenge = _unitOfWork.All<Player>(p => p.ChessUserId != currentChessUser.ChessUserId);
-
-            var model = new ChallengeViewModel
+            var currentChallenges =
+                _unitOfWork.All<Challenge>(c => c.ChallengingPlayerId == currentChessUser.ChessUserId);
+            var model = new CreateChallengeViewModel
             {
                 Players = playersToChallenge.Select(p => new PlayerViewModel()
                 {
                     Name = p.DisplayName,
                     PlayerId = p.PlayerId
                 }).ToList(),
+                CurrentChallenges = currentChallenges.Select(c => new ChallengeViewModel
+                {
+                    Accepted = c.Accepted,
+                    ChallengerId = c.ChallengingPlayerId,
+                    ChallengeTitle = c.Title,
+                    DarkPlayerId = c.DarkPlayerId,
+                    LightPlayerId = c.LightPlayerId
+
+                }).ToList()
             };
 
             return View(model);
+        }
+
+        public ActionResult Challenge(CreateChallengeViewModel model)
+        {
+            return RedirectToAction("Challenge");
         }
     }
 }

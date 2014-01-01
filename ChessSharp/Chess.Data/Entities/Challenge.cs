@@ -15,8 +15,9 @@ namespace Chess.Data.Entities
         [ForeignKey("Player")]
         public long DarkPlayerId { get; set; }
 
-        public DateTime ChallengeDate { get; set; }
-        public string Name { get; set; }
+        public DateTime DateTime { get; set; }
+        public string Title { get; set; }
+        public bool Accepted { get; set; }
 
         public virtual Player ChallengingPlayer { get; set; }
         public virtual Player LightPlayer { get; set; }
