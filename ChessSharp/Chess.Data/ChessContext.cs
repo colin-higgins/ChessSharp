@@ -9,13 +9,15 @@ namespace Chess.Data
 {
     public class ChessContext : DbContext, IUnitOfWork
     {
-        public ChessContext() : base("DefaultConnection")
+        public ChessContext()
+            : base("DefaultConnection")
         {
         }
 
         public DbSet<Game> Games { get; set; }
         public DbSet<Player> Players { get; set; }
         public DbSet<Square> Squares { get; set; }
+        public DbSet<Challenge> Challenges { get; set; }
         public DbSet<Move> Moves { get; set; }
         public DbSet<ChessPiece> ChessPieces { get; set; }
         public DbSet<ChessUser> ChessUsers { get; set; }

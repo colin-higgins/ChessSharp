@@ -8,11 +8,8 @@ namespace Chess.Data.Entities
     {
         [Key]
         public long ChallengeId { get; set; }
-        [ForeignKey("Player")]
         public long ChallengingPlayerId { get; set; }
-        [ForeignKey("Player")]
         public long LightPlayerId { get; set; }
-        [ForeignKey("Player")]
         public long DarkPlayerId { get; set; }
 
         public DateTime DateTime { get; set; }
