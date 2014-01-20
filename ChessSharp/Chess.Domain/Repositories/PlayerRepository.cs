@@ -16,7 +16,7 @@ namespace Chess.Domain.Repositories
         {
             var newPlayer = new Player()
             {
-                ChessUser_Id = entity.Id,
+                ChessUserId = entity.Id,
                 DisplayName = entity.UserName,
             };
 

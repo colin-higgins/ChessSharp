@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Chess.Data.Entities
 {
@@ -7,7 +8,7 @@ namespace Chess.Data.Entities
         [Key]
         public long PlayerId { get; set; }
 
-        public string ChessUser_Id { get; set; }
+        public string ChessUserId { get; set; }
 
         [MaxLength(30)]
         public string DisplayName { get; set; }

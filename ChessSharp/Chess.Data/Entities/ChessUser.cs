@@ -1,10 +1,12 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace Chess.Data.Entities
 {
-    public partial class ChessUser : IdentityUser, IModifiable
+    [Table("IdentityUser")]
+    public class ChessUser : IdentityUser, IModifiable
     {
         public virtual string Email { get; set; }
         public virtual string FirstName { get; set; }
