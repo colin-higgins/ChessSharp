@@ -35,11 +35,17 @@ namespace ChessSharp.Web.Controllers
         {
             var username = HttpContext.User.Identity.Name;
             var currentChessUser = _unitOfWork
-                                    .All<ChessUser>(u => String.Equals(u.UserName, username, StringComparison.CurrentCultureIgnoreCase))
+                                    .All<Player>(u => String.Equals(u.ChessUser.UserName, username, StringComparison.CurrentCultureIgnoreCase))
                                     .FirstOrDefault();
-            var playersToChallenge = _unitOfWork.All<Player>(p => p.ChessUserId != currentChessUser.ChessUserId);
+
+            if (currentChessUser == null)
+                throw new ArgumentNullException("This username does not have an associated player. Please create one in the player registration screen.");
+
+            var playersToChallenge = _unitOfWork.All<Player>(p => p.PlayerId != currentChessUser.PlayerId);
+
             var currentChallenges =
-                _unitOfWork.All<Challenge>(c => c.ChallengingPlayerId == currentChessUser.ChessUserId);
+                _unitOfWork.All<Challenge>(c => c.ChallengingPlayerId == currentChessUser.PlayerId);
+
             var model = new CreateChallengeViewModel
             {
                 Players = playersToChallenge.Select(p => new PlayerViewModel()

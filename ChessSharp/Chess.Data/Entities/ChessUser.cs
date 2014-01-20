@@ -4,12 +4,11 @@ using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace Chess.Data.Entities
 {
-    public class ChessUser : IdentityUser, IModifiable
+    public partial class ChessUser : IdentityUser, IModifiable
     {
-        public long ChessUserId { get; set; }
-        public virtual String Email { get; set; }
-        public virtual String FirstName { get; set; }
-        public virtual String LastName { get; set; }
+        public virtual string Email { get; set; }
+        public virtual string FirstName { get; set; }
+        public virtual string LastName { get; set; }
 
         [DataType(DataType.MultilineText)]
         public String Comment { get; set; }

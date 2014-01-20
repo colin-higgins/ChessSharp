@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chess.Domain", "Chess.Domai
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chess.Data", "Chess.Data\Chess.Data.csproj", "{065793C0-A130-4440-8E67-FFCEAB1ACFE6}"
 EndProject
-Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "ChessStorage", "Database1\ChessStorage.sqlproj", "{A1E18A04-F34B-4706-8540-07F0EE819FC3}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChessSharp.Web", "ChessSharp.Web\ChessSharp.Web.csproj", "{9E72CB1C-1387-4D25-89E6-7C43A1A273BC}"
 EndProject
 Global
@@ -25,12 +23,6 @@ Global
 		{065793C0-A130-4440-8E67-FFCEAB1ACFE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{065793C0-A130-4440-8E67-FFCEAB1ACFE6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{065793C0-A130-4440-8E67-FFCEAB1ACFE6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A1E18A04-F34B-4706-8540-07F0EE819FC3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A1E18A04-F34B-4706-8540-07F0EE819FC3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A1E18A04-F34B-4706-8540-07F0EE819FC3}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{A1E18A04-F34B-4706-8540-07F0EE819FC3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A1E18A04-F34B-4706-8540-07F0EE819FC3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A1E18A04-F34B-4706-8540-07F0EE819FC3}.Release|Any CPU.Deploy.0 = Release|Any CPU
 		{9E72CB1C-1387-4D25-89E6-7C43A1A273BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9E72CB1C-1387-4D25-89E6-7C43A1A273BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9E72CB1C-1387-4D25-89E6-7C43A1A273BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
