@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using Chess.Data;
@@ -26,17 +27,35 @@ namespace ChessSharp.Web.Controllers
         [Authorize]
         public ActionResult Play()
         {
-            return View();
+            var player = GetCurrentChessPlayer();
+            var games = GetGamesForPlayer(player);
+
+            var gamesViewModel = games.Select(g => new ActiveGameViewModel()
+            {
+                GameId = g.GameId,
+                CurrentPlayerId = player.PlayerId,
+                DarkPlayerName = g.DarkPlayer.DisplayName,
+                LightPlayerName = player.DisplayName,
+                Name = g.Name
+            });
+
+            return View(gamesViewModel);
+        }
+
+        private IEnumerable<Game> GetGamesForPlayer(Player player)
+        {
+            var id = player.PlayerId;
+
+            var currentGames = _unitOfWork.All<Game>(g => g.DarkPlayerId == id || g.LightPlayerId == id);
+
+            return currentGames.ToList();
         }
 
         [Authorize]
         [HttpGet]
         public ActionResult Challenge()
         {
-            var username = HttpContext.User.Identity.Name;
-            var currentChessUser = _unitOfWork
-                                    .All<Player>(u => String.Equals(u.ChessUser.UserName, username, StringComparison.CurrentCultureIgnoreCase))
-                                    .FirstOrDefault();
+            var currentChessUser = GetCurrentChessPlayer();
 
             if (currentChessUser == null)
                 throw new ArgumentNullException("This username does not have an associated player. Please create one in the player registration screen.");
@@ -65,6 +84,15 @@ namespace ChessSharp.Web.Controllers
             };
 
             return View(model);
+        }
+
+        private Player GetCurrentChessPlayer()
+        {
+            var username = HttpContext.User.Identity.Name;
+            var currentChessUser = _unitOfWork
+                .All<Player>(u => String.Equals(u.ChessUser.UserName, username, StringComparison.CurrentCultureIgnoreCase))
+                .FirstOrDefault();
+            return currentChessUser;
         }
 
         public ActionResult Challenge(CreateChallengeViewModel model)
