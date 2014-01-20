@@ -10,7 +10,7 @@ namespace Chess.Data
     public class ChessContext : DbContext, IUnitOfWork
     {
         public ChessContext()
-            : base("DefaultConnection")
+            : base("ChessContext")
         {
         }
 

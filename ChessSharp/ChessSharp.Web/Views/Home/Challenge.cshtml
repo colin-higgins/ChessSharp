@@ -16,9 +16,8 @@
         <hr />
         @Html.ValidationSummary(true)
 
-        @Html.HiddenFor(model => model.PlayerId)
+        @Html.HiddenFor(model => model.ChallengerId)
         @Html.HiddenFor(model => model.OpponentId)
-        @Html.HiddenFor(model => model.PlayerId)
         
         <div class="form-group">
             @Html.LabelFor(model => model.OpponentId, new { @class = "control-label col-md-2" })
@@ -45,8 +44,8 @@
         <div class="form-group">
             @Html.LabelFor(model => model.ChallengeTitle ,new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Name)
-                @Html.ValidationMessageFor(model => model.Name)
+                @Html.EditorFor(model => model.ChallengeTitle)
+                @Html.ValidationMessageFor(model => model.ChallengeTitle)
             </div>
         </div>
 
