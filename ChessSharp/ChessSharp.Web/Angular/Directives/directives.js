@@ -3,7 +3,7 @@
 /// <reference path="Templates/Piece.html" />
 /// <reference path="../Scripts/angular.js" />
 
-chessSharp.directive('csPiece', function () {
+chessSharpPlay.directive('csPiece', function () {
 
     var pieceEnum = function () {
         this.Empty = 0;

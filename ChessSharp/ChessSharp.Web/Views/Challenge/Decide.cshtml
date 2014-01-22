@@ -1,0 +1,62 @@
+﻿@model ChessSharp.Web.Models.ExistingChallengeViewModel
+
+@{
+    ViewBag.Title = "Decide";
+}
+
+<h2>Accept or Deny a Challenge</h2>
+
+@Scripts.Render("~/bundles/challenge-angular")
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal" ng-app="csChallengeApp" ng-controller="ChallengeCtrl">
+        <h4>ExistingChallengeViewModel</h4>
+        <hr />
+
+        @Html.HiddenFor(model => model.Id)
+        
+        <input type="checkbox" name="Accepted" ng-model="challengeAccepted" />
+        
+        <style>
+            .challenge-buttons {
+                width: 500px;
+            }
+            .challenge-buttons button {
+                width: 200px;
+            }
+            .challenge-buttons .btn-success {
+                float: left;
+            }
+            .challenge-buttons .btn-danger {
+                float: right;
+            }
+        </style>
+
+        <div class="challenge-buttons">
+            <button class="btn btn-success" ng-click="accept()">Accept</button>
+            <button class="btn btn-danger" ng-click="decline()">Decline</button>
+        </div>
+
+        <div>
+            <h4 ng-show="challengeAccepted">Challenge Accepted!</h4>
+            <h4 ng-hide="challengeAccepted">Challenge Declined...</h4>    
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Submit" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

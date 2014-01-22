@@ -1,4 +1,9 @@
-﻿<!DOCTYPE html>
+﻿@using ChessSharp.Web.Models
+@{
+    var openChallenges = (List<ExistingChallengeViewModel>)TempData["__OpenChallenges"];
+}
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -33,6 +38,18 @@
     <div class="container body-content">
         @RenderBody()
         <hr />
+        <div style="width: 300px; float: left;">
+            <ul>
+                @foreach (var challenge in openChallenges)
+                {
+                    <li>
+                        <a href="~/Challenge/Decide/@(challenge.Id)">
+                            @(challenge.ChallengeTitle + " from " + challenge.Challenger.Name)
+                        </a>
+                    </li>
+                }
+            </ul>
+        </div>
         <footer>
             <p>&copy; @DateTime.Now.Year - Chess#</p>
         </footer>

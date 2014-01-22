@@ -1,7 +1,4 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-using Chess.Data.Entities;
-using Chess.Data.Enum;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace ChessSharp.Web.Models
 {
@@ -24,12 +21,5 @@ namespace ChessSharp.Web.Models
         public bool Accepted { get; set; }
 
         public PlayerViewModel Challenger { get; set; }
-    }
-
-    public class ExistingChallengeViewModel
-    {
-        public Player Opponent { get; set; }
-        public Team OpponentTeam { get; set; }
-        public DateTime DateTime { get; set; }
     }
 }

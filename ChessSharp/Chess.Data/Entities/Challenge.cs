@@ -14,7 +14,7 @@ namespace Chess.Data.Entities
 
         public DateTime DateTime { get; set; }
         public string Title { get; set; }
-        public bool Accepted { get; set; }
+        public bool? Accepted { get; set; }
 
         public virtual Player ChallengingPlayer { get; set; }
         public virtual Player LightPlayer { get; set; }

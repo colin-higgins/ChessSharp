@@ -1,6 +1,6 @@
-﻿//var chessSharp = angular.module('chessSharp', []);
+﻿//var chessSharpPlay = angular.module('chessSharpPlay', []);
 
-//chessSharp.factory('gameService', function () {
+//chessSharpPlay.factory('gameService', function () {
 //    var shinyNewServiceInstance = {};
 //    //factory function body that constructs shinyNewServiceInstance
 
@@ -22,7 +22,7 @@
 //    return shinyNewServiceInstance;
 //});
 
-chessSharp.factory('gameApi', ['$http', function ($http) {
+chessSharpPlay.factory('gameApi', ['$http', function ($http) {
     var mockBoard = [
     ];
 

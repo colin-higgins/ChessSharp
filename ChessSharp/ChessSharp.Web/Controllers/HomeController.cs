@@ -42,6 +42,24 @@ namespace ChessSharp.Web.Controllers
             return View(gamesViewModel);
         }
 
+        [Authorize]
+        public ActionResult ()
+        {
+            var player = GetCurrentChessPlayer();
+            var games = GetGamesForPlayer(player);
+
+            var gamesViewModel = games.Select(g => new ActiveGameViewModel()
+            {
+                GameId = g.GameId,
+                CurrentPlayerId = player.PlayerId,
+                DarkPlayerName = g.DarkPlayer.DisplayName,
+                LightPlayerName = player.DisplayName,
+                Name = g.Name
+            });
+
+            return View(gamesViewModel);
+        }
+
         private IEnumerable<Game> GetGamesForPlayer(Player player)
         {
             var id = player.PlayerId;

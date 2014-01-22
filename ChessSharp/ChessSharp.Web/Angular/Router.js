@@ -1,8 +1,8 @@
 ﻿/// <reference path="../Scripts/angular.js" />
 
-var chessSharp = angular.module('csChessApp', ['ngRoute']);
+var chessSharpPlay = angular.module('csPlayChessApp', ['ngRoute']);
 
-chessSharp.config(['$routeProvider', function ($routeProvider) {
+chessSharpPlay.config(['$routeProvider', function ($routeProvider) {
     $routeProvider
         .when('/', {
             templateUrl: '/Angular/Templates/PlayChess.html',
@@ -13,3 +13,6 @@ chessSharp.config(['$routeProvider', function ($routeProvider) {
             controller: 'PlayChessCtrl'
         });
 }]);
+
+var chessSharpChallenge = angular.module('csChallengeApp', ['ngRoute']);
+

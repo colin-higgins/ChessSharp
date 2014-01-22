@@ -29,10 +29,16 @@ namespace ChessSharp.Web
 
             bundles.Add(new ScriptBundle("~/bundles/angular").Include(
                       "~/Scripts/angular.js",
-                      "~/Scripts/angular-route.js"));
+                      "~/Scripts/angular-route.js",
+                      "~/Angular/Router.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/play-chess-angular").Include(
-                      "~/Angular/Router.js",
+
+            bundles.Add(new ScriptBundle("~/bundles/challenge-angular").Include(
+                      "~/Angular/ChessService.js",
+                      "~/Angular/Controllers/GameSelectionCtrl.js",
+                      "~/Angular/Controllers/PlayChessCtrl.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/play-angular").Include(
                       "~/Angular/ChessService.js",
                       "~/Angular/Controllers/GameSelectionCtrl.js",
                       "~/Angular/Controllers/PlayChessCtrl.js"));

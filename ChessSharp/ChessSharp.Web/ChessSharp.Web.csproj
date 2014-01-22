@@ -172,12 +172,14 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ChallengeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CreateChallengeViewModel.cs" />
+    <Compile Include="Models\ExistingChallengeViewModel.cs" />
     <Compile Include="Models\PlayerViewModel.cs" />
     <Compile Include="Models\ChallengeViewModel.cs" />
     <Compile Include="Models\ActiveGameViewModel.cs" />
@@ -186,8 +188,9 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Angular\ChessController.js" />
+    <Content Include="Angular\Controllers\PlayChessCtrl.js" />
     <Content Include="Angular\ChessService.js" />
+    <Content Include="Angular\Controllers\GameSelectionCtrl.js" />
     <Content Include="Angular\Directives\directives.js" />
     <Content Include="Angular\Directives\Templates\Piece.html" />
     <Content Include="Angular\Models\Game.js" />
@@ -534,11 +537,9 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Home\Play.cshtml" />
     <Content Include="Views\Home\Challenge.cshtml" />
+    <Content Include="Views\Challenge\Decide.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Angular\Controllers\" />
-    <Folder Include="App_Data\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
