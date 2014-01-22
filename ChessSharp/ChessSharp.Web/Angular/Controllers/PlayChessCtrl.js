@@ -1,5 +1,5 @@
 ﻿
-chessSharp.controller('ChessController', ['$scope', 'gameApi', function ($scope, gameApi) {
+chessSharp.controller('PlayChessCtrl', ['$scope', 'gameApi', function ($scope, gameApi) {
 
     var getGame = function (gameId) {
         var onSuccess = function (game) {
