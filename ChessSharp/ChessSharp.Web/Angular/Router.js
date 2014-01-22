@@ -6,10 +6,10 @@ chessSharp.config(['$routeProvider', function ($routeProvider) {
     $routeProvider
         .when('/', {
             templateUrl: '/Angular/Templates/PlayChess.html',
-            controller: 'ChessController'
+            controller: 'PlayChessCtrl'
         })
         .otherwise({
             templateUrl: '/Angular/Templates/PlayChess.html',
-            controller: 'ChessController'
+            controller: 'PlayChessCtrl'
         });
 }]);
