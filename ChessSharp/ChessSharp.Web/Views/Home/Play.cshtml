@@ -6,29 +6,30 @@
 
 <h2>Play</h2>
 
-<script src="~/Scripts/angular.js"></script>
-<script src="~/Scripts/angular-route.js"></script>
-<script src="~/Angular/Router.js"></script>
-<script src="~/Angular/ChessService.js"></script>
-<script src="~/Angular/ChessController.js"></script>
+@Scripts.Render("~/bundles/play-chess-angular")
 
-<div class="chess-container" ng-app="csChessApp">
+<div class="chess-container" ng-app="csChessApp" ng-controller="GameSelectionCtrl">
+
+    <div>
+        <div>
+            <select>
+                <option value="0">Please select a game...</option>
+                @foreach (var item in Model)
+                {
+                    <option value="@(item.GameId)">
+                        @(String.Format("{0} - {1} {2} vs {3}", item.GameId, item.Name, item.LightPlayerName, item.DarkPlayerName))
+                    </option>
+                }
+            </select>
+            <button>Change Game</button>
+        </div>
+        <div>
+            @Html.ActionLink("Challenge Someone", "Challenge")
+        </div>
+    </div>
 
     <div ng-view>
     </div>
 
-    <div>
-        <select>
-            <option value="0">Please select a game...</option>
-            @foreach (var item in Model)
-            {
-                <option value="@(item.GameId)">
-                    @(String.Format("{0} - {1} {2} vs {3}", item.GameId, item.Name, item.LightPlayerName, item.DarkPlayerName))
-                </option>
-            }
-        </select>
-        <button>Change Game</button>
-        @Html.ActionLink("Challenge Someone", "Challenge")
-    </div>
 </div>
 
