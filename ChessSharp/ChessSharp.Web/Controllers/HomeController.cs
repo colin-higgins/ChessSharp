@@ -2,23 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using Chess.Data;
 using Chess.Data.Entities;
-using ChessSharp.Web.App_Start;
 using ChessSharp.Web.Models;
-using Microsoft.AspNet.Identity;
 
 namespace ChessSharp.Web.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
-        private readonly IUnitOfWork _unitOfWork;
-
-        public HomeController()
-        {
-            _unitOfWork = new ChessContext();
-        }
-
         public ActionResult Index()
         {
             return View();
@@ -27,15 +17,17 @@ namespace ChessSharp.Web.Controllers
         [Authorize]
         public ActionResult Play()
         {
-            var player = GetCurrentChessPlayer();
-            var games = GetGamesForPlayer(player);
+            if (CurrentPlayer == null)
+                return RedirectToAction("RegisterPlayer");
+
+            var games = GetGamesForPlayer();
 
             var gamesViewModel = games.Select(g => new ActiveGameViewModel()
             {
                 GameId = g.GameId,
-                CurrentPlayerId = player.PlayerId,
+                CurrentPlayerId = CurrentPlayer.PlayerId,
                 DarkPlayerName = g.DarkPlayer.DisplayName,
-                LightPlayerName = player.DisplayName,
+                LightPlayerName = CurrentPlayer.DisplayName,
                 Name = g.Name
             });
 
@@ -43,26 +35,22 @@ namespace ChessSharp.Web.Controllers
         }
 
         [Authorize]
-        public ActionResult ()
+        [HttpGet]
+        public ActionResult RegisterPlayer()
         {
-            var player = GetCurrentChessPlayer();
-            var games = GetGamesForPlayer(player);
-
-            var gamesViewModel = games.Select(g => new ActiveGameViewModel()
-            {
-                GameId = g.GameId,
-                CurrentPlayerId = player.PlayerId,
-                DarkPlayerName = g.DarkPlayer.DisplayName,
-                LightPlayerName = player.DisplayName,
-                Name = g.Name
-            });
-
-            return View(gamesViewModel);
+            return View();
         }
 
-        private IEnumerable<Game> GetGamesForPlayer(Player player)
+        [Authorize]
+        [HttpPost]
+        public ActionResult RegisterPlayer(PlayerViewModel model)
         {
-            var id = player.PlayerId;
+            return RedirectToAction("Play");
+        }
+
+        private IEnumerable<Game> GetGamesForPlayer()
+        {
+            var id = CurrentPlayer.PlayerId;
 
             var currentGames = _unitOfWork.All<Game>(g => g.DarkPlayerId == id || g.LightPlayerId == id);
 
@@ -73,15 +61,13 @@ namespace ChessSharp.Web.Controllers
         [HttpGet]
         public ActionResult Challenge()
         {
-            var currentChessUser = GetCurrentChessPlayer();
+            if (CurrentPlayer == null)
+                throw new Exception("This username does not have an associated CurrentPlayer. Please create one in the CurrentPlayer registration screen.");
 
-            if (currentChessUser == null)
-                throw new ArgumentNullException("This username does not have an associated player. Please create one in the player registration screen.");
-
-            var playersToChallenge = _unitOfWork.All<Player>(p => p.PlayerId != currentChessUser.PlayerId);
+            var playersToChallenge = _unitOfWork.All<Player>(p => p.PlayerId != CurrentPlayer.PlayerId);
 
             var currentChallenges =
-                _unitOfWork.All<Challenge>(c => c.ChallengingPlayerId == currentChessUser.PlayerId);
+                _unitOfWork.All<Challenge>(c => c.ChallengingPlayerId == CurrentPlayer.PlayerId);
 
             var model = new CreateChallengeViewModel
             {
@@ -92,7 +78,7 @@ namespace ChessSharp.Web.Controllers
                 }).ToList(),
                 CurrentChallenges = currentChallenges.Select(c => new ChallengeViewModel
                 {
-                    Accepted = c.Accepted,
+                    Accepted = c.Accepted.HasValue ? c.Accepted.Value : false,
                     ChallengerId = c.ChallengingPlayerId,
                     ChallengeTitle = c.Title,
                     DarkPlayerId = c.DarkPlayerId,
@@ -104,17 +90,23 @@ namespace ChessSharp.Web.Controllers
             return View(model);
         }
 
-        private Player GetCurrentChessPlayer()
-        {
-            var username = HttpContext.User.Identity.Name;
-            var currentChessUser = _unitOfWork
-                .All<Player>(u => String.Equals(u.ChessUser.UserName, username, StringComparison.CurrentCultureIgnoreCase))
-                .FirstOrDefault();
-            return currentChessUser;
-        }
 
+        [Authorize]
+        [HttpPost]
         public ActionResult Challenge(CreateChallengeViewModel model)
         {
+            var challenge = new Challenge()
+            {
+                ChallengingPlayer = CurrentPlayer,
+                DarkPlayerId = model.IsPlayerDark ? CurrentPlayer.PlayerId : model.OpponentId,
+                LightPlayerId = !model.IsPlayerDark ? CurrentPlayer.PlayerId : model.OpponentId,
+                DateTime = DateTime.Now,
+                Title = model.ChallengeTitle
+            };
+
+            _unitOfWork.Add(challenge);
+            _unitOfWork.Commit();
+
             return RedirectToAction("Challenge");
         }
     }

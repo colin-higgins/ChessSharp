@@ -1,20 +1,12 @@
 ﻿using System.Web.Mvc;
-using Chess.Data;
 using Chess.Data.Entities;
 using Chess.Data.Enum;
 using ChessSharp.Web.Models;
 
 namespace ChessSharp.Web.Controllers
 {
-    public class ChallengeController : Controller
+    public class ChallengeController : BaseController
     {
-        private readonly IUnitOfWork _unitOfWork;
-
-        public ChallengeController()
-        {
-            _unitOfWork = new ChessContext();
-        }
-
         [HttpGet]
         public ActionResult Decide(long id)
         {
@@ -55,6 +47,8 @@ namespace ChessSharp.Web.Controllers
                 return RedirectToAction("Accepted", new { model = challenge });
             if (challenge.Accepted == false)
                 return RedirectToAction("Declined", new { model = challenge });
+
+            return RedirectToAction("Decide", new {id = model.Id});
         }
 
         public ActionResult Accepted(Challenge model)
@@ -69,7 +63,19 @@ namespace ChessSharp.Web.Controllers
 
         private void RespondToChallenge(long challengeId, bool accepted)
         {
-            
+            var challenge = _unitOfWork.Find<Challenge>(challengeId);
+            if (accepted)
+            {
+                var game = new Game
+                {
+                    DarkPlayer = challenge.DarkPlayer,
+                    LightPlayer = challenge.LightPlayer,
+                    Name = challenge.Title
+                };
+                _unitOfWork.Add(game);
+            }
+            challenge.Accepted = accepted;
+            _unitOfWork.Commit();
         }
 	}
 }

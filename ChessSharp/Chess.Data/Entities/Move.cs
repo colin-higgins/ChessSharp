@@ -15,6 +15,8 @@ namespace Chess.Data.Entities
         public int EndColumn { get; set; }
         public int EndRow { get; set; }
 
+        public virtual Game Game { get; set; }
+
         [NotMapped]
         public int RowChange
         {

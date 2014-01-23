@@ -14,6 +14,8 @@ namespace Chess.Data.Entities
         public int Row { get; set; }
 
         public int? ChessPieceId { get; set; }
+
+        public virtual Game Game { get; set; }
         public virtual ChessPiece ChessPiece { get; set; }
 
         public bool TargetedByTeam(Square[][] board, Enum.Team team)

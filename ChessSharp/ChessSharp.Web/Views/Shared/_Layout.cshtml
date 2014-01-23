@@ -1,6 +1,6 @@
 ﻿@using ChessSharp.Web.Models
 @{
-    var openChallenges = (List<ExistingChallengeViewModel>)TempData["__OpenChallenges"];
+    var openChallenges = (List<ExistingChallengeViewModel>)Session["__OpenChallenges"];
 }
 
 <!DOCTYPE html>
@@ -38,15 +38,23 @@
     <div class="container body-content">
         @RenderBody()
         <hr />
-        <div style="width: 300px; float: left;">
-            <ul>
-                @foreach (var challenge in openChallenges)
+        <div style="width: 300px; display: block; ">
+            <ul style="list-style: none; position: fixed; right: 10px;">
+                @if (openChallenges != null && openChallenges.Any())
                 {
-                    <li>
-                        <a href="~/Challenge/Decide/@(challenge.Id)">
-                            @(challenge.ChallengeTitle + " from " + challenge.Challenger.Name)
-                        </a>
-                    </li>
+                    <li><b>You've been challenged!</b></li>
+                    foreach (var challenge in openChallenges)
+                     {
+                         <li>
+                             <a href="~/Challenge/Decide/@(challenge.Id)">
+                                 @(challenge.ChallengeTitle + " - " + challenge.Opponent.DisplayName)
+                             </a>
+                         </li>
+                     }
+                }
+                else
+                {
+                    <li>You have no challenges...</li>
                 }
             </ul>
         </div>

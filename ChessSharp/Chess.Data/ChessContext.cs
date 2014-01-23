@@ -24,10 +24,51 @@ namespace Chess.Data
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<IdentityUserLogin>().HasKey<string>(l => l.UserId);
             modelBuilder.Entity<IdentityRole>().HasKey<string>(r => r.Id);
             modelBuilder.Entity<IdentityUserRole>().HasKey(r => new { r.RoleId, r.UserId });
+
+            modelBuilder.Entity<Game>().HasMany(x => x.Squares);
+            modelBuilder.Entity<Game>().HasMany(x => x.Moves);
+            modelBuilder.Entity<Game>().HasRequired(x => x.Challenge);
+            modelBuilder.Entity<Game>().HasOptional(x => x.WinnerPlayer);
+
+            modelBuilder.Entity<Move>().HasRequired(x => x.Game);
+
+            modelBuilder.Entity<Square>().HasRequired(x => x.Game);
+            modelBuilder.Entity<Square>().HasOptional(x => x.ChessPiece);
+
+            modelBuilder.Entity<ChessPiece>().HasRequired(x => x.Game);
+
+            modelBuilder.Entity<Player>().HasRequired(x => x.ChessUser);
+
+            modelBuilder.Entity<Player>().HasMany(x => x.Challenges)
+                .WithRequired(x => x.ChallengingPlayer)
+                .HasForeignKey(x => x.ChallengingPlayerId)
+                .WillCascadeOnDelete(false);
+            modelBuilder.Entity<Player>().HasMany(x => x.Challenges)
+                .WithRequired(x => x.LightPlayer)
+                .HasForeignKey(x => x.LightPlayerId)
+                .WillCascadeOnDelete(false);
+            modelBuilder.Entity<Player>().HasMany(x => x.Challenges)
+                .WithRequired(x => x.DarkPlayer)
+                .HasForeignKey(x => x.DarkPlayerId)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Player>().HasMany(x => x.Games)
+                .WithRequired(x => x.LightPlayer)
+                .HasForeignKey(x => x.LightPlayerId)
+                .WillCascadeOnDelete(false);
+            modelBuilder.Entity<Player>().HasMany(x => x.Games)
+                .WithRequired(x => x.DarkPlayer)
+                .HasForeignKey(x => x.DarkPlayerId)
+                .WillCascadeOnDelete(false);
+            modelBuilder.Entity<Player>().HasMany(x => x.Games)
+                .WithRequired(x => x.WinnerPlayer)
+                .HasForeignKey(x => x.WinnerPlayerId)
+                .WillCascadeOnDelete(false);
+
+            base.OnModelCreating(modelBuilder);
         }
 
         public T Find<T>(params object[] keyValues) where T : class, IEntity

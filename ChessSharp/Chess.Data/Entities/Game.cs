@@ -8,6 +8,7 @@ namespace Chess.Data.Entities
         [Key]
         public long GameId { get; set; }
 
+        public long ChallengeId { get; set; }
         public long LightPlayerId { get; set; }
         public long DarkPlayerId { get; set; }
         public long? WinnerPlayerId { get; set; }
@@ -23,5 +24,6 @@ namespace Chess.Data.Entities
         public virtual Player LightPlayer { get; set; }
         public virtual Player DarkPlayer { get; set; }
         public virtual Player WinnerPlayer { get; set; }
+        public virtual Challenge Challenge { get; set; }
     }
 }

@@ -37,7 +37,7 @@
     }
 </style>
 
-<div class="chessbox">
+<div class="chessbox" ng-show="game.gameId > 0">
     <table class="chessboard">
         <tr ng-repeat="row in game.Board.Squares" class="row">
             <td ng-repeat="square in row"
@@ -49,4 +49,13 @@
     </table>
 
     <button class="commit btn btn-lg btn-success" ng-disabled="busy" ng-click="MakeMove()">Commit Move</button>
+</div>
+
+<div>
+    <h3>Please Select a Game</h3>
+    <p>
+        If you do not have any current games: 
+        You may <a href="/Home/Challenge">challenge</a> another player, 
+        or accept any challenges currently extended to you.
+    </p>
 </div>

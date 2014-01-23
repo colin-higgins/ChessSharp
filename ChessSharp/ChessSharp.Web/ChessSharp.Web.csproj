@@ -173,6 +173,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ChallengeController.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -188,6 +189,7 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Angular\Controllers\ChallengeCtrl.js" />
     <Content Include="Angular\Controllers\PlayChessCtrl.js" />
     <Content Include="Angular\ChessService.js" />
     <Content Include="Angular\Controllers\GameSelectionCtrl.js" />
@@ -538,6 +540,9 @@
     <Content Include="Views\Home\Play.cshtml" />
     <Content Include="Views\Home\Challenge.cshtml" />
     <Content Include="Views\Challenge\Decide.cshtml" />
+    <Content Include="Views\Home\RegisterPlayer.cshtml" />
+    <Content Include="Views\Challenge\Accepted.cshtml" />
+    <Content Include="Views\Challenge\Declined.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
