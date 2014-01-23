@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using Chess.Data;
+using Chess.Data.Entities;
 using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace Chess.Data
