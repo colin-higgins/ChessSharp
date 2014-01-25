@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Chess.Data.Entities
 {
@@ -8,8 +7,6 @@ namespace Chess.Data.Entities
     {
         [Key]
         public long PlayerId { get; set; }
-
-        public string ChessUserId { get; set; }
 
         [MaxLength(30)]
         public string DisplayName { get; set; }
@@ -19,8 +16,8 @@ namespace Chess.Data.Entities
         public int Losses { get; set; }
         public int Ties { get; set; }
 
-        [ForeignKey("ChessUserId")]
         public virtual ChessUser ChessUser { get; set; }
+        
         public virtual ICollection<Challenge> Challenges { get; set; }
         public virtual ICollection<Game> Games { get; set; }
     }

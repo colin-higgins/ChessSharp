@@ -34,28 +34,28 @@ namespace Chess.Data
 
             modelBuilder.Entity<Challenge>().HasRequired(x => x.ChallengingPlayer)
                 .WithMany(x => x.Challenges)
-                .HasForeignKey(x => x.ChallengingPlayerId)
+                .HasForeignKey(x => x.ChallengingPlayer.PlayerId)
                 .WillCascadeOnDelete(false);
             modelBuilder.Entity<Challenge>().HasRequired(x => x.DarkPlayer)
                 .WithMany(x => x.Challenges)
-                .HasForeignKey(x => x.DarkPlayerId)
+                .HasForeignKey(x => x.DarkPlayer.PlayerId)
                 .WillCascadeOnDelete(false);
             modelBuilder.Entity<Challenge>().HasRequired(x => x.LightPlayer)
                 .WithMany(x => x.Challenges)
-                .HasForeignKey(x => x.LightPlayerId)
+                .HasForeignKey(x => x.LightPlayer.PlayerId)
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Game>().HasRequired(x => x.LightPlayer)
                 .WithMany(x => x.Games)
-                .HasForeignKey(x => x.LightPlayerId)
+                .HasForeignKey(x => x.LightPlayer.PlayerId)
                 .WillCascadeOnDelete(false);
             modelBuilder.Entity<Game>().HasRequired(x => x.DarkPlayer)
                 .WithMany(x => x.Games)
-                .HasForeignKey(x => x.DarkPlayerId)
+                .HasForeignKey(x => x.DarkPlayer.PlayerId)
                 .WillCascadeOnDelete(false);
             modelBuilder.Entity<Game>().HasOptional(x => x.WinnerPlayer)
                 .WithMany(x => x.Games)
-                .HasForeignKey(x => x.WinnerPlayerId)
+                .HasForeignKey(x => x.WinnerPlayer.PlayerId)
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Game>().HasMany(x => x.Squares);

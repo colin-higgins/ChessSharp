@@ -32,8 +32,8 @@ namespace ChessSharp.Web.Controllers
                 CurrentPlayer = GetCurrentChessPlayer();
 
                 var challenges =
-                    _unitOfWork.All<Challenge>(c => c.ChallengingPlayerId != CurrentPlayer.PlayerId && c.Accepted == null)
-                        .Where(c => c.LightPlayerId == CurrentPlayer.PlayerId || c.DarkPlayerId == CurrentPlayer.PlayerId);
+                    _unitOfWork.All<Challenge>(c => c.ChallengingPlayer.PlayerId != CurrentPlayer.PlayerId && c.Accepted == null)
+                        .Where(c => c.LightPlayer.PlayerId == CurrentPlayer.PlayerId || c.DarkPlayer.PlayerId == CurrentPlayer.PlayerId);
 
                 var openChallenges = challenges.Select(c => new ExistingChallengeViewModel()
                 {

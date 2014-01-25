@@ -8,12 +8,8 @@ namespace Chess.Data.Entities
         [Key]
         public long SquareId { get; set; }
 
-        public long GameId { get; set; }
-
         public int Column { get; set; }
         public int Row { get; set; }
-
-        public int? ChessPieceId { get; set; }
 
         public virtual Game Game { get; set; }
         public virtual ChessPiece ChessPiece { get; set; }

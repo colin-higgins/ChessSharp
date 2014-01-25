@@ -8,8 +8,6 @@ namespace Chess.Data.Entities
         [Key]
         public long MoveId { get; set; }
 
-        public long GameId { get; set; }
-
         public int StartColumn { get; set; }
         public int StartRow { get; set; }
         public int EndColumn { get; set; }

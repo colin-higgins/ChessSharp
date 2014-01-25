@@ -52,7 +52,7 @@ namespace ChessSharp.Web.Controllers
         {
             var id = CurrentPlayer.PlayerId;
 
-            var currentGames = _unitOfWork.All<Game>(g => g.DarkPlayerId == id || g.LightPlayerId == id);
+            var currentGames = _unitOfWork.All<Game>(g => g.DarkPlayer.PlayerId == id || g.LightPlayer.PlayerId == id);
 
             return currentGames.ToList();
         }
@@ -67,7 +67,7 @@ namespace ChessSharp.Web.Controllers
             var playersToChallenge = _unitOfWork.All<Player>(p => p.PlayerId != CurrentPlayer.PlayerId);
 
             var currentChallenges =
-                _unitOfWork.All<Challenge>(c => c.ChallengingPlayerId == CurrentPlayer.PlayerId);
+                _unitOfWork.All<Challenge>(c => c.ChallengingPlayer.PlayerId == CurrentPlayer.PlayerId);
 
             var model = new CreateChallengeViewModel
             {
@@ -79,10 +79,10 @@ namespace ChessSharp.Web.Controllers
                 CurrentChallenges = currentChallenges.Select(c => new ChallengeViewModel
                 {
                     Accepted = c.Accepted.HasValue ? c.Accepted.Value : false,
-                    ChallengerId = c.ChallengingPlayerId,
+                    ChallengerId = c.ChallengingPlayer.PlayerId,
                     ChallengeTitle = c.Title,
-                    DarkPlayerId = c.DarkPlayerId,
-                    LightPlayerId = c.LightPlayerId
+                    DarkPlayerId = c.DarkPlayer.PlayerId,
+                    LightPlayerId = c.LightPlayer.PlayerId
 
                 }).ToList()
             };
@@ -95,11 +95,13 @@ namespace ChessSharp.Web.Controllers
         [HttpPost]
         public ActionResult Challenge(CreateChallengeViewModel model)
         {
+            var opponent = _unitOfWork.Find<Player>(model.OpponentId);
+
             var challenge = new Challenge()
             {
                 ChallengingPlayer = CurrentPlayer,
-                DarkPlayerId = model.IsPlayerDark ? CurrentPlayer.PlayerId : model.OpponentId,
-                LightPlayerId = !model.IsPlayerDark ? CurrentPlayer.PlayerId : model.OpponentId,
+                DarkPlayer = model.IsPlayerDark ? CurrentPlayer : opponent,
+                LightPlayer = !model.IsPlayerDark ? CurrentPlayer : opponent,
                 DateTime = DateTime.Now,
                 Title = model.ChallengeTitle
             };
