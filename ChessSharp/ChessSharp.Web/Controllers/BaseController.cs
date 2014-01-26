@@ -13,6 +13,7 @@ namespace ChessSharp.Web.Controllers
     {
         protected readonly IUnitOfWork _unitOfWork;
         protected string Username;
+        protected ChessUser CurrentUser;
         protected Player CurrentPlayer;
 
         public BaseController()
@@ -29,7 +30,7 @@ namespace ChessSharp.Web.Controllers
 
             if (!String.IsNullOrEmpty(Username))
             {
-                CurrentPlayer = GetCurrentChessPlayer();
+                GetCurrentChessPlayer(Username);
 
                 var challenges =
                     _unitOfWork.All<Challenge>(c => c.ChallengingPlayer.PlayerId != CurrentPlayer.PlayerId && c.Accepted == null)
@@ -49,13 +50,15 @@ namespace ChessSharp.Web.Controllers
             }
         }
 
-        private Player GetCurrentChessPlayer()
+        private void GetCurrentChessPlayer(string username)
         {
-            var username = HttpContext.User.Identity.Name;
-            var currentChessUser = _unitOfWork
-                .All<Player>(u => String.Equals(u.ChessUser.UserName, username, StringComparison.CurrentCultureIgnoreCase))
+            CurrentUser =
+                _unitOfWork
+                .All<ChessUser>(u => String.Equals(u.UserName, username, StringComparison.CurrentCultureIgnoreCase))
                 .FirstOrDefault();
-            return currentChessUser;
+            CurrentPlayer = _unitOfWork
+                .All<Player>(player => CurrentUser == player.ChessUser)
+                .FirstOrDefault();
         }
     }
 }

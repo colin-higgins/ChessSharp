@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Linq;
 using Chess.Data.Entities;
 using Microsoft.AspNet.Identity.EntityFramework;
@@ -24,39 +25,22 @@ namespace Chess.Data
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
+            modelBuilder.Conventions.Remove<ManyToManyCascadeDeleteConvention>();
+
             modelBuilder.Entity<IdentityUserLogin>().HasKey<string>(l => l.UserId);
             modelBuilder.Entity<IdentityRole>().HasKey<string>(r => r.Id);
             modelBuilder.Entity<IdentityUserRole>().HasKey(r => new { r.RoleId, r.UserId });
 
-            modelBuilder.Entity<Square>().HasOptional(x => x.ChessPiece);
-            modelBuilder.Entity<ChessPiece>().HasRequired(x => x.Game);
             modelBuilder.Entity<Player>().HasRequired(x => x.ChessUser);
 
-            modelBuilder.Entity<Challenge>().HasRequired(x => x.ChallengingPlayer)
-                .WithMany(x => x.Challenges)
-                .HasForeignKey(x => x.ChallengingPlayer.PlayerId)
-                .WillCascadeOnDelete(false);
-            modelBuilder.Entity<Challenge>().HasRequired(x => x.DarkPlayer)
-                .WithMany(x => x.Challenges)
-                .HasForeignKey(x => x.DarkPlayer.PlayerId)
-                .WillCascadeOnDelete(false);
-            modelBuilder.Entity<Challenge>().HasRequired(x => x.LightPlayer)
-                .WithMany(x => x.Challenges)
-                .HasForeignKey(x => x.LightPlayer.PlayerId)
-                .WillCascadeOnDelete(false);
+            modelBuilder.Entity<Challenge>().HasRequired(x => x.LightPlayer);
+            modelBuilder.Entity<Challenge>().HasRequired(x => x.DarkPlayer);
+            modelBuilder.Entity<Challenge>().HasRequired(x => x.ChallengingPlayer);
 
-            modelBuilder.Entity<Game>().HasRequired(x => x.LightPlayer)
-                .WithMany(x => x.Games)
-                .HasForeignKey(x => x.LightPlayer.PlayerId)
-                .WillCascadeOnDelete(false);
-            modelBuilder.Entity<Game>().HasRequired(x => x.DarkPlayer)
-                .WithMany(x => x.Games)
-                .HasForeignKey(x => x.DarkPlayer.PlayerId)
-                .WillCascadeOnDelete(false);
-            modelBuilder.Entity<Game>().HasOptional(x => x.WinnerPlayer)
-                .WithMany(x => x.Games)
-                .HasForeignKey(x => x.WinnerPlayer.PlayerId)
-                .WillCascadeOnDelete(false);
+            modelBuilder.Entity<Game>().HasRequired(x => x.LightPlayer);
+            modelBuilder.Entity<Game>().HasRequired(x => x.DarkPlayer);
+            modelBuilder.Entity<Game>().HasOptional(x => x.WinnerPlayer);
 
             modelBuilder.Entity<Game>().HasMany(x => x.Squares);
             modelBuilder.Entity<Game>().HasMany(x => x.Moves);

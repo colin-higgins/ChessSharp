@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using System.Web.Routing;
 using Chess.Data.Entities;
+using Chess.Domain.Repositories;
 using ChessSharp.Web.Models;
 
 namespace ChessSharp.Web.Controllers
@@ -18,7 +20,7 @@ namespace ChessSharp.Web.Controllers
         public ActionResult Play()
         {
             if (CurrentPlayer == null)
-                return RedirectToAction("RegisterPlayer");
+                return RedirectToAction("RegisterPlayer", new { actionName = "Play" });
 
             var games = GetGamesForPlayer();
 
@@ -36,16 +38,13 @@ namespace ChessSharp.Web.Controllers
 
         [Authorize]
         [HttpGet]
-        public ActionResult RegisterPlayer()
+        public ActionResult RegisterPlayer(string actionName)
         {
-            return View();
-        }
+            var repository = new PlayerRepository(_unitOfWork);
+            repository.AddFromUser(CurrentUser);
+            _unitOfWork.Commit();
 
-        [Authorize]
-        [HttpPost]
-        public ActionResult RegisterPlayer(PlayerViewModel model)
-        {
-            return RedirectToAction("Play");
+            return RedirectToAction(actionName);
         }
 
         private IEnumerable<Game> GetGamesForPlayer()
@@ -62,10 +61,11 @@ namespace ChessSharp.Web.Controllers
         public ActionResult Challenge()
         {
             if (CurrentPlayer == null)
-                throw new Exception("This username does not have an associated CurrentPlayer. Please create one in the CurrentPlayer registration screen.");
+                return RedirectToAction("RegisterPlayer", new { actionName = "Challenge" });
+                //throw new Exception("This username does not have an associated CurrentPlayer. Please create one in the CurrentPlayer registration screen.");
 
             var playersToChallenge = _unitOfWork.All<Player>(p => p.PlayerId != CurrentPlayer.PlayerId);
-
+            
             var currentChallenges =
                 _unitOfWork.All<Challenge>(c => c.ChallengingPlayer.PlayerId == CurrentPlayer.PlayerId);
 

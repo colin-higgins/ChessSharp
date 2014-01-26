@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -23,7 +20,7 @@ namespace ChessSharp.Web.Controllers
         public AccountController(IUnitOfWork unitOfWork)
             : this(new UserManager<ChessUser>(new UserStore<ChessUser>(new ChessContext())))
         {
-            _unitOfWork = unitOfWork; 
+            _unitOfWork = unitOfWork;
         }
 
         public AccountController(UserManager<ChessUser> userManager)
@@ -95,10 +92,8 @@ namespace ChessSharp.Web.Controllers
                     await SignInAsync(user, isPersistent: false);
                     return RedirectToAction("Index", "Home");
                 }
-                else
-                {
-                    AddErrors(result);
-                }
+
+                AddErrors(result);
             }
 
             // If we got this far, something failed, redisplay form
@@ -388,7 +383,8 @@ namespace ChessSharp.Web.Controllers
 
         private class ChallengeResult : HttpUnauthorizedResult
         {
-            public ChallengeResult(string provider, string redirectUri) : this(provider, redirectUri, null)
+            public ChallengeResult(string provider, string redirectUri)
+                : this(provider, redirectUri, null)
             {
             }
 

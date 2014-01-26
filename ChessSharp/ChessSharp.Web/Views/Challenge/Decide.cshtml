@@ -26,11 +26,13 @@
             }
 
             .challenge-buttons .btn-success {
-                float: left;
+                position: relative;
+                left: 0;
             }
 
             .challenge-buttons .btn-danger {
-                float: right;
+                position: relative;
+                right: 0;
             }
     </style>
 
@@ -40,8 +42,8 @@
     </div>
 
     <div>
-        <h4 ng-show="challengeAccepted">Challenge Accepted!</h4>
-        <h4 ng-hide="challengeAccepted">Challenge Declined...</h4>
+        <h4 ng-show="challengeAccepted === true">Challenge Accepted!</h4>
+        <h4 ng-show="challengeAccepted === false">Challenge Declined...</h4>
     </div>
     
     @using (Html.BeginForm())
