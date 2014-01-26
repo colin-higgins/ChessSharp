@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using Chess.Data;
@@ -11,14 +10,14 @@ namespace ChessSharp.Web.Controllers
 {
     public class BaseController : Controller
     {
-        protected readonly IUnitOfWork _unitOfWork;
+        protected readonly IUnitOfWork UnitOfWork;
         protected string Username;
         protected ChessUser CurrentUser;
         protected Player CurrentPlayer;
 
         public BaseController()
         {
-            _unitOfWork = new ChessContext();
+            UnitOfWork = new ChessContext();
         }
 
         protected override void Initialize(System.Web.Routing.RequestContext requestContext)
@@ -33,7 +32,7 @@ namespace ChessSharp.Web.Controllers
                 GetCurrentChessPlayer(Username);
 
                 var challenges =
-                    _unitOfWork.All<Challenge>(c => c.ChallengingPlayer.PlayerId != CurrentPlayer.PlayerId && c.Accepted == null)
+                    UnitOfWork.All<Challenge>(c => c.ChallengingPlayer.PlayerId != CurrentPlayer.PlayerId && c.Accepted == null)
                         .Where(c => c.LightPlayer.PlayerId == CurrentPlayer.PlayerId || c.DarkPlayer.PlayerId == CurrentPlayer.PlayerId);
 
                 var openChallenges = challenges.Select(c => new ExistingChallengeViewModel()
@@ -53,10 +52,10 @@ namespace ChessSharp.Web.Controllers
         private void GetCurrentChessPlayer(string username)
         {
             CurrentUser =
-                _unitOfWork
+                UnitOfWork
                 .All<ChessUser>(u => String.Equals(u.UserName, username, StringComparison.CurrentCultureIgnoreCase))
                 .FirstOrDefault();
-            CurrentPlayer = _unitOfWork
+            CurrentPlayer = UnitOfWork
                 .All<Player>(player => CurrentUser == player.ChessUser)
                 .FirstOrDefault();
         }

@@ -5,6 +5,7 @@ namespace ChessSharp.Web.Models
 {
     public class CreateChallengeViewModel : ChallengeViewModel
     {
+        [Required]
         [Display(Name = "Opponent")]
         public long OpponentId { get; set; }
         [Display(Name = "Check the Box for Dark")]

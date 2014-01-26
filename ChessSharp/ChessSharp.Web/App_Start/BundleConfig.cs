@@ -35,6 +35,7 @@ namespace ChessSharp.Web
 
             bundles.Add(new ScriptBundle("~/bundles/challenge-angular").Include(
                       "~/Angular/ChessService.js",
+                      "~/Angular/Controllers/ChallengeCtrl.js",
                       "~/Angular/Controllers/GameSelectionCtrl.js",
                       "~/Angular/Controllers/PlayChessCtrl.js"));
 

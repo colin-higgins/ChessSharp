@@ -7,30 +7,23 @@
 <h2>Challenge</h2>
 
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
+    <hr />
     <div class="form-horizontal">
-        <h4>Challenge</h4>
-        <hr />
         @Html.ValidationSummary(true)
 
-        @Html.HiddenFor(model => model.ChallengerId)
-        @Html.HiddenFor(model => model.OpponentId)
-        
         <div class="form-group">
             @Html.LabelFor(model => model.OpponentId, new { @class = "control-label col-md-2" })
             <div>
-                <select>
-                    <option value="0">Please select an opponent...</option>
-                    @foreach (var player in Model.Players)
+                @Html.DropDownListFor(model => model.OpponentId, Model.Players.Select(p => new SelectListItem()
                     {
-                        <option value="@(player.PlayerId)">
-                            @(player.Name)
-                        </option>
-                    }
-                </select>
+                        Selected = false,
+                        Text = p.Name,
+                        Value = p.PlayerId
+                    }), "Please select an opponent...")
             </div>
         </div>
         <div class="form-group">
@@ -42,7 +35,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.ChallengeTitle ,new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.ChallengeTitle, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.ChallengeTitle)
                 @Html.ValidationMessageFor(model => model.ChallengeTitle)

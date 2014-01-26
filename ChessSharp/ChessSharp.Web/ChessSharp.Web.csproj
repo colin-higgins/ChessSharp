@@ -538,7 +538,7 @@
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Home\Play.cshtml" />
-    <Content Include="Views\Home\Challenge.cshtml" />
+    <Content Include="Views\Challenge\Make.cshtml" />
     <Content Include="Views\Challenge\Decide.cshtml" />
     <Content Include="Views\Home\RegisterPlayer.cshtml" />
     <Content Include="Views\Challenge\Accepted.cshtml" />

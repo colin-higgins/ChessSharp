@@ -8,62 +8,62 @@
 
 @Scripts.Render("~/bundles/challenge-angular")
 
-
+<hr />
 <div class="form-horizontal" ng-app="csChallengeApp" ng-controller="ChallengeCtrl">
-    <h4>ExistingChallengeViewModel</h4>
-    <hr />
-
 
     <style>
         .challenge-buttons {
-            width: 500px;
+            width: 400px;
             display: block;
             position: relative;
+            margin-bottom: 10px;
         }
 
             .challenge-buttons button {
-                width: 200px;
+                width: 170px;
             }
 
             .challenge-buttons .btn-success {
-                position: relative;
-                left: 0;
+                float: left;
             }
 
             .challenge-buttons .btn-danger {
-                position: relative;
-                right: 0;
+                float: right;
+            }
+
+            .challenge-buttons h4 {
+                text-align: center;
             }
     </style>
 
     <div class="challenge-buttons">
-        <button class="btn btn-success" ng-click="accept()">Accept</button>
-        <button class="btn btn-danger" ng-click="decline()">Decline</button>
+        <div style="height: 50px;">
+            <button class="btn btn-success" ng-click="accept()">Accept</button>
+            <button class="btn btn-danger" ng-click="decline()">Decline</button>
+        </div>
+
+        <div style="margin-top: 10px;">
+            <h4 ng-show="challengeAccepted !== true && challengeAccepted !== false">Make your decison.</h4>
+            <h4 ng-show="challengeAccepted === true">Challenge Accepted!</h4>
+            <h4 ng-show="challengeAccepted === false">Challenge Declined...</h4>
+        </div>
     </div>
 
-    <div>
-        <h4 ng-show="challengeAccepted === true">Challenge Accepted!</h4>
-        <h4 ng-show="challengeAccepted === false">Challenge Declined...</h4>
-    </div>
-    
     @using (Html.BeginForm())
     {
         @Html.AntiForgeryToken()
 
         @Html.HiddenFor(model => model.Id)
 
-        <input type="checkbox" name="Accepted" ng-model="challengeAccepted" />
+        <input class="check-box"
+               data-val="true"
+               data-val-required="The Accepted field is required."
+               id="Accepted" name="Accepted"
+               type="checkbox" value="true"
+               ng-checked="challengeAccepted" style="display: none;">
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Submit" class="btn btn-default" />
-            </div>
-        </div>
+        <input type="submit" value="Submit" class="btn btn-default" />
     }
-</div>
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
 </div>
 
 @section Scripts {

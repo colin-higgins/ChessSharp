@@ -12,7 +12,7 @@
 
     <div>
         <div>
-            <select>
+            <select ng-model="gameId">
                 <option value="0">Please select a game...</option>
                 @foreach (var item in Model)
                 {
@@ -21,10 +21,10 @@
                     </option>
                 }
             </select>
-            <button>Change Game</button>
+            <button ng-click="getGame()" class="btn-info">Change Game</button>
         </div>
         <div>
-            @Html.ActionLink("Challenge Someone", "Challenge")
+            @Html.ActionLink("Challenge Someone", "Make", "Challenge")
         </div>
     </div>
 
