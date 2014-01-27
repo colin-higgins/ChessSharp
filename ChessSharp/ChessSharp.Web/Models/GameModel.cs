@@ -12,12 +12,12 @@ namespace ChessSharp.Web.Models
     {
         public long GameId { get; set; }
         public Board Board { get; set; }
-        public int PlayerLightId { get; set; }
-        public int PlayerDarkId { get; set; }
-        public int LightScore { get; private set; }
-        public int DarkScore { get; private set; }
-        public int MoveCount { get; private set; }
-        public ICollection<Move> Moves { get; private set; }
+        public Player PlayerLight { get; set; }
+        public Player PlayerDark { get; set; }
+        public int LightScore { get; set; }
+        public int DarkScore { get; set; }
+        public int MoveCount { get; set; }
+        public List<Move> Moves { get; set; }
 
         public GameModel()
         {

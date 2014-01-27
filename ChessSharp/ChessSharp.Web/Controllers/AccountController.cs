@@ -85,10 +85,6 @@ namespace ChessSharp.Web.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    var repository = new PlayerRepository(_unitOfWork);
-                    repository.AddFromUser(user);
-                    _unitOfWork.Commit();
-
                     await SignInAsync(user, isPersistent: false);
                     return RedirectToAction("Index", "Home");
                 }

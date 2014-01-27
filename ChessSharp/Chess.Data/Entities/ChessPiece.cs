@@ -5,19 +5,6 @@ using Chess.Data.Enum;
 
 namespace Chess.Data.Entities
 {
-    internal class Piece : ChessPiece
-    {
-        public override IEnumerable<Move> GetValidMoves()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public override bool IsLegalMove(Square[][] board, Move move, IEnumerable<Move> pastMoves = null)
-        {
-            throw new System.NotImplementedException();
-        }
-    }
-
     public abstract class ChessPiece : IPiece, IModifiable
     {
         [Key]

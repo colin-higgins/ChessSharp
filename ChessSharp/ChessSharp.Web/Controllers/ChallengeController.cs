@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
+using Chess.Data;
 using Chess.Data.Entities;
 using Chess.Data.Enum;
 using ChessSharp.Web.Models;
@@ -15,7 +16,7 @@ namespace ChessSharp.Web.Controllers
         public ActionResult Make()
         {
             if (CurrentPlayer == null)
-                return RedirectToAction("RegisterPlayer", "Home", new { actionName = "Challenge" });
+                return RedirectToAction("RegisterPlayer", "Home", new { actionName = "Make", controllerName = "Challenge" });
 
             var playersToChallenge = UnitOfWork.All<Player>(p => p.PlayerId != CurrentPlayer.PlayerId);
 
@@ -124,13 +125,24 @@ namespace ChessSharp.Web.Controllers
             var challenge = UnitOfWork.Find<Challenge>(challengeId);
             if (accepted)
             {
+                var board = new Board();
+                var squares = board.Squares.SelectMany(s => s);
+
                 var game = new Game
                 {
                     DarkPlayer = challenge.DarkPlayer,
                     LightPlayer = challenge.LightPlayer,
                     Name = challenge.Title,
-                    Challenge = challenge
+                    Challenge = challenge,
                 };
+
+                foreach (var square in squares)
+                {
+                    square.Game = game;
+                    square.ChessPiece = (ChessPiece) square.ChessPiece;
+                    UnitOfWork.Add(square);
+                }
+
                 UnitOfWork.Add(game);
             }
             challenge.Accepted = accepted;

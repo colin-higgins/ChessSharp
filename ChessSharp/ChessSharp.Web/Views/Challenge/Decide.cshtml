@@ -35,7 +35,15 @@
                 text-align: center;
             }
     </style>
-
+    
+    <div>
+        <h3>
+            Challenge from @(Model.Opponent.DisplayName): @Model.ChallengeTitle
+        </h3>
+        <h4>
+            Your opponent's team: @Model.OpponentTeam.ToString()
+        </h4>
+    </div>
     <div class="challenge-buttons">
         <div style="height: 50px;">
             <button class="btn btn-success" ng-click="accept()">Accept</button>

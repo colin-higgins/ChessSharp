@@ -74,6 +74,12 @@
     <Compile Include="Entities\ChessUser.cs" />
     <Compile Include="ChessContext.cs" />
     <Compile Include="Entities\Challenge.cs" />
+    <Compile Include="Entities\Piece\Bishop.cs" />
+    <Compile Include="Entities\Piece\King.cs" />
+    <Compile Include="Entities\Piece\Knight.cs" />
+    <Compile Include="Entities\Piece\Pawn.cs" />
+    <Compile Include="Entities\Piece\Queen.cs" />
+    <Compile Include="Entities\Piece\Rook.cs" />
     <Compile Include="Entities\Player.cs" />
     <Compile Include="Entities\Role.cs" />
     <Compile Include="InMemoryUnitOfWork.cs" />

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Chess.Data;
 using Chess.Data.Entities;
 
-namespace Chess.Domain.Piece
+namespace Chess.Data.Piece
 {
     public class King : ChessPiece
     {

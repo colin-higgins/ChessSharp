@@ -1,6 +1,6 @@
 ﻿using Chess.Data.Entities;
 using Chess.Data.Enum;
-using Chess.Domain.Piece;
+using Chess.Data.Piece;
 
 namespace Chess.Domain
 {

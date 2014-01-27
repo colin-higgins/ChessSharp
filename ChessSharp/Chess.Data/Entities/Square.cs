@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Chess.Data.Entities
 {
-    public class Square
+    public class Square : IModifiable
     {
         [Key]
         public long SquareId { get; set; }

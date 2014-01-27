@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Chess.Data;
 using Chess.Data.Entities;
 
-namespace Chess.Domain.Piece
+namespace Chess.Data.Piece
 {
-    public class Bishop : ChessPiece
+    public class Rook : ChessPiece
     {
-        public override IEnumerable<Move> GetValidMoves()
+        public override System.Collections.Generic.IEnumerable<Move> GetValidMoves()
         {
             throw new System.NotImplementedException();
         }
@@ -15,7 +15,7 @@ namespace Chess.Domain.Piece
         {
             if (AttackingSameTeam(board, move))
                 return false;
-            if (Math.Abs(move.RowChange) != Math.Abs(move.ColumnChange))
+            if (move.RowChange != 0 && move.ColumnChange != 0)
                 return false;
             if (HasCollision(board, move))
                 return false;

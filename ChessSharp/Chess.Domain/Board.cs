@@ -4,7 +4,7 @@ using System.IO;
 using Chess.Data.Entities;
 using Chess.Data.Enum;
 using System.Linq;
-using Chess.Domain.Piece;
+using Chess.Data.Piece;
 
 namespace Chess.Data
 {

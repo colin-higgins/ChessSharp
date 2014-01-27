@@ -5,7 +5,7 @@ using Chess.Data;
 using Chess.Data.Entities;
 using Chess.Data.Enum;
 
-namespace Chess.Domain.Piece
+namespace Chess.Data.Piece
 {
     public class Pawn : ChessPiece
     {
