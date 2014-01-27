@@ -3,7 +3,7 @@
     public class PlayerViewModel
     {
         public string PlayerId { get; set; }
-        public string Name { get; set; }
+        public string DisplayName { get; set; }
 
         public int Rank { get; set; }
         public int Wins { get; set; }

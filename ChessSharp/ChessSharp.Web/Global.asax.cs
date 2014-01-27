@@ -5,6 +5,7 @@ using System.Web.Optimization;
 using System.Web.Routing;
 using Chess.Data;
 using Chess.Data.Entities;
+using Chess.Data.Piece;
 using Chess.Domain;
 using ChessSharp.Web.Models;
 
@@ -32,24 +33,25 @@ namespace ChessSharp.Web
 
         public void AutoMapperBootstrapper()
         {
+            AutoMapper.Mapper.CreateMap<Rook, ChessPieceViewModel>();
+            AutoMapper.Mapper.CreateMap<Bishop, ChessPieceViewModel>();
+            AutoMapper.Mapper.CreateMap<Knight, ChessPieceViewModel>();
+            AutoMapper.Mapper.CreateMap<Queen, ChessPieceViewModel>();
+            AutoMapper.Mapper.CreateMap<King, ChessPieceViewModel>();
+            AutoMapper.Mapper.CreateMap<Pawn, ChessPieceViewModel>();
+            AutoMapper.Mapper.CreateMap<ChessPiece, ChessPieceViewModel>();
 
-            AutoMapper.Mapper.CreateMap<BoardViewModel, Board>();
-            AutoMapper.Mapper.CreateMap<Board, BoardViewModel>();
-
-            AutoMapper.Mapper.CreateMap<PlayerViewModel, Player>();
             AutoMapper.Mapper.CreateMap<Player, PlayerViewModel>();
 
-            AutoMapper.Mapper.CreateMap<SquareViewModel, Square>();
             AutoMapper.Mapper.CreateMap<Square, SquareViewModel>();
 
             AutoMapper.Mapper.CreateMap<Game, GameModel>();
             AutoMapper.Mapper.CreateMap<Game, ActiveGameViewModel>();
 
-            AutoMapper.Mapper.CreateMap<ChessPieceViewModel, ChessPiece>();
-            AutoMapper.Mapper.CreateMap<ChessPiece, ChessPieceViewModel>();
-
             AutoMapper.Mapper.CreateMap<Challenge, ExistingChallengeViewModel>();
             AutoMapper.Mapper.CreateMap<Challenge, CreateChallengeViewModel>();
+
+            AutoMapper.Mapper.CreateMap<Board, BoardViewModel>();
         }
 
         class ChessInitializer : DropCreateDatabaseIfModelChanges<ChessContext>

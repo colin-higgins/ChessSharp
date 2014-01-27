@@ -26,11 +26,7 @@ namespace ChessSharp.Web.Controllers
 
             var model = new CreateChallengeViewModel
             {
-                Players = playersToChallenge.Select(p => new PlayerViewModel()
-                {
-                    Name = p.DisplayName,
-                    PlayerId = p.PlayerId.ToString(CultureInfo.InvariantCulture)
-                }).ToList(),
+                Players = playersToChallenge.Select(AutoMapper.Mapper.Map<PlayerViewModel>).ToList(),
                 CurrentChallenges = currentChallenges.Select(c => new ChallengeViewModel
                 {
                     Accepted = c.Accepted.HasValue ? c.Accepted.Value : false,

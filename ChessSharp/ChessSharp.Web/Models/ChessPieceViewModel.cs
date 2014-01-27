@@ -2,7 +2,7 @@
 
 namespace ChessSharp.Web.Models
 {
-    public abstract class ChessPieceViewModel
+    public class ChessPieceViewModel
     {
         public int ChessPieceId { get; set; }
         public long GameId { get; set; }

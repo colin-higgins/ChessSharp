@@ -47,7 +47,7 @@ namespace ChessSharp.Web.Controllers
 
             var model = GetGameModel(game);
 
-            return Json(game, JsonRequestBehavior.AllowGet);
+            return Json(model, JsonRequestBehavior.AllowGet);
         }
 
         public GameModel GetGameModel(Game game)
@@ -87,7 +87,7 @@ namespace ChessSharp.Web.Controllers
                 foreach (var square in missingSquares)
                 {
                     square.Game = game;
-                    square.ChessPiece = (ChessPiece) square.ChessPiece;
+                    square.ChessPiece = square.ChessPiece;
                     UnitOfWork.Add(square);
                 }
 
