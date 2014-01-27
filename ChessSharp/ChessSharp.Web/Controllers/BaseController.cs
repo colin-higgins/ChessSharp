@@ -55,9 +55,11 @@ namespace ChessSharp.Web.Controllers
                 UnitOfWork
                 .All<ChessUser>(u => String.Equals(u.UserName, username, StringComparison.CurrentCultureIgnoreCase))
                 .FirstOrDefault();
-            CurrentPlayer = UnitOfWork
-                .All<Player>(player => CurrentUser == player.ChessUser)
-                .FirstOrDefault();
+
+            if (CurrentUser != null)
+                CurrentPlayer = UnitOfWork
+                    .All<Player>(player => CurrentUser == player.ChessUser)
+                    .FirstOrDefault();
         }
     }
 }
