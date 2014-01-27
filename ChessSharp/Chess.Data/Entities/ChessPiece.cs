@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using Chess.Data.Enum;
 
 namespace Chess.Data.Entities
@@ -22,7 +21,6 @@ namespace Chess.Data.Entities
         public Team Team { get; set; }
         public PieceType PieceType { get; set; }
 
-        [ForeignKey("GameId")]
         public virtual Game Game { get; set; }
 
         public PieceType GetPieceType()

@@ -55,6 +55,13 @@ namespace Chess.Data
 
         private static Square NewSquare(int column, int row, ChessPiece piece)
         {
+            if (piece != null)
+            {
+                piece.CurrentColumn = column;
+                piece.CurrentRow = row;
+                piece.Alive = true;
+            }
+
             return new Square { Column = column, Row = row, ChessPiece = piece };
         }
 
