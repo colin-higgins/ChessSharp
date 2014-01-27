@@ -5,6 +5,7 @@ using System.Web.Mvc;
 using Chess.Data;
 using Chess.Data.Entities;
 using Chess.Data.Enum;
+using Chess.Domain;
 using ChessSharp.Web.Models;
 
 namespace ChessSharp.Web.Controllers

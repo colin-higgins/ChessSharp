@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Chess.Data.Entities;
 using Chess.Data.Enum;
-using System.Linq;
 using Chess.Data.Piece;
 
-namespace Chess.Data
+namespace Chess.Domain
 {
     public class Board
     {

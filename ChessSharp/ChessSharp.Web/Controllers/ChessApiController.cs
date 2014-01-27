@@ -3,6 +3,7 @@ using System.Linq;
 using System.Web.Mvc;
 using Chess.Data;
 using Chess.Data.Entities;
+using Chess.Domain;
 using ChessSharp.Web.Models;
 
 namespace ChessSharp.Web.Controllers
@@ -18,12 +19,14 @@ namespace ChessSharp.Web.Controllers
         {
             var game = GetChessGame(id);
 
+            var gameManager = new GameManager(game);
+
             if (game == null)
                 throw new ArgumentException(String.Format("Game {0} does not exist.", id));
 
             var model = GetGameModel(game);
 
-            var success = model.MovePiece(move);
+            var success = gameManager.MovePiece(move);
 
             if (success)
                 return Json(model, JsonRequestBehavior.AllowGet);
@@ -51,6 +54,32 @@ namespace ChessSharp.Web.Controllers
         {
             var squares = game.Squares.ToArray();
 
+            squares = RepairMissingSquares(game, squares);
+
+            var moves = game.Moves.ToList();
+            var board = new Board(squares);
+
+            var boardModel = AutoMapper.Mapper.Map<BoardViewModel>(board);
+            var darkPlayerModel = AutoMapper.Mapper.Map<PlayerViewModel>(game.DarkPlayer);
+            var lightPlayerModel = AutoMapper.Mapper.Map<PlayerViewModel>(game.LightPlayer);
+
+            var gameModel = new GameModel()
+            {
+                Board = boardModel,
+                DarkScore = game.DarkScore,
+                LightScore = game.LightScore,
+                GameId = game.GameId,
+                MoveCount = game.MoveCount,
+                PlayerDark = darkPlayerModel,
+                PlayerLight = lightPlayerModel,
+                Moves = moves
+            };
+
+            return gameModel;
+        }
+
+        private Square[] RepairMissingSquares(Game game, Square[] squares)
+        {
             if (!squares.Any())
             {
                 var missingSquares = new Board().Squares.SelectMany(s => s).ToArray();
@@ -58,30 +87,14 @@ namespace ChessSharp.Web.Controllers
                 foreach (var square in missingSquares)
                 {
                     square.Game = game;
-                    square.ChessPiece = (ChessPiece)square.ChessPiece;
+                    square.ChessPiece = (ChessPiece) square.ChessPiece;
                     UnitOfWork.Add(square);
                 }
 
                 UnitOfWork.Commit();
                 squares = missingSquares;
             }
-
-            var moves = game.Moves.ToList();
-            var board = new Board(squares);
-
-            var gameModel = new GameModel()
-            {
-                Board = board,
-                DarkScore = game.DarkScore,
-                LightScore = game.LightScore,
-                GameId = game.GameId,
-                MoveCount = game.MoveCount,
-                PlayerDark = game.DarkPlayer,
-                PlayerLight = game.LightPlayer,
-                Moves = moves
-            };
-
-            return gameModel;
+            return squares;
         }
 
         private Game GetChessGame(long id)

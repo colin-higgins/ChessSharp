@@ -58,6 +58,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GameManager.cs" />
     <Compile Include="Board.cs" />
     <Compile Include="MoveGetter.cs" />
     <Compile Include="Repositories\PlayerRepository.cs" />
