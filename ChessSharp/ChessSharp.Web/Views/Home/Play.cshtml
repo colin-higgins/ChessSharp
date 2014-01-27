@@ -8,25 +8,8 @@
 
 @Scripts.Render("~/bundles/play-angular")
 
-<div class="chess-container" ng-app="csPlayChessApp" ng-controller="GameSelectionCtrl">
+<div class="chess-container" ng-app="csPlayChessApp">
 
-    <div>
-        <div>
-            <select ng-model="gameId">
-                <option value="0">Please select a game...</option>
-                @foreach (var item in Model)
-                {
-                    <option value="@(item.GameId)">
-                        @(String.Format("{0} - {1} {2} vs {3}", item.GameId, item.Name, item.LightPlayerName, item.DarkPlayerName))
-                    </option>
-                }
-            </select>
-            <button ng-click="getGame()" class="btn-info">Change Game</button>
-        </div>
-        <div>
-            @Html.ActionLink("Challenge Someone", "Make", "Challenge")
-        </div>
-    </div>
 
     <div ng-view>
     </div>

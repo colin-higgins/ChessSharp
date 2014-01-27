@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Web.Mvc;
-using Chess.Data;
 using Chess.Data.Entities;
 using Chess.Domain;
 using ChessSharp.Web.Models;
@@ -13,6 +12,15 @@ namespace ChessSharp.Web.Controllers
         public ActionResult Index()
         {
             throw new NotImplementedException("This method has not been implemented.");
+        }
+
+        public ActionResult GetActiveGames()
+        {
+            var games = UnitOfWork.All<Game>(g => g.DarkPlayer == CurrentPlayer || g.LightPlayer == CurrentPlayer);
+
+            var gameModels = games.Select(AutoMapper.Mapper.Map<ActiveGameViewModel>);
+
+            return Json(gameModels, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult MakeMove(long id, Move move)

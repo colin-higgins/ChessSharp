@@ -1,7 +1,29 @@
 ﻿
 chessSharpPlay.controller('PlayChessCtrl', ['$scope', 'gameApi', function ($scope, gameApi) {
 
-    var getGame = function (gameId) {
+    $scope.gameId = 0;
+
+    var getCurrentGameList = function () {
+        var onSuccess = function (games) {
+            
+            for (var i = 0; i < games.length; i++) {
+                var g = games[i];
+                g.display = g.GameId + ' - ' + g.Name + ' - ' + g.LightPlayerName + ' vs ' + g.DarkPlayerName;
+            }
+
+            $scope.currentGames = games;
+            $scope.busy = false;
+        };
+        var onFail = function (data) {
+            $scope.busy = false;
+        };
+        $scope.busy = true;
+        gameApi.getActiveGames(onSuccess, onFail);
+    };
+
+    getCurrentGameList();
+
+    $scope.getGame = function () {
         var onSuccess = function (game) {
             $scope.game = game;
             $scope.busy = false;
@@ -10,10 +32,8 @@ chessSharpPlay.controller('PlayChessCtrl', ['$scope', 'gameApi', function ($scop
             $scope.busy = false;
         };
         $scope.busy = true;
-        gameApi.getGame(gameId, onSuccess, onFail);
+        gameApi.getGame($scope.gameId, onSuccess, onFail);
     };
-
-    getGame();
 
     var tryMakeMove = function (move) {
         var onSuccess = function (game) {

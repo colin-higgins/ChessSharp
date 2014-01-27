@@ -8,9 +8,9 @@
         display: inline-block;
     }
 
-        .square.dark {
-            background-color: #888888;
-        }
+    .square.dark {
+        background-color: #888888;
+    }
 
     .ready {
         background-color: yellow;
@@ -36,6 +36,14 @@
         height: 70px;
     }
 </style>
+
+<div>
+    <div>
+        <select ng-model="gameId" ng-options="g.display for g in currentGames">
+        </select>
+        <button ng-click="getGame()" class="btn-info">Change Game</button>
+    </div>
+</div>
 
 <div class="chessbox" ng-show="game.gameId > 0">
     <table class="chessboard">

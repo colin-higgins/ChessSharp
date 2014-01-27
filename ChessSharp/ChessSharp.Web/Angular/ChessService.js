@@ -69,8 +69,17 @@ chessSharpPlay.factory('gameApi', ['$http', function ($http) {
                 onFailure(data);
             });
         },
-        getActiveGames: function (playerId) {
-
+        getActiveGames: function (onSuccess, onFailure) {
+            $http({
+                method: 'GET',
+                url: '/ChessApi/GetActiveGames/'
+            })
+            .success(function (data) {
+                onSuccess(data);
+            })
+            .error(function (data) {
+                onFailure(data);
+            });
         },
         makeMove: function (gameId, move, onSuccess, onFailure) {
             $http({
