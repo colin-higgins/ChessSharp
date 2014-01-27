@@ -6,6 +6,11 @@ namespace Chess.Data.Piece
 {
     public class Bishop : ChessPiece
     {
+        public Bishop()
+        {
+            ScoreValue = 300;
+        }
+
         public override IEnumerable<Move> GetValidMoves()
         {
             throw new System.NotImplementedException();

@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using Chess.Data;
 using Chess.Data.Entities;
 
 namespace Chess.Data.Piece
 {
     public class Knight : ChessPiece
     {
+        public Knight()
+        {
+            ScoreValue = 325;
+        }
+
         public override System.Collections.Generic.IEnumerable<Move> GetValidMoves()
         {
             throw new NotImplementedException();

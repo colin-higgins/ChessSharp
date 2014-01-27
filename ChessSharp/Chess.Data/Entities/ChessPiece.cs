@@ -21,8 +21,6 @@ namespace Chess.Data.Entities
         public Team Team { get; set; }
         public PieceType PieceType { get; set; }
 
-        public virtual Game Game { get; set; }
-
         public PieceType GetPieceType()
         {
             return PieceType;
