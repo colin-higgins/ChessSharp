@@ -1,7 +1,7 @@
 ﻿
 chessSharpPlay.controller('PlayChessCtrl', ['$scope', 'gameApi', function ($scope, gameApi) {
 
-    $scope.gameId = 0;
+    $scope.selectedGame = null;
 
     var getCurrentGameList = function () {
         var onSuccess = function (games) {
@@ -32,7 +32,7 @@ chessSharpPlay.controller('PlayChessCtrl', ['$scope', 'gameApi', function ($scop
             $scope.busy = false;
         };
         $scope.busy = true;
-        gameApi.getGame($scope.gameId, onSuccess, onFail);
+        gameApi.getGame($scope.selectedGame.GameId, onSuccess, onFail);
     };
 
     var tryMakeMove = function (move) {

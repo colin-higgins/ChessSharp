@@ -39,13 +39,13 @@
 
 <div>
     <div>
-        <select ng-model="gameId" ng-options="g.display for g in currentGames">
+        <select ng-model="selectedGame" ng-options="g.display for g in currentGames">
         </select>
         <button ng-click="getGame()" class="btn-info">Change Game</button>
     </div>
 </div>
 
-<div class="chessbox" ng-show="game.gameId > 0">
+<div class="chessbox" ng-show="game.GameId > 0">
     <table class="chessboard">
         <tr ng-repeat="row in game.Board.Squares" class="row">
             <td ng-repeat="square in row"

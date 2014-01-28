@@ -24,17 +24,18 @@ namespace Chess.Domain
 
             var orderedSquares = squares.OrderBy(s => s.Row).ThenBy(s => s.Column);
 
-            Squares = new[]
-                {
-                    orderedSquares.Take(8).ToArray(),
-                    orderedSquares.Take(8).ToArray(),
-                    orderedSquares.Take(8).ToArray(),
-                    orderedSquares.Take(8).ToArray(),
-                    orderedSquares.Take(8).ToArray(),
-                    orderedSquares.Take(8).ToArray(),
-                    orderedSquares.Take(8).ToArray(),
-                    orderedSquares.Take(8).ToArray()
-                };
+            var row = new List<Square>();
+            var tempSquares = new List<Square[]>();
+
+            foreach (var square in orderedSquares)
+            {
+                row.Add(square);
+                if (row.Count() != 8) continue;
+                tempSquares.Add(row.ToArray());
+                row = new List<Square>();
+            }
+
+            Squares = tempSquares.ToArray();
         }
 
         public Board()
