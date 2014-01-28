@@ -9,9 +9,13 @@ namespace ChessSharp.Web.Models
         public BoardViewModel Board { get; set; }
         public PlayerViewModel PlayerLight { get; set; }
         public PlayerViewModel PlayerDark { get; set; }
+
+        public string Name { get; set; }
         public int LightScore { get; set; }
         public int DarkScore { get; set; }
         public int MoveCount { get; set; }
+        public bool IsCurrentPlayersMove { get; set; }
+
         public List<Move> Moves { get; set; }
 
         public GameModel()

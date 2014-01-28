@@ -1,0 +1,71 @@
+﻿.game-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 5px;
+    background-color: #000;
+    z-index: 999;
+    margin: 0;
+    overflow: hidden;
+}
+
+    .game-bar .select {
+        margin-left: 5px;
+        margin-right: 20px;
+        float: left;
+        display: inline-block;
+    }
+
+    .game-bar .current {
+        float: left;
+        display: inline-block;
+        color: #fff;
+    }
+
+    .game-bar .commit {
+        float: right;
+        margin-right: 3px;
+        height: 80%;
+    }
+
+.square {
+    width: 60px;
+    height: 60px;
+    padding: 0;
+    margin: 0;
+    background-color: #fff;
+    display: inline-block;
+}
+
+    .square.dark {
+        background-color: #888;
+    }
+
+.ready {
+    background-color: yellow;
+}
+
+.destination {
+    background-color: green;
+}
+
+.chessboard {
+    margin: 10px;
+}
+
+.chessbox {
+    padding-top: 15px;
+    clear: both;
+    display: inline-block;
+    margin: auto;
+}
+
+.chessboard img {
+    width: inherit;
+    height: auto;
+}
+
+.chessboard .square img.empty {
+    display: none;
+}

@@ -1,51 +1,18 @@
-﻿<style>
+﻿<link href="../../Content/ChessBoard.css" rel="stylesheet" />
 
-    .square {
-        width: 80px;
-        height: 80px;
-        padding: 0;
-        margin: 0;
-        display: inline-block;
-    }
-
-    .square.dark {
-        background-color: #888888;
-    }
-
-    .ready {
-        background-color: yellow;
-    }
-
-    .destination {
-        background-color: green;
-    }
-
-    .chessboard {
-        float: left;
-        margin: 10px;
-    }
-
-    .chessbox {
-        padding-top: 15px;
-    }
-
-    button.commit {
-        float: left;
-        margin: 10px;
-        width: 200px;
-        height: 70px;
-    }
-</style>
-
-<div>
-    <div>
-        <select ng-model="selectedGame" ng-options="g.display for g in currentGames">
-        </select>
-        <button ng-click="getGame()" class="btn-info">Change Game</button>
+<div class="game-bar">
+    <div class="select">
+        <select ng-model="selectedGame" ng-options="g.display for g in currentGames"></select>
+        <button ng-click="getGame()" class="btn btn-primary btn-sm">Change Game</button>
     </div>
+    <div class="current">
+        Playing {{game.Name}} - {{game.PlayerLight.DisplayName}}(Light) VS {{game.PlayerDark.DisplayName}}(Dark)
+    </div>
+    <button class="commit btn btn-success" ng-disabled="!canMakeMove()" ng-click="MakeMove()">Commit Move</button>
 </div>
 
 <div class="chessbox" ng-show="game.GameId > 0">
+
     <table class="chessboard">
         <tr ng-repeat="row in game.Board.Squares" class="row">
             <td ng-repeat="square in row"
@@ -56,14 +23,13 @@
         </tr>
     </table>
 
-    <button class="commit btn btn-lg btn-success" ng-disabled="busy" ng-click="MakeMove()">Commit Move</button>
 </div>
 
-<div>
+<div ng-hide="game.GameId > 0">
     <h3>Please Select a Game</h3>
     <p>
-        If you do not have any current games: 
-        You may <a href="/Challenge">challenge</a> another player, 
+        If you do not have any current games:
+        You may <a href="/Challenge">challenge</a> another player,
         or accept any challenges currently extended to you.
     </p>
 </div>

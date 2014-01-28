@@ -58,6 +58,16 @@ namespace ChessSharp.Web.Controllers
             return Json(model, JsonRequestBehavior.AllowGet);
         }
 
+        private bool IsPlayersMove(Game game, Player player)
+        {
+            var playerId = CurrentPlayer.PlayerId;
+            if (playerId == game.LightPlayer.PlayerId && game.MoveCount % 2 == 0)
+                return true;
+            if (playerId == game.DarkPlayer.PlayerId && game.MoveCount % 2 == 1)
+                return true;
+            return false;
+        }
+
         public GameModel GetGameModel(Game game)
         {
             var squares = game.Squares.ToArray();
@@ -74,13 +84,15 @@ namespace ChessSharp.Web.Controllers
             var gameModel = new GameModel()
             {
                 Board = boardModel,
+                Name = game.Name,
                 DarkScore = game.DarkScore,
                 LightScore = game.LightScore,
                 GameId = game.GameId,
                 MoveCount = game.MoveCount,
                 PlayerDark = darkPlayerModel,
                 PlayerLight = lightPlayerModel,
-                Moves = moves
+                Moves = moves,
+                IsCurrentPlayersMove = IsPlayersMove(game, CurrentPlayer)
             };
 
             return gameModel;

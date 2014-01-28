@@ -214,8 +214,8 @@
     <Content Include="Angular\Templates\PlayChess.html" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\ChessBoard.css" />
     <Content Include="Content\Chess.css" />
-    <Content Include="Content\OldSiteStyles.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />

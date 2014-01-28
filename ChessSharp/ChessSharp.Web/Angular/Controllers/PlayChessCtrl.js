@@ -1,7 +1,16 @@
 ﻿
 chessSharpPlay.controller('PlayChessCtrl', ['$scope', 'gameApi', function ($scope, gameApi) {
 
-    $scope.selectedGame = null;
+
+    var setStoredGame = function (game) {
+        localStorage["_userGame"] = JSON.stringify(game);
+    };
+    var getStoredGame = function () {
+        var storedGameString = localStorage["_userGame"];
+        if (storedGameString)
+            return JSON.parse(storedGameString);
+        return null;
+    };
 
     var getCurrentGameList = function () {
         var onSuccess = function (games) {
@@ -22,7 +31,7 @@ chessSharpPlay.controller('PlayChessCtrl', ['$scope', 'gameApi', function ($scop
     };
 
     getCurrentGameList();
-
+    
     $scope.getGame = function () {
         var onSuccess = function (game) {
             $scope.game = game;
@@ -32,7 +41,23 @@ chessSharpPlay.controller('PlayChessCtrl', ['$scope', 'gameApi', function ($scop
             $scope.busy = false;
         };
         $scope.busy = true;
+        setStoredGame($scope.selectedGame);
         gameApi.getGame($scope.selectedGame.GameId, onSuccess, onFail);
+    };
+
+    $scope.selectedGame = getStoredGame() || null;
+    if ($scope.selectedGame) {
+        $scope.getGame();
+    }
+
+    $scope.canMakeMove = function () {
+        if (!$scope.readyToMove)
+            return false;
+        if (!$scope.destination)
+            return false;
+        if ($scope.busy)
+            return false;
+        return true;
     };
 
     var tryMakeMove = function (move) {
