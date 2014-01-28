@@ -68,4 +68,21 @@
 
 .chessboard .square img.empty {
     display: none;
+    border-bottom: thin solid black;
+    border-left: thin solid black;
+    border-right: thin solid black;
+    -ms-border-radius: 3px;
+    border-radius: 3px;
+}
+
+.alert-bar {
+    height: 25px;
+    margin: 0;
+    padding: 0;
+    padding-top: 3px;
+    border-top: thin solid black;
+    border-left: thin solid black;
+    border-right: thin solid black;
+    -ms-border-radius: 3px;
+    border-radius: 3px;
 }

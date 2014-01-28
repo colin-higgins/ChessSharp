@@ -9,11 +9,31 @@ namespace ChessSharp.Web.Controllers
 {
     public class ChessApiController : BaseController
     {
+        public class JsonErrorHandlerAttribute : FilterAttribute, IExceptionFilter
+        {
+            public void OnException(ExceptionContext filterContext)
+            {
+                filterContext.ExceptionHandled = true;
+                filterContext.HttpContext.Response.StatusCode = 500;
+                filterContext.Result = new JsonResult
+                {
+                    Data = new { 
+                        success = false, error = 
+                        filterContext.Exception.ToString(), 
+                        message = filterContext.Exception.Message 
+                    },
+                    JsonRequestBehavior = JsonRequestBehavior.AllowGet
+                };
+            }
+        }
+
+        [JsonErrorHandler]
         public ActionResult Index()
         {
             throw new NotImplementedException("This method has not been implemented.");
         }
 
+        [JsonErrorHandler]
         public ActionResult GetActiveGames()
         {
             var games = UnitOfWork.All<Game>(g => g.DarkPlayer == CurrentPlayer || g.LightPlayer == CurrentPlayer);
@@ -23,6 +43,7 @@ namespace ChessSharp.Web.Controllers
             return Json(gameModels, JsonRequestBehavior.AllowGet);
         }
 
+        [JsonErrorHandler]
         public ActionResult MakeMove(long id, Move move)
         {
             var game = GetChessGame(id);
@@ -32,20 +53,27 @@ namespace ChessSharp.Web.Controllers
             if (game == null)
                 throw new ArgumentException(String.Format("Game {0} does not exist.", id));
 
-            var model = GetGameModel(game);
-
             var success = gameManager.MovePiece(move);
 
             if (success)
+            {
+                UnitOfWork.Commit();
+
+                var model = GetGameModel(game);
+
                 return Json(model, JsonRequestBehavior.AllowGet);
+            }
 
             var start = move.StartColumn + ", " + move.StartRow;
             var end = move.EndColumn + ", " + move.EndRow;
 
-            throw new ArgumentException(String.Format("Moving {0} to {1} is illegal for game {2}",
-                start, end, id));
+            var reasonForFailure = "Reason should be here...";
+
+            throw new ArgumentException(String.Format("Moving {0} to {1} is illegal. {2}",
+                start, end, "Reason goes here."));
         }
 
+        [JsonErrorHandler]
         public ActionResult GetGame(long id)
         {
             var game = GetChessGame(id);
@@ -68,7 +96,7 @@ namespace ChessSharp.Web.Controllers
             return false;
         }
 
-        public GameModel GetGameModel(Game game)
+        private GameModel GetGameModel(Game game)
         {
             var squares = game.Squares.ToArray();
 

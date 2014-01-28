@@ -1,6 +1,11 @@
 ﻿
 chessSharpPlay.controller('PlayChessCtrl', ['$scope', 'gameApi', function ($scope, gameApi) {
 
+    var playerCanMove = function() {
+        var canMove = $scope.game
+                        && $scope.game.IsCurrentPlayersMove;
+        return canMove;
+    };
 
     var setStoredGame = function (game) {
         localStorage["_userGame"] = JSON.stringify(game);
@@ -62,13 +67,13 @@ chessSharpPlay.controller('PlayChessCtrl', ['$scope', 'gameApi', function ($scop
 
     var tryMakeMove = function (move) {
         var onSuccess = function (game) {
-            $scope.game = game;
             $scope.readyToMove = null;
             $scope.destination = null;
             $scope.busy = false;
+            $scope.getGame();
         };
         var onFailure = function(error) {
-            $scope.Failure = error;
+            $scope.Failure = error.message;
             $scope.readyToMove = null;
             $scope.destination = null;
             $scope.busy = false;

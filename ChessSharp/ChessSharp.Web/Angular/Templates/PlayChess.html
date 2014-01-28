@@ -12,8 +12,12 @@
 </div>
 
 <div class="chessbox" ng-show="game.GameId > 0">
-
-    <table class="chessboard">
+    <div class="alert-bar">
+        <div ng-show="Failure" class="alert-danger" style="margin:0; padding:0;">
+            {{Failure}}
+        </div>
+    </div>
+    <table class="chessboard" style="margin:0; padding:0;">
         <tr ng-repeat="row in game.Board.Squares" class="row">
             <td ng-repeat="square in row"
                 ng-class="{ 'dark': isDark(square), 'ready': isReady(square), 'destination': isDestination(square) }"
@@ -33,3 +37,4 @@
         or accept any challenges currently extended to you.
     </p>
 </div>
+

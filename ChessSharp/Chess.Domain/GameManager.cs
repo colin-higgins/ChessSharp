@@ -40,8 +40,9 @@ namespace Chess.Domain
 
             piece.Move(_board.Squares, move);
             Game.MoveCount++;
+            var success = !IsKingInCheck(currentTeam);
 
-            return IsKingInCheck(currentTeam);
+            return success;
         }
 
         private bool IsKingInCheck(Team currentTeam)
