@@ -6,7 +6,7 @@ namespace Chess.Data.Entities
     public class Player : IModifiable
     {
         [Key]
-        public long PlayerId { get; set; }
+        public long Id { get; set; }
 
         [MaxLength(30)]
         public string DisplayName { get; set; }

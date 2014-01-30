@@ -28,7 +28,7 @@ namespace ChessSharp.Web.Controllers
             var gamesViewModel = games.Select(g => new ActiveGameViewModel()
             {
                 Id = g.Id,
-                CurrentPlayerId = CurrentPlayer.PlayerId,
+                CurrentPlayerId = CurrentPlayer.Id,
                 DarkPlayerName = g.DarkPlayer.DisplayName,
                 LightPlayerName = g.LightPlayer.DisplayName,
                 Name = g.Name
@@ -50,9 +50,9 @@ namespace ChessSharp.Web.Controllers
 
         private IEnumerable<Game> GetGamesForPlayer()
         {
-            var id = CurrentPlayer.PlayerId;
+            var id = CurrentPlayer.Id;
 
-            var currentGames = UnitOfWork.All<Game>(g => g.DarkPlayer.PlayerId == id || g.LightPlayer.PlayerId == id);
+            var currentGames = UnitOfWork.All<Game>(g => g.DarkPlayer.Id == id || g.LightPlayer.Id == id);
 
             return currentGames.ToList();
         }

@@ -23,6 +23,11 @@
                 width: 170px;
             }
 
+            .challenge-buttons input {
+                width: 100%;
+                max-width: none;
+            }
+
             .challenge-buttons .btn-success {
                 float: left;
             }
@@ -35,7 +40,7 @@
                 text-align: center;
             }
     </style>
-    
+
     <div>
         <h3>
             Challenge from @(Model.Opponent.DisplayName): @Model.ChallengeTitle
@@ -44,34 +49,37 @@
             Your opponent's team: @Model.OpponentTeam.ToString()
         </h4>
     </div>
+    <hr />
+
     <div class="challenge-buttons">
-        <div style="height: 50px;">
-            <button class="btn btn-success" ng-click="accept()">Accept</button>
-            <button class="btn btn-danger" ng-click="decline()">Decline</button>
-        </div>
 
         <div style="margin-top: 10px;">
             <h4 ng-show="challengeAccepted !== true && challengeAccepted !== false">Make your decison.</h4>
             <h4 ng-show="challengeAccepted === true">Challenge Accepted!</h4>
             <h4 ng-show="challengeAccepted === false">Challenge Declined...</h4>
         </div>
+
+        <div style="height: 50px;">
+            <button class="btn btn-success" ng-click="accept()">Accept</button>
+            <button class="btn btn-danger" ng-click="decline()">Decline</button>
+        </div>
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            @Html.HiddenFor(model => model.Id)
+
+            <input class="check-box"
+                   data-val="true"
+                   data-val-required="The Accepted field is required."
+                   id="Accepted" name="Accepted"
+                   type="checkbox" value="true"
+                   ng-checked="challengeAccepted" style="display: none;">
+
+            <input type="submit" value="Submit" class="btn btn-primary" />
+        }
     </div>
-
-    @using (Html.BeginForm())
-    {
-        @Html.AntiForgeryToken()
-
-        @Html.HiddenFor(model => model.Id)
-
-        <input class="check-box"
-               data-val="true"
-               data-val-required="The Accepted field is required."
-               id="Accepted" name="Accepted"
-               type="checkbox" value="true"
-               ng-checked="challengeAccepted" style="display: none;">
-
-        <input type="submit" value="Submit" class="btn btn-default" />
-    }
 </div>
 
 @section Scripts {

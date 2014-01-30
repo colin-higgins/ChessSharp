@@ -2,7 +2,7 @@
 {
     public class PlayerViewModel
     {
-        public string PlayerId { get; set; }
+        public string Id { get; set; }
         public string DisplayName { get; set; }
 
         public int Rank { get; set; }

@@ -90,10 +90,10 @@ namespace ChessSharp.Web.Controllers
 
         private bool IsPlayersMove(Game game, Player player)
         {
-            var playerId = CurrentPlayer.PlayerId;
-            if (playerId == game.LightPlayer.PlayerId && game.MoveCount % 2 == 0)
+            var playerId = CurrentPlayer.Id;
+            if (playerId == game.LightPlayer.Id && game.MoveCount % 2 == 0)
                 return true;
-            if (playerId == game.DarkPlayer.PlayerId && game.MoveCount % 2 == 1)
+            if (playerId == game.DarkPlayer.Id && game.MoveCount % 2 == 1)
                 return true;
             return false;
         }

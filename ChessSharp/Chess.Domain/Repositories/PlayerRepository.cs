@@ -27,7 +27,7 @@ namespace Chess.Domain.Repositories
         {
             var attached = _unitOfWork.Exists(entity);
 
-            if (entity.PlayerId > 0 && !attached)
+            if (entity.Id > 0 && !attached)
                 _unitOfWork.Attach(entity);
             else
                 _unitOfWork.Add(entity);
