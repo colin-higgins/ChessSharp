@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
 namespace Chess.Data.Entities
@@ -27,8 +28,14 @@ namespace Chess.Data.Entities
                         StartRow = square.Row
                     };
 
-                    if (square.ChessPiece.IsLegalMove(board, possibleMove))
-                        return true;
+                    try
+                    {
+                        if (square.ChessPiece.IsLegalMove(board, possibleMove))
+                            return true;
+                    }
+                    catch
+                    {
+                    }
                 }
             return false;
         }

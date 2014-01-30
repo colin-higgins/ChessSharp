@@ -50,7 +50,7 @@ namespace Chess.Data.Entities
             var attacker = GetAttacker(board, move);
             var occupant = GetDestinationPiece(board, move);
 
-            if (occupant == null || attacker == null)
+            if (occupant != null && occupant.Team == attacker.Team)
                 throw new Exception("You may not attack the same team.");
         }
 
@@ -106,7 +106,7 @@ namespace Chess.Data.Entities
         {
             var occupant = GetDestinationPiece(board, move);
 
-            if (occupant != null && occupant.PieceType != PieceType.Empty)
+            if (occupant != null)
             {
                 occupant.Alive = false;
                 occupant.CurrentColumn = null;

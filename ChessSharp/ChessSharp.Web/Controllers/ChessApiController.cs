@@ -154,6 +154,13 @@ namespace ChessSharp.Web.Controllers
             if (game == null)
                 throw new ArgumentException(String.Format("Game {0} does not exist.", id));
 
+            var pieceCaster = new PieceCaster();
+
+            foreach (var square in game.Squares.Where(s => s.ChessPiece != null))
+            {
+                square.ChessPiece = pieceCaster.MapPiece(square.ChessPiece);
+            }
+
             return game;
         }
     }
