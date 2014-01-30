@@ -56,7 +56,7 @@ namespace Chess.Domain
         private void ValidateIsLegalMove(Move move, ChessPiece piece)
         {
             var teamName = Enum.GetName(typeof(Team), piece.Team);
-            var pieceName = Enum.GetName(typeof(Team), piece.Team);
+            var pieceName = Enum.GetName(typeof(PieceType), piece.PieceType);
 
             if (!piece.IsLegalMove(_board.Squares, move))
                 throw new Exception("This is not a legal move for a " + teamName + " " + pieceName + ".");

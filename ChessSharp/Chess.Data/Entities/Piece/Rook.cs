@@ -21,7 +21,7 @@ namespace Chess.Data.Piece
             ValidateNotAttackingSameTeam(board, move);
 
             if (move.RowChange != 0 && move.ColumnChange != 0)
-                throw new Exception("You only move horizontally or vertically with a rook.");
+                throw new Exception("You only move horizontal or vertical with a rook.");
             if (HasCollision(board, move))
                 throw new Exception("There is a piece between you and your destination.");
 

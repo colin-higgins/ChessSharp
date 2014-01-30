@@ -2,7 +2,7 @@
 {
     public class ActiveGameViewModel
     {
-        public long GameId { get; set; }
+        public long Id { get; set; }
         public string Name { get; set; }
         public long CurrentPlayerId { get; set; }
 

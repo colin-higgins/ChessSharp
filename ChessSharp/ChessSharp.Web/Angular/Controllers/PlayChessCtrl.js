@@ -22,7 +22,7 @@ chessSharpPlay.controller('PlayChessCtrl', ['$scope', 'gameApi', function ($scop
             
             for (var i = 0; i < games.length; i++) {
                 var g = games[i];
-                g.display = g.GameId + ' - ' + g.Name + ' - ' + g.LightPlayerName + ' vs ' + g.DarkPlayerName;
+                g.display = g.Id + ' - ' + g.Name + ' - ' + g.LightPlayerName + ' vs ' + g.DarkPlayerName;
             }
 
             $scope.currentGames = games;
@@ -47,7 +47,7 @@ chessSharpPlay.controller('PlayChessCtrl', ['$scope', 'gameApi', function ($scop
         };
         $scope.busy = true;
         setStoredGame($scope.selectedGame);
-        gameApi.getGame($scope.selectedGame.GameId, onSuccess, onFail);
+        gameApi.getGame($scope.selectedGame.Id, onSuccess, onFail);
     };
 
     $scope.selectedGame = getStoredGame() || null;
@@ -79,7 +79,7 @@ chessSharpPlay.controller('PlayChessCtrl', ['$scope', 'gameApi', function ($scop
             $scope.busy = false;
         };
         $scope.busy = true;
-        gameApi.makeMove($scope.game.GameId, move, onSuccess, onFailure);
+        gameApi.makeMove($scope.game.Id, move, onSuccess, onFailure);
     };
 
     $scope.isReady = function(square) {

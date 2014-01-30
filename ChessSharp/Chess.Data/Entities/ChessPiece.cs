@@ -92,6 +92,18 @@ namespace Chess.Data.Entities
 
         public void Move(Square[][] board, Move move)
         {
+            DestroyOccupant(board, move);
+
+            board[move.EndRow][move.EndColumn].ChessPiece = this;
+            board[move.StartRow][move.StartColumn].ChessPiece = null;
+
+            CurrentColumn = move.EndColumn;
+            CurrentRow = move.EndRow;
+            MoveCount++;
+        }
+
+        private void DestroyOccupant(Square[][] board, Move move)
+        {
             var occupant = GetDestinationPiece(board, move);
 
             if (occupant != null && occupant.PieceType != PieceType.Empty)
@@ -100,13 +112,6 @@ namespace Chess.Data.Entities
                 occupant.CurrentColumn = null;
                 occupant.CurrentRow = null;
             }
-
-            board[move.EndRow][move.EndColumn].ChessPiece = this;
-            board[move.StartRow][move.StartColumn].ChessPiece = null;
-
-            CurrentColumn = move.EndRow;
-            CurrentRow = move.EndRow;
-            MoveCount++;
         }
     }
 } 

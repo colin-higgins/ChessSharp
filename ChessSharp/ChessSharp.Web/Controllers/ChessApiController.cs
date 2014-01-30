@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Web.Mvc;
 using Chess.Data.Entities;
+using Chess.Data.Enum;
 using Chess.Domain;
 using ChessSharp.Web.Models;
 
@@ -50,8 +51,9 @@ namespace ChessSharp.Web.Controllers
         {
             var game = GetChessGame(id);
             var gameManager = new GameManager(game);
-            if (game == null)
-                throw new ArgumentException(String.Format("Game {0} does not exist.", id));
+
+            if (!IsPlayersMove(game, CurrentPlayer))
+                throw new Exception("It is not your turn!");
 
             try
             {
@@ -148,6 +150,9 @@ namespace ChessSharp.Web.Controllers
         private Game GetChessGame(long id)
         {
             var game = UnitOfWork.Find<Game>(id);
+                                
+            if (game == null)
+                throw new ArgumentException(String.Format("Game {0} does not exist.", id));
 
             return game;
         }
