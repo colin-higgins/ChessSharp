@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Chess.Data.Entities;
 
 namespace Chess.Data.Piece
@@ -17,12 +18,12 @@ namespace Chess.Data.Piece
 
         public override bool IsLegalMove(Square[][] board, Move move, IEnumerable<Move> pastMoves = null)
         {
-            if (AttackingSameTeam(board, move))
-                return false;
+            ValidateNotAttackingSameTeam(board, move);
+
             if (move.RowChange != 0 && move.ColumnChange != 0)
-                return false;
+                throw new Exception("You only move horizontally or vertically with a rook.");
             if (HasCollision(board, move))
-                return false;
+                throw new Exception("There is a piece between you and your destination.");
 
             return true;
         }

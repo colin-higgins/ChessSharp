@@ -27,7 +27,7 @@ namespace ChessSharp.Web.Controllers
 
             var gamesViewModel = games.Select(g => new ActiveGameViewModel()
             {
-                GameId = g.GameId,
+                GameId = g.Id,
                 CurrentPlayerId = CurrentPlayer.PlayerId,
                 DarkPlayerName = g.DarkPlayer.DisplayName,
                 LightPlayerName = g.LightPlayer.DisplayName,

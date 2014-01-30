@@ -4,9 +4,9 @@
 //    var shinyNewServiceInstance = {};
 //    //factory function body that constructs shinyNewServiceInstance
 
-//    shinyNewServiceInstance.getGame = function(gameId, callback) {
+//    shinyNewServiceInstance.getGame = function(Id, callback) {
 
-//        $.getJSON("/Home/GetGame/" + gameId,
+//        $.getJSON("/Home/GetGame/" + Id,
 //            function(data) {
 //                callback(data);
 //            }).

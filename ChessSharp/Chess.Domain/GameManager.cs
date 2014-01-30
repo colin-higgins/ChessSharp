@@ -22,27 +22,52 @@ namespace Chess.Domain
             return Game.MoveCount % 2 == 0 ? Team.Light : Team.Dark;
         }
 
-        public bool MovePiece(Move move)
+        public void MovePiece(Move move)
         {
             var piece = _board.Squares[move.StartRow][move.StartColumn].ChessPiece;
             var defender = _board.Squares[move.EndRow][move.EndColumn].ChessPiece;
             var currentTeam = TeamToMove();
 
-            if (piece.Team != currentTeam)
-                return false;
-            if (!piece.IsLegalMove(_board.Squares, move))
-                return false;
+            ValidateIsCurrentTeam(piece);
+            ValidateIsLegalMove(move, piece);
 
-            if (defender == null && piece.PieceType == PieceType.Pawn && Math.Abs(move.ColumnChange) == 1)
+            if (FitsEnPassantCriteria(move, defender, piece))
                 PerformEnPassant(move);
-            if (piece.PieceType == PieceType.King && Math.Abs(move.ColumnChange) > 1)
+            if (FitsCastleCriteria(move, piece))
                 MoveRookForCastle(move);
 
             piece.Move(_board.Squares, move);
             Game.MoveCount++;
-            var success = !IsKingInCheck(currentTeam);
 
-            return success;
+            if (IsKingInCheck(currentTeam))
+                throw new Exception("This move leaves your king in check!");
+        }
+
+        private static bool FitsCastleCriteria(Move move, ChessPiece piece)
+        {
+            return piece.PieceType == PieceType.King && Math.Abs(move.ColumnChange) > 1;
+        }
+
+        private static bool FitsEnPassantCriteria(Move move, ChessPiece defender, ChessPiece piece)
+        {
+            return defender == null && piece.PieceType == PieceType.Pawn && Math.Abs(move.ColumnChange) == 1;
+        }
+
+        private void ValidateIsLegalMove(Move move, ChessPiece piece)
+        {
+            var teamName = Enum.GetName(typeof(Team), piece.Team);
+            var pieceName = Enum.GetName(typeof(Team), piece.Team);
+
+            if (!piece.IsLegalMove(_board.Squares, move))
+                throw new Exception("This is not a legal move for a " + teamName + " " + pieceName + ".");
+        }
+
+        private void ValidateIsCurrentTeam(ChessPiece piece)
+        {
+            var teamName = Enum.GetName(typeof(Team), piece.Team);
+
+            if (piece.Team != TeamToMove())
+                throw new Exception("It is not this " + teamName + "'s turn.");
         }
 
         private bool IsKingInCheck(Team currentTeam)

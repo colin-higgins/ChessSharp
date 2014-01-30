@@ -38,28 +38,28 @@
     <div class="container body-content">
         @RenderBody()
         <hr />
-        <div style="width: 300px; display: block; ">
-            <ul style="list-style: none; position: fixed; right: 10px;">
+            
+        <footer>
+            <p style="float: left;">&copy; @DateTime.Now.Year - Chess#</p>
+            <ul style="list-style: none; float: right;">
                 @if (openChallenges != null && openChallenges.Any())
                 {
                     <li><b>You've been challenged!</b></li>
                     foreach (var challenge in openChallenges)
-                     {
-                         <li>
-                             <a href="~/Challenge/Decide/@(challenge.Id)">
-                                 @(challenge.ChallengeTitle + " - " + challenge.Opponent.DisplayName)
-                             </a>
-                         </li>
-                     }
+                    {
+                        <li>
+                            <a href="~/Challenge/Decide/@(challenge.Id)">
+                                @(challenge.ChallengeTitle + " - " + challenge.Opponent.DisplayName)
+                            </a>
+                        </li>
+                    }
                 }
                 else
                 {
                     <li>You have no challenges...</li>
                 }
             </ul>
-        </div>
-        <footer>
-            <p>&copy; @DateTime.Now.Year - Chess#</p>
+
         </footer>
     </div>
 

@@ -55,9 +55,12 @@
 }
 
 .chessbox {
-    padding-top: 15px;
+    margin-top: 15px;
     clear: both;
     display: inline-block;
+    border: thin solid black;
+    -ms-border-radius: 4px;
+    border-radius: 4px;
     margin: auto;
 }
 
@@ -80,9 +83,4 @@
     margin: 0;
     padding: 0;
     padding-top: 3px;
-    border-top: thin solid black;
-    border-left: thin solid black;
-    border-right: thin solid black;
-    -ms-border-radius: 3px;
-    border-radius: 3px;
 }

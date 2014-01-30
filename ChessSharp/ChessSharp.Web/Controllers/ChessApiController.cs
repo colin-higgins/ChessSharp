@@ -17,10 +17,12 @@ namespace ChessSharp.Web.Controllers
                 filterContext.HttpContext.Response.StatusCode = 500;
                 filterContext.Result = new JsonResult
                 {
-                    Data = new { 
-                        success = false, error = 
-                        filterContext.Exception.ToString(), 
-                        message = filterContext.Exception.Message 
+                    Data = new
+                    {
+                        success = false,
+                        error =
+                            filterContext.Exception.ToString(),
+                        message = filterContext.Exception.Message
                     },
                     JsonRequestBehavior = JsonRequestBehavior.AllowGet
                 };
@@ -47,30 +49,28 @@ namespace ChessSharp.Web.Controllers
         public ActionResult MakeMove(long id, Move move)
         {
             var game = GetChessGame(id);
-
             var gameManager = new GameManager(game);
-
             if (game == null)
                 throw new ArgumentException(String.Format("Game {0} does not exist.", id));
 
-            var success = gameManager.MovePiece(move);
-
-            if (success)
+            try
             {
+                gameManager.MovePiece(move);
                 UnitOfWork.Commit();
 
                 var model = GetGameModel(game);
-
                 return Json(model, JsonRequestBehavior.AllowGet);
             }
+            catch (Exception ex)
+            {
+                var start = move.StartColumn + ", " + move.StartRow;
+                var end = move.EndColumn + ", " + move.EndRow;
 
-            var start = move.StartColumn + ", " + move.StartRow;
-            var end = move.EndColumn + ", " + move.EndRow;
+                var reasonForFailure = ex.Message;
 
-            var reasonForFailure = "Reason should be here...";
-
-            throw new ArgumentException(String.Format("Moving {0} to {1} is illegal. {2}",
-                start, end, "Reason goes here."));
+                throw new ArgumentException(String.Format("Moving {0} to {1} is illegal. {2}",
+                    start, end, reasonForFailure));
+            }
         }
 
         [JsonErrorHandler]
@@ -115,7 +115,7 @@ namespace ChessSharp.Web.Controllers
                 Name = game.Name,
                 DarkScore = game.DarkScore,
                 LightScore = game.LightScore,
-                GameId = game.GameId,
+                Id = game.Id,
                 MoveCount = game.MoveCount,
                 PlayerDark = darkPlayerModel,
                 PlayerLight = lightPlayerModel,

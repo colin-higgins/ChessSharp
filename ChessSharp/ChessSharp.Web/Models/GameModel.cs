@@ -5,7 +5,7 @@ namespace ChessSharp.Web.Models
 {
     public class GameModel
     {
-        public long GameId { get; set; }
+        public long Id { get; set; }
         public BoardViewModel Board { get; set; }
         public PlayerViewModel PlayerLight { get; set; }
         public PlayerViewModel PlayerDark { get; set; }

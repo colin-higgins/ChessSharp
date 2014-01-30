@@ -21,7 +21,7 @@
                 @Html.DropDownListFor(model => model.OpponentId, Model.Players.Select(p => new SelectListItem()
                     {
                         Selected = false,
-                        Text = p.Name,
+                        Text = p.DisplayName,
                         Value = p.PlayerId
                     }), "Please select an opponent...")
             </div>

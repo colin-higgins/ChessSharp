@@ -1,13 +1,10 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace Chess.Data.Entities
 {
     public class Game : IModifiable
     {
-        [Key]
-        public long GameId { get; set; }
-
+        public long Id { get; set; }
         public string Name { get; set; }
         public int LightScore { get; set; }
         public int DarkScore { get; set; }

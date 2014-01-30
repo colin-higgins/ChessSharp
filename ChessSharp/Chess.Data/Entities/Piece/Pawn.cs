@@ -44,39 +44,40 @@ namespace Chess.Data.Piece
             if (move.ColumnChange != 0)
             {
                 if (Math.Abs(move.ColumnChange) > 1)
-                    return false;
+                    throw new Exception("You may not move horizontally like that.");
                 if (move.RowChange != LegalDirectionByTeam())
-                    return false;
+                    throw new Exception("You are moving in the wrong direction.");
                 if (defender == null)
                     if (!IsLegalEnPassant(board, move, pastMoves)) 
                         return false;
-                if (AttackingSameTeam(board, move))
-                    return false;
+
+                ValidateNotAttackingSameTeam(board, move);
+
                 return true;
             }
 
             if (defender != null)
-                return false;
+                throw new Exception("There is a piece in the way!");
 
             return true;
         }
 
         private bool IsLegalEnPassant(Square[][] board, Move move, IEnumerable<Move> pastMoves)
         {
-            if (pastMoves != null)
+            if (pastMoves == null) return false;
+
+            var lastMove = pastMoves.FirstOrDefault();
+
+            if (lastMove == null) return false;
+
+            var piece = GetDestinationPiece(board, lastMove);
+
+            if (!(piece.PieceType == PieceType.Pawn
+                  && lastMove.EndRow == move.EndRow - LegalDirectionByTeam()
+                  && lastMove.EndColumn == move.EndColumn
+                  && piece.MoveCount == 1))
             {
-                var lastMove = pastMoves.FirstOrDefault();
-                if (lastMove != null)
-                {
-                    var piece = GetDestinationPiece(board, lastMove);
-                    if (!(piece.PieceType == PieceType.Pawn
-                          && lastMove.EndRow == move.EndRow - LegalDirectionByTeam()
-                          && lastMove.EndColumn == move.EndColumn
-                          && piece.MoveCount == 1))
-                    {
-                        return false;
-                    }
-                }
+                return false;
             }
             return true;
         }

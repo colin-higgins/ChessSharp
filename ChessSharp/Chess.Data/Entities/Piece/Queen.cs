@@ -30,12 +30,12 @@ namespace Chess.Data.Piece
 
         public override bool IsLegalMove(Square[][] board, Move move, IEnumerable<Move> pastMoves = null)
         {
-            if (AttackingSameTeam(board, move))
-                return false;
+            ValidateNotAttackingSameTeam(board, move);
+
             if (!HasLegalMovementModifiers(move))
-                return false;
+                throw new Exception("You may move diagonal, vertical, or horizontal with a queen.");
             if (HasCollision(board, move))
-                return false;
+                throw new Exception("There is a piece between your queen and your destination!");
 
             return true;
         }

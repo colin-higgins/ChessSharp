@@ -18,12 +18,12 @@ namespace Chess.Data.Piece
 
         public override bool IsLegalMove(Square[][] board, Move move, IEnumerable<Move> pastMoves = null)
         {
-            if (AttackingSameTeam(board, move))
-                return false;
+            ValidateNotAttackingSameTeam(board, move);
+
             if (!InBounds(move.EndRow, move.EndColumn))
-                return false;
+                throw new Exception("You have moved out of bounds!");
             if (Math.Abs(move.RowChange) + Math.Abs(move.ColumnChange) != 3) //L-movement
-                return false;
+                throw new Exception("You may only move in a proper 'L' pattern for a knight.");
 
             return true;
         }

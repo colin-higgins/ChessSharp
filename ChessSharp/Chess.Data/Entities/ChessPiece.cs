@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Chess.Data.Enum;
 
@@ -44,15 +45,13 @@ namespace Chess.Data.Entities
             return board[move.EndRow][move.EndColumn].ChessPiece;
         }
 
-        protected bool AttackingSameTeam(Square[][] board, Move move)
+        protected void ValidateNotAttackingSameTeam(Square[][] board, Move move)
         {
             var attacker = GetAttacker(board, move);
             var occupant = GetDestinationPiece(board, move);
 
             if (occupant == null || attacker == null)
-                return false;
-
-            return occupant.Team == attacker.Team;
+                throw new Exception("You may not attack the same team.");
         }
 
         protected bool InBounds(int row, int column)
