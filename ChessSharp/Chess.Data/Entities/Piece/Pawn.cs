@@ -44,9 +44,9 @@ namespace Chess.Data.Piece
             if (move.ColumnChange != 0)
             {
                 if (Math.Abs(move.ColumnChange) > 1)
-                    throw new Exception("You may not move horizontally like that.");
+                    throw new Exception("You may not move horizontally with a pawn.");
                 if (move.RowChange != LegalDirectionByTeam())
-                    throw new Exception("You are moving in the wrong direction.");
+                    throw new Exception("You are moving in the wrong direction for this pawn's team.");
                 if (defender == null)
                     if (!IsLegalEnPassant(board, move, pastMoves)) 
                         return false;

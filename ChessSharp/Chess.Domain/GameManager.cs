@@ -72,8 +72,7 @@ namespace Chess.Domain
 
         private bool IsKingInCheck(Team currentTeam)
         {
-            var enemy = Team.Light;
-            if (currentTeam == Team.Light) enemy = Team.Dark;
+            var enemy = GetOppositeTeam(currentTeam);
 
             var squares = _board.Squares.SelectMany(s => s);
 
@@ -85,6 +84,13 @@ namespace Chess.Domain
                 return true;
 
             return false;
+        }
+
+        private static Team GetOppositeTeam(Team currentTeam)
+        {
+            var enemy = Team.Light;
+            if (currentTeam == Team.Light) enemy = Team.Dark;
+            return enemy;
         }
 
         private void MoveRookForCastle(Move move)
