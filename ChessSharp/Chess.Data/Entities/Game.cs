@@ -9,6 +9,7 @@ namespace Chess.Data.Entities
         public int LightScore { get; set; }
         public int DarkScore { get; set; }
         public int MoveCount { get; set; }
+        public int MoveCountSinceProgress { get; set; } //Progress: Capture of a piece or movement of a pawn
         public bool Complete { get; set; }
 
         public virtual ICollection<Move> Moves { get; set; }

@@ -26,5 +26,18 @@ namespace Chess.Data.Entities
         {
             get { return EndColumn - StartColumn; }
         }
+
+        public bool Equals(Move move)
+        {
+            if (StartColumn != move.StartColumn)
+                return false;
+            if (EndColumn != move.EndColumn)
+                return false;
+            if (StartRow != move.StartRow)
+                return false;
+            if (EndRow != move.EndRow)
+                return false;
+            return true;
+        }
     }
 }

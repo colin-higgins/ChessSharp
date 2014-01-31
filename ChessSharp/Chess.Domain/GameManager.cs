@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Chess.Data.Entities;
 using Chess.Data.Enum;
@@ -17,7 +18,19 @@ namespace Chess.Domain
             _board = new Board(squares);
         }
 
-        private Team TeamToMove()
+        public void MarkGameAsDraw()
+        {
+            Game.WinnerPlayer = null;
+            Game.Complete = true;
+        }
+
+        public void MarkWinningTeam(Team team)
+        {
+            Game.WinnerPlayer = team == Team.Dark ? Game.DarkPlayer : Game.LightPlayer;
+            Game.Complete = true;
+        }
+
+        public Team TeamToMove()
         {
             return Game.MoveCount % 2 == 0 ? Team.Light : Team.Dark;
         }
@@ -38,9 +51,120 @@ namespace Chess.Domain
 
             piece.Move(_board.Squares, move);
             Game.MoveCount++;
+            Game.MoveCountSinceProgress++;
 
-            if (IsKingInCheck(currentTeam))
+            if (piece.PieceType == PieceType.Pawn || defender != null)
+                Game.MoveCountSinceProgress = 0;
+
+            if (IsKingInCheck(currentTeam, _board.Squares))
                 throw new Exception("This move leaves your king in check!");
+        }
+
+        private bool PiecesCanCheckmate(ChessPiece[] pieces)
+        {
+            var kings = pieces.Count(p => p.PieceType == PieceType.King);
+            var queens = pieces.Count(p => p.PieceType == PieceType.Queen);
+            var rooks = pieces.Count(p => p.PieceType == PieceType.Rook);
+            var bishops = pieces.Count(p => p.PieceType == PieceType.Bishop);
+            var knights = pieces.Count(p => p.PieceType == PieceType.Knight);
+            var pawns = pieces.Count(p => p.PieceType == PieceType.Pawn);
+
+            if (kings < 1)
+                throw new Exception("Your king is gone! Please report this error to an admin.");
+            if (pawns > 0 || queens > 0 || rooks > 0)
+                return true;
+            if (bishops > 1 || knights > 1) //Forcing a checkmate with 2 knights is near impossible
+                return true;
+            if (bishops > 0 && knights > 0)
+                return true;
+
+            return false;
+        }
+
+        private bool NeitherTeamCanCheckmate()
+        {
+            var remainingPieces = Game.Squares
+                .Where(s => s.ChessPiece != null && s.ChessPiece.Alive)
+                .Select(s => s.ChessPiece).ToArray();
+
+            var darkPieces = remainingPieces.Where(p => p.Team == Team.Dark).ToArray();
+            var lightPieces = remainingPieces.Where(p => p.Team == Team.Light).ToArray();
+
+            if (PiecesCanCheckmate(darkPieces) || PiecesCanCheckmate(lightPieces))
+                return false;
+
+            return true;
+        }
+
+        public bool IsDraw()
+        {
+            if (Game.Moves.Count() < 6) return false;
+
+            if (Game.MoveCountSinceProgress > 49) return true;
+            
+            if (NeitherTeamCanCheckmate()) return true;
+
+            var lastSixMoves = Game.Moves.Reverse().Take(6).ToArray();
+
+            if(lastSixMoves[0].Equals(lastSixMoves[5]) && lastSixMoves[1].Equals(lastSixMoves[6]))
+                return true;
+
+            return false;
+        }
+
+        public bool IsCheckmate()
+        {
+            if (!IsKingInCheck(TeamToMove(), _board.Squares)) return false;
+            
+            var squares = _board.Squares.SelectMany(s => s).ToList();
+            var pieces = squares
+                .Where(s => s.ChessPiece != null && s.ChessPiece.Team == TeamToMove())
+                .Select(s => s.ChessPiece);
+
+            var validMoves = new List<Move>();
+
+            foreach (var chessPiece in pieces)
+                validMoves.AddRange(chessPiece.GetValidMoves());
+
+            return !validMoves.Any(SavesKing);
+        }
+
+        private bool SavesKing(Move move)
+        {
+            var currentTeam = TeamToMove();
+            var squares = GetMockSquares(_board.Squares); 
+
+            var piece = squares[move.StartRow][move.StartColumn].ChessPiece;
+
+            piece.Move(squares, move);
+
+            if (IsKingInCheck(currentTeam, squares))
+                return false;
+
+            return true;
+        }
+
+        private static Square[][] GetMockSquares(IEnumerable<Square[]> board)
+        {
+            var mocks = new List<Square[]>();
+            var pieceCaster = new PieceCaster();
+
+            foreach (var row in board)
+            {
+                var mockRow = new List<Square>();
+                foreach (var square in row)
+                {
+                    mockRow.Add(new Square()
+                    {
+                        ChessPiece = pieceCaster.MapPiece(square.ChessPiece),
+                        Column = square.Column,
+                        Row = square.Row,
+                    });
+                }
+                mocks.Add(mockRow.ToArray());
+            }
+
+            return mocks.ToArray();
         }
 
         private static bool FitsCastleCriteria(Move move, ChessPiece piece)
@@ -70,11 +194,11 @@ namespace Chess.Domain
                 throw new Exception("It is not this " + teamName + "'s turn.");
         }
 
-        private bool IsKingInCheck(Team currentTeam)
+        private bool IsKingInCheck(Team currentTeam, IEnumerable<Square[]> board)
         {
             var enemy = GetOppositeTeam(currentTeam);
 
-            var squares = _board.Squares.SelectMany(s => s);
+            var squares = board.SelectMany(s => s);
 
             var kingSquare = squares.First(sq => sq.ChessPiece != null
                                            && sq.ChessPiece.PieceType == PieceType.King

@@ -57,10 +57,19 @@ namespace ChessSharp.Web.Controllers
 
             try
             {
+                var movingTeam = gameManager.TeamToMove();
+
                 gameManager.MovePiece(move);
+
+                if (gameManager.IsDraw())
+                    gameManager.MarkGameAsDraw();
+                else if (gameManager.IsCheckmate())
+                    gameManager.MarkWinningTeam(movingTeam);
+                    
                 UnitOfWork.Commit();
 
                 var model = GetGameModel(game);
+
                 return Json(model, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
