@@ -16,6 +16,10 @@
         display: inline-block;
     }
 
+    .game-bar select {
+        width: 280px;
+    }
+
     .game-bar button {
         height: 80%;
     }
@@ -56,15 +60,15 @@
 
 @media (max-width: 600px) {
     .square {
-        width: 45px;
-        height: 45px;
+        width: 47px;
+        height: 47px;
     }
 }
 
 @media (max-width: 500px) {
     .square {
-        width: 40px;
-        height: 40px;
+        width: 42px;
+        height: 42px;
     }
 
     .game-bar {
@@ -92,6 +96,7 @@
     }
 
     .row {
+        display: block;
         width: 290px;
     }
 }

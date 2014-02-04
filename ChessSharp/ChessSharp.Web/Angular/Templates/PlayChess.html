@@ -14,17 +14,17 @@
             <b>{{Failure}}</b>
         </div>
     </div>
-    <div class="chessboard">
-        <div ng-repeat="row in game.Board.Squares" class="row">
-            <span ng-repeat="square in row"
+    <table class="chessboard">
+        <tr ng-repeat="row in game.Board.Squares" class="row">
+            <td ng-repeat="square in row"
                 ng-class="{ 'dark': isDark(square), 'ready': isReady(square), 'destination': isDestination(square) }"
                 ng-click="setFocus(square)" class="square">
                 
                 <cs-piece piece="square.ChessPiece"></cs-piece>
 
-            </span>
-        </div>
-    </div>
+            </td>
+        </tr>
+    </table>
 
 </div>
 
