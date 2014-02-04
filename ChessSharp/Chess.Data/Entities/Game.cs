@@ -15,9 +15,9 @@ namespace Chess.Data.Entities
         public virtual ICollection<Move> Moves { get; set; }
         public virtual ICollection<Square> Squares { get; set; }
 
-        public virtual Player LightPlayer { get; set; }
-        public virtual Player DarkPlayer { get; set; }
-        public virtual Player WinnerPlayer { get; set; }
+        public virtual ChessUser LightPlayer { get; set; }
+        public virtual ChessUser DarkPlayer { get; set; }
+        public virtual ChessUser WinnerPlayer { get; set; }
         public virtual Challenge Challenge { get; set; }
     }
 }

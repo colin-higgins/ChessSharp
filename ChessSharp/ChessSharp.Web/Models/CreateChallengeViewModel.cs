@@ -7,7 +7,7 @@ namespace ChessSharp.Web.Models
     {
         [Required]
         [Display(Name = "Opponent")]
-        public long OpponentId { get; set; }
+        public string OpponentId { get; set; }
         [Display(Name = "Check the Box for Dark")]
         public bool IsPlayerDark { get; set; }
 

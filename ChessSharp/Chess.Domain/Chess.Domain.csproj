@@ -63,7 +63,6 @@
     <Compile Include="MoveGetter.cs" />
     <Compile Include="PieceCaster.cs" />
     <Compile Include="Repositories\GameRepository.cs" />
-    <Compile Include="Repositories\PlayerRepository.cs" />
     <Compile Include="PieceChecker.cs" />
     <Compile Include="PieceValuator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

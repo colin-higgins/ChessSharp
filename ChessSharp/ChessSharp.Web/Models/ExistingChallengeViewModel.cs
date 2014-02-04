@@ -8,7 +8,7 @@ namespace ChessSharp.Web.Models
     {
         public long Id { get; set; }
         public string ChallengeTitle { get; set; }
-        public Player Opponent { get; set; }
+        public ChessUser Opponent { get; set; }
         public Team OpponentTeam { get; set; }
         public DateTime DateTime { get; set; }
         public bool Accepted { get; set; }

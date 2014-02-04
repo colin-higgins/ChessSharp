@@ -21,12 +21,26 @@ namespace Chess.Domain
         public void MarkGameAsDraw()
         {
             Game.WinnerPlayer = null;
+            Game.LightPlayer.Ties++;
+            Game.DarkPlayer.Ties++;
             Game.Complete = true;
         }
 
         public void MarkWinningTeam(Team team)
         {
-            Game.WinnerPlayer = team == Team.Dark ? Game.DarkPlayer : Game.LightPlayer;
+            switch (team)
+            {
+                case Team.Dark:
+                    Game.WinnerPlayer = Game.DarkPlayer;
+                    Game.LightPlayer.Losses++;
+                    break;
+                case Team.Light:
+                    Game.WinnerPlayer = Game.LightPlayer;
+                    Game.DarkPlayer.Losses++;
+                    break;
+            }
+
+            Game.WinnerPlayer.Wins++;
             Game.Complete = true;
         }
 
@@ -41,9 +55,21 @@ namespace Chess.Domain
             var defender = _board.Squares[move.EndRow][move.EndColumn].ChessPiece;
             var currentTeam = TeamToMove();
 
+            ValidateActiveGame();
             ValidateIsCurrentTeam(piece);
             ValidateIsLegalMove(move, piece);
 
+            PerformMove(move, defender, piece);
+
+            if (piece.PieceType == PieceType.Pawn || defender != null)
+                Game.MoveCountSinceProgress = 0;
+
+            if (IsKingInCheck(currentTeam, _board.Squares))
+                throw new Exception("This move leaves your king in check!");
+        }
+
+        private void PerformMove(Move move, ChessPiece defender, ChessPiece piece)
+        {
             if (FitsEnPassantCriteria(move, defender, piece))
                 PerformEnPassant(move);
             if (FitsCastleCriteria(move, piece))
@@ -52,12 +78,12 @@ namespace Chess.Domain
             piece.Move(_board.Squares, move);
             Game.MoveCount++;
             Game.MoveCountSinceProgress++;
+        }
 
-            if (piece.PieceType == PieceType.Pawn || defender != null)
-                Game.MoveCountSinceProgress = 0;
-
-            if (IsKingInCheck(currentTeam, _board.Squares))
-                throw new Exception("This move leaves your king in check!");
+        private void ValidateActiveGame()
+        {
+            if (Game.Complete)
+                throw new Exception("This game has already ended!");
         }
 
         private bool PiecesCanCheckmate(ChessPiece[] pieces)
@@ -101,12 +127,12 @@ namespace Chess.Domain
             if (Game.Moves.Count() < 6) return false;
 
             if (Game.MoveCountSinceProgress > 49) return true;
-            
+
             if (NeitherTeamCanCheckmate()) return true;
 
             var lastSixMoves = Game.Moves.Reverse().Take(6).ToArray();
 
-            if(lastSixMoves[0].Equals(lastSixMoves[5]) && lastSixMoves[1].Equals(lastSixMoves[6]))
+            if (lastSixMoves[0].Equals(lastSixMoves[5]) && lastSixMoves[1].Equals(lastSixMoves[6]))
                 return true;
 
             return false;
@@ -115,7 +141,7 @@ namespace Chess.Domain
         public bool IsCheckmate()
         {
             if (!IsKingInCheck(TeamToMove(), _board.Squares)) return false;
-            
+
             var squares = _board.Squares.SelectMany(s => s).ToList();
             var pieces = squares
                 .Where(s => s.ChessPiece != null && s.ChessPiece.Team == TeamToMove())
@@ -132,7 +158,7 @@ namespace Chess.Domain
         private bool SavesKing(Move move)
         {
             var currentTeam = TeamToMove();
-            var squares = GetMockSquares(_board.Squares); 
+            var squares = GetMockSquares(_board.Squares);
 
             var piece = squares[move.StartRow][move.StartColumn].ChessPiece;
 

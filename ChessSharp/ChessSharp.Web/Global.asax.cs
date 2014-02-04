@@ -41,7 +41,7 @@ namespace ChessSharp.Web
             AutoMapper.Mapper.CreateMap<Pawn, ChessPieceViewModel>();
             AutoMapper.Mapper.CreateMap<ChessPiece, ChessPieceViewModel>();
 
-            AutoMapper.Mapper.CreateMap<Player, PlayerViewModel>();
+            AutoMapper.Mapper.CreateMap<ChessUser, PlayerViewModel>();
 
             AutoMapper.Mapper.CreateMap<Square, SquareViewModel>();
 

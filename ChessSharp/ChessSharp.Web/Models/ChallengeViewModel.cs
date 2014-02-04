@@ -7,13 +7,13 @@ namespace ChessSharp.Web.Models
         public long Id { get; set; }
         
         [Display(Name = "Challenger")]
-        public long ChallengerId { get; set; }
+        public string ChallengerId { get; set; }
         
         [Display(Name = "Light Player")]
-        public long LightPlayerId { get; set; }
+        public string LightPlayerId { get; set; }
         
         [Display(Name = "Dark Player")]
-        public long DarkPlayerId { get; set; }
+        public string DarkPlayerId { get; set; }
         
         [Display(Name = "Challenge Title")]
         public string ChallengeTitle { get; set; }

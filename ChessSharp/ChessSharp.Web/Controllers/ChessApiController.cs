@@ -39,7 +39,7 @@ namespace ChessSharp.Web.Controllers
         [JsonErrorHandler]
         public ActionResult GetActiveGames()
         {
-            var games = UnitOfWork.All<Game>(g => g.DarkPlayer == CurrentPlayer || g.LightPlayer == CurrentPlayer);
+            var games = UnitOfWork.All<Game>(g => g.DarkPlayer == CurrentUser || g.LightPlayer == CurrentUser);
 
             var gameModels = games.Select(AutoMapper.Mapper.Map<GamePreviewViewModel>);
 
@@ -52,7 +52,7 @@ namespace ChessSharp.Web.Controllers
             var game = GetChessGame(id);
             var gameManager = new GameManager(game);
 
-            if (!IsPlayersMove(game, CurrentPlayer))
+            if (!IsPlayersMove(game, CurrentUser))
                 throw new Exception("It is not your turn!");
 
             try
@@ -97,9 +97,9 @@ namespace ChessSharp.Web.Controllers
             return Json(model, JsonRequestBehavior.AllowGet);
         }
 
-        private bool IsPlayersMove(Game game, Player player)
+        private bool IsPlayersMove(Game game, ChessUser player)
         {
-            var playerId = CurrentPlayer.Id;
+            var playerId = CurrentUser.Id;
             if (playerId == game.LightPlayer.Id && game.MoveCount % 2 == 0)
                 return true;
             if (playerId == game.DarkPlayer.Id && game.MoveCount % 2 == 1)
@@ -119,6 +119,10 @@ namespace ChessSharp.Web.Controllers
             var boardModel = AutoMapper.Mapper.Map<BoardViewModel>(board);
             var darkPlayerModel = AutoMapper.Mapper.Map<PlayerViewModel>(game.DarkPlayer);
             var lightPlayerModel = AutoMapper.Mapper.Map<PlayerViewModel>(game.LightPlayer);
+            var winnerPlayer = (PlayerViewModel) null;
+
+            if (game.WinnerPlayer != null) 
+                winnerPlayer = AutoMapper.Mapper.Map<PlayerViewModel>(game.WinnerPlayer);
 
             var gameModel = new GameModel()
             {
@@ -131,7 +135,9 @@ namespace ChessSharp.Web.Controllers
                 PlayerDark = darkPlayerModel,
                 PlayerLight = lightPlayerModel,
                 Moves = moves,
-                IsCurrentPlayersMove = IsPlayersMove(game, CurrentPlayer)
+                IsCurrentPlayersMove = IsPlayersMove(game, CurrentUser),
+                Complete = game.Complete,
+                Winner = winnerPlayer,
             };
 
             return gameModel;

@@ -80,7 +80,6 @@
     <Compile Include="Entities\Piece\Pawn.cs" />
     <Compile Include="Entities\Piece\Queen.cs" />
     <Compile Include="Entities\Piece\Rook.cs" />
-    <Compile Include="Entities\Player.cs" />
     <Compile Include="Entities\Role.cs" />
     <Compile Include="InMemoryUnitOfWork.cs" />
     <Compile Include="Properties\Settings.Designer.cs">

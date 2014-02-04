@@ -11,24 +11,18 @@ namespace ChessSharp.Web.Controllers
     {
         public ActionResult Index()
         {
-            if (CurrentUser != null && CurrentPlayer == null)
-                return RedirectToAction("RegisterPlayer", "Home", new { actionName = "Index", controllerName = "Home" });
-
             return View();
         }
 
         [Authorize]
         public ActionResult Play()
         {
-            if (CurrentUser != null && CurrentPlayer == null)
-                return RedirectToAction("RegisterPlayer", "Home", new { actionName = "Play", controllerName = "Home" });
-
             var games = GetGamesForPlayer();
 
             var gamesViewModel = games.Select(g => new GamePreviewViewModel()
             {
                 Id = g.Id,
-                CurrentPlayerId = CurrentPlayer.Id,
+                CurrentPlayerId = CurrentUser.Id,
                 DarkPlayerName = g.DarkPlayer.DisplayName,
                 LightPlayerName = g.LightPlayer.DisplayName,
                 Name = g.Name
@@ -37,23 +31,9 @@ namespace ChessSharp.Web.Controllers
             return View(gamesViewModel);
         }
 
-        [Authorize]
-        [HttpGet]
-        public ActionResult RegisterPlayer(string actionName, string controllerName)
-        {
-            if (CurrentUser != null)
-            {
-                var repository = new PlayerRepository(UnitOfWork);
-                repository.AddFromUser(CurrentUser);
-                UnitOfWork.Commit();
-            }
-
-            return RedirectToAction(actionName, controllerName);
-        }
-
         private IEnumerable<Game> GetGamesForPlayer()
         {
-            var id = CurrentPlayer.Id;
+            var id = CurrentUser.Id;
 
             var currentGames = UnitOfWork.All<Game>(g => g.DarkPlayer.Id == id || g.LightPlayer.Id == id);
 

@@ -21,14 +21,14 @@ chessSharpPlay.controller('PlayChessCtrl', ['$scope', 'gameApi', function ($scop
         var onSuccess = function (games) {
 
             var getDisplayName = function(g) {
-                return g.Id + ' - ' + g.Name + ' - ' + g.LightPlayerName + ' vs ' + g.DarkPlayerName;
+                return g.Id + ' - ' + g.Name + ' - ' + g.LightPlayerName + '(Light) vs ' + g.DarkPlayerName + '(Dark)';
             };
 
             for (var i = 0; i < games.length; i++) {
                 var g = games[i];
                 g.display = getDisplayName(g);
 
-                if (g.Id === $scope.selectedGame.Id)
+                if ($scope.selectedGame && g.Id === $scope.selectedGame.Id)
                     $scope.selectedGame = g;
             }
 

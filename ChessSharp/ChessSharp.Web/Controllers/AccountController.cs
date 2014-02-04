@@ -81,7 +81,13 @@ namespace ChessSharp.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ChessUser { UserName = model.UserName, CreateDate = DateTime.Now };
+                var user = new ChessUser { 
+                    UserName = model.UserName,
+                    DisplayName = model.UserName,
+                    CreateDate = DateTime.Now,
+                    Rank = 1200,
+                };
+
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {

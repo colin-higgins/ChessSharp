@@ -19,14 +19,25 @@
             <td ng-repeat="square in row"
                 ng-class="{ 'dark': isDark(square), 'ready': isReady(square), 'destination': isDestination(square) }"
                 ng-click="setFocus(square)" class="square">
-                
+
                 <cs-piece piece="square.ChessPiece"></cs-piece>
 
             </td>
         </tr>
     </table>
+    <div class="player-names">
+        <label class="light">Light: {{selectedGame.LightPlayerName}}</label>
+        <div><label class="turn-notifier" ng-show="game.IsCurrentPlayersMove">Your move!</label></div>
+        <label class="dark">Dark: {{selectedGame.DarkPlayerName}}</label>
+    </div>
+    <div>
+        Winner: {{game.WinnerPlayerName}}
+    </div>
+
 
 </div>
+
+
 
 <div ng-hide="game.Id > 0">
     <h3>Please Select a Game</h3>

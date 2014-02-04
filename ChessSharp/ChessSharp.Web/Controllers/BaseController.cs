@@ -13,7 +13,6 @@ namespace ChessSharp.Web.Controllers
         protected readonly IUnitOfWork UnitOfWork;
         protected string Username;
         protected ChessUser CurrentUser;
-        protected Player CurrentPlayer;
 
         public BaseController()
         {
@@ -32,8 +31,8 @@ namespace ChessSharp.Web.Controllers
                 GetCurrentChessPlayer(Username);
 
                 var challenges =
-                    UnitOfWork.All<Challenge>(c => c.ChallengingPlayer.Id != CurrentPlayer.Id && c.Accepted == null)
-                        .Where(c => c.LightPlayer.Id == CurrentPlayer.Id || c.DarkPlayer.Id == CurrentPlayer.Id);
+                    UnitOfWork.All<Challenge>(c => c.ChallengingPlayer.Id != CurrentUser.Id && c.Accepted == null)
+                        .Where(c => c.LightPlayer.Id == CurrentUser.Id || c.DarkPlayer.Id == CurrentUser.Id);
 
                 var openChallenges = challenges.Select(c => new ExistingChallengeViewModel()
                 {
@@ -55,11 +54,6 @@ namespace ChessSharp.Web.Controllers
                 UnitOfWork
                 .All<ChessUser>(u => String.Equals(u.UserName, username, StringComparison.CurrentCultureIgnoreCase))
                 .FirstOrDefault();
-
-            if (CurrentUser != null)
-                CurrentPlayer = UnitOfWork
-                    .All<Player>(player => CurrentUser == player.ChessUser)
-                    .FirstOrDefault();
         }
     }
 }

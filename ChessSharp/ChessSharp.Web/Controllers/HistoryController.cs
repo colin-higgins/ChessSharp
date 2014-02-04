@@ -32,7 +32,7 @@ namespace ChessSharp.Web.Controllers
 
                 if (game.WinnerPlayer != null)
                     gameModel.Win = false;
-                if (game.WinnerPlayer == CurrentPlayer)
+                if (game.WinnerPlayer == CurrentUser)
                     gameModel.Win = true;
 
                 model.Games.Add(gameModel);

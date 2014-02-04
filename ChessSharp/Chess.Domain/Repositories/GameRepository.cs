@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using Chess.Data;
 using Chess.Data.Entities;
 
@@ -17,14 +15,7 @@ namespace Chess.Domain.Repositories
 
         public IEnumerable<Game> GetUserGames(ChessUser user)
         {
-            var players = _unitOfWork.All<Player>(p => p.ChessUser == user);
-
-            return players.SelectMany(p => p.Games);
+            return user.Games;
         } 
-
-        public IEnumerable<Game> GetPlayerGames(Player player)
-        {
-            return player.Games;
-        }
     }
 }

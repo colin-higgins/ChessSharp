@@ -16,13 +16,10 @@ namespace ChessSharp.Web.Controllers
         [HttpGet]
         public ActionResult Make()
         {
-            if (CurrentPlayer == null)
-                return RedirectToAction("RegisterPlayer", "Home", new { actionName = "Make", controllerName = "Challenge" });
-
-            var playersToChallenge = UnitOfWork.All<Player>(p => p.Id != CurrentPlayer.Id);
+            var playersToChallenge = UnitOfWork.All<ChessUser>(p => p.Id != CurrentUser.Id);
 
             var currentChallenges =
-                UnitOfWork.All<Challenge>(c => c.ChallengingPlayer.Id == CurrentPlayer.Id);
+                UnitOfWork.All<Challenge>(c => c.ChallengingPlayer.Id == CurrentUser.Id);
 
             var model = new CreateChallengeViewModel
             {
@@ -44,15 +41,15 @@ namespace ChessSharp.Web.Controllers
         [HttpPost]
         public ActionResult Make(CreateChallengeViewModel model)
         {
-            model.ChallengerId = CurrentPlayer.Id;
+            model.ChallengerId = CurrentUser.Id;
 
-            var opponent = UnitOfWork.Find<Player>(model.OpponentId);
+            var opponent = UnitOfWork.Find<ChessUser>(model.OpponentId);
 
             var challenge = new Challenge()
             {
-                ChallengingPlayer = CurrentPlayer,
-                DarkPlayer = model.IsPlayerDark ? CurrentPlayer : opponent,
-                LightPlayer = !model.IsPlayerDark ? CurrentPlayer : opponent,
+                ChallengingPlayer = CurrentUser,
+                DarkPlayer = model.IsPlayerDark ? CurrentUser : opponent,
+                LightPlayer = !model.IsPlayerDark ? CurrentUser : opponent,
                 DateTime = DateTime.Now,
                 Title = model.ChallengeTitle
             };

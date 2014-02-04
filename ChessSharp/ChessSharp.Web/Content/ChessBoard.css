@@ -17,7 +17,7 @@
     }
 
     .game-bar select {
-        width: 280px;
+        width: 350px;
     }
 
     .game-bar button {
@@ -74,14 +74,17 @@
     .game-bar {
         text-align: center;
     }
+
         .game-bar .select {
             width: 90%;
             float: none;
         }
+
         .game-bar select {
             width: inherit;
             float: none;
         }
+
         .game-bar button {
             width: 100%;
             margin-top: 3px;
@@ -145,3 +148,32 @@
 .destination {
     background-color: green;
 }
+
+.player-names {
+    /*text-align: center;*/
+    position: relative;
+}
+
+.player-names div {
+    text-align: center;
+}
+
+    .player-names .turn-notifier {
+        font-size: large;
+        padding: 0;
+        color: #008000;
+    }
+
+    .player-names .light {
+        left: 0;
+        top: 0;
+        position: absolute;
+        z-index: 500;
+    }
+
+    .player-names .dark {
+        right: 0;
+        top: 0;
+        position: absolute;
+        z-index: 500;
+    }

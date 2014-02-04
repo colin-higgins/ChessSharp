@@ -16,7 +16,6 @@ namespace Chess.Data
         }
 
         public DbSet<Game> Games { get; set; }
-        public DbSet<Player> Players { get; set; }
         public DbSet<Square> Squares { get; set; }
         public DbSet<Challenge> Challenges { get; set; }
         public DbSet<Move> Moves { get; set; }
@@ -31,8 +30,6 @@ namespace Chess.Data
             modelBuilder.Entity<IdentityUserLogin>().HasKey<string>(l => l.UserId);
             modelBuilder.Entity<IdentityRole>().HasKey<string>(r => r.Id);
             modelBuilder.Entity<IdentityUserRole>().HasKey(r => new { r.RoleId, r.UserId });
-
-            modelBuilder.Entity<Player>().HasRequired(x => x.ChessUser);
 
             modelBuilder.Entity<Challenge>().HasRequired(x => x.LightPlayer);
             modelBuilder.Entity<Challenge>().HasRequired(x => x.DarkPlayer);

@@ -12,8 +12,8 @@ namespace Chess.Data.Entities
         public string Title { get; set; }
         public bool? Accepted { get; set; }
 
-        public virtual Player ChallengingPlayer { get; set; }
-        public virtual Player LightPlayer { get; set; }
-        public virtual Player DarkPlayer { get; set; }
+        public virtual ChessUser ChallengingPlayer { get; set; }
+        public virtual ChessUser LightPlayer { get; set; }
+        public virtual ChessUser DarkPlayer { get; set; }
     }
 }
