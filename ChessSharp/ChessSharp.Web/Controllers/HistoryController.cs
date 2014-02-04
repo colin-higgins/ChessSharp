@@ -16,29 +16,36 @@ namespace ChessSharp.Web.Controllers
             _gameRepository = new GameRepository(UnitOfWork);
         }
 
+        [Authorize]
         [HttpGet]
         public ActionResult Games(int? id = null)
         {
-            var completedGames = _gameRepository.GetUserGames(CurrentUser).ToArray();
-
-            var model = new HistoricalGamesViewModel
+            if (CurrentUser != null)
             {
-                Game = completedGames.FirstOrDefault(g => g.Id == id)
-            };
+                var completedGames = _gameRepository.GetUserGames(CurrentUser)
+                    .Where(g => g.Complete)
+                    .OrderBy(g => g.Id)
+                    .Reverse()
+                    .ToList();
 
-            foreach (var game in completedGames)
-            {
-                var gameModel = AutoMapper.Mapper.Map<CompletedGameViewModel>(game);
+                var games = new List<CompletedGameViewModel>();
 
-                if (game.WinnerPlayer != null)
-                    gameModel.Win = false;
-                if (game.WinnerPlayer == CurrentUser)
-                    gameModel.Win = true;
+                foreach (var game in completedGames)
+                {
+                    var gameModel = AutoMapper.Mapper.Map<CompletedGameViewModel>(game);
 
-                model.Games.Add(gameModel);
+                    if (game.WinnerPlayer != null)
+                        gameModel.Win = false;
+                    if (game.WinnerPlayer == CurrentUser)
+                        gameModel.Win = true;
+
+                    games.Add(gameModel);
+                }
+
+                return View(games);
             }
 
-            return View(model);
+            return RedirectToAction("Index", "Home");
         }
-	}
+    }
 }

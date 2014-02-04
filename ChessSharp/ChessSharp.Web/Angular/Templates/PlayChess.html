@@ -13,7 +13,12 @@
         <div ng-show="Failure" class="alert-danger" style="margin:0; padding: 2px; padding-left: 4px;">
             <b>{{Failure}}</b>
         </div>
+        <div class="completed-notification" ng-show="game.Complete">
+            <label ng-show="game.WinnerPlayer">Checkmate! {{game.WinnerPlayer.DisplayName}} wins!</label>
+            <label ng-show="!game.WinnerPlayer">This game is a Draw</label>
+        </div>
     </div>
+
     <table class="chessboard">
         <tr ng-repeat="row in game.Board.Squares" class="row">
             <td ng-repeat="square in row"
@@ -27,14 +32,9 @@
     </table>
     <div class="player-names">
         <label class="light">Light: {{selectedGame.LightPlayerName}}</label>
-        <div><label class="turn-notifier" ng-show="game.IsCurrentPlayersMove">Your move!</label></div>
+        <div><label class="turn-notifier" ng-show="game.IsCurrentPlayersMove && !game.Complete">Your move!</label></div>
         <label class="dark">Dark: {{selectedGame.DarkPlayerName}}</label>
     </div>
-    <div>
-        Winner: {{game.WinnerPlayerName}}
-    </div>
-
-
 </div>
 
 

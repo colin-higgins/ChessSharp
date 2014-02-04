@@ -1,4 +1,16 @@
 ﻿
+.completed-notification {
+    text-align: center;
+    padding: 0;
+    margin: 0;
+}
+
+    .completed-notification label {
+        padding: 0;
+        margin: 0;
+        font-size: large;
+    }
+
 .game-bar {
     position: fixed;
     bottom: 0;
@@ -154,9 +166,9 @@
     position: relative;
 }
 
-.player-names div {
-    text-align: center;
-}
+    .player-names div {
+        text-align: center;
+    }
 
     .player-names .turn-notifier {
         font-size: large;

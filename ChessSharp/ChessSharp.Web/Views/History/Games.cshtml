@@ -1,0 +1,89 @@
+﻿@model IEnumerable<ChessSharp.Web.Models.CompletedGameViewModel>
+
+@{
+    ViewBag.Title = "Games";
+}
+
+<link href="../../Content/ChessBoard.css" rel="stylesheet" />
+
+<style>
+    .square {
+        width: 38px;
+        height: 38px;
+    }
+    .chessbox {
+        margin-bottom: 20px;
+    }
+</style>
+
+@Scripts.Render("~/bundles/history-angular")
+
+<div ng-app="csHistoryChessApp" ng-controller="HistoryChessCtrl">
+
+    <div class="chessbox" ng-show="game.Id > 0">
+        <div class="alert-bar">
+            <div class="completed-notification" ng-show="game.Complete">
+                <label ng-show="game.WinnerPlayer">Checkmate! {{game.WinnerPlayer.DisplayName}} wins!</label>
+                <label ng-show="!game.WinnerPlayer">This game is a Draw</label>
+            </div>
+        </div>
+
+        <table class="chessboard">
+            <tr ng-repeat="row in game.Board.Squares" class="row">
+                <td ng-repeat="square in row" ng-class="{ 'dark': isDark(square) }" class="square">
+                    <cs-piece piece="square.ChessPiece"></cs-piece>
+                </td>
+            </tr>
+        </table>
+        <div class="player-names">
+            <label class="light">Light: {{game.PlayerLight.DisplayName}}</label>
+            <label class="dark">Dark: {{game.PlayerDark.DisplayName}}</label>
+        </div>
+    </div>
+
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LightScore)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DarkScore)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MoveCount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Win)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @item.LightPlayerName: @item.LightScore
+                </td>
+                <td>
+                    @item.DarkPlayerName: @item.DarkScore
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MoveCount)
+                </td>
+                <td>
+                    @(item.Win != null ? item.Win.Value ? "Win" : "Loss" : "Draw")
+                </td>
+                <td>
+                    <button ng-click="viewGame(@item.Id)" class="btn btn-primary">View</button>
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>

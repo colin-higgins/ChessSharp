@@ -1,11 +1,21 @@
-﻿<link href="../../Content/ChessBoard.css" rel="stylesheet" />
-
+﻿
 <div class="chessbox" ng-show="game.Id > 0">
-    <table class="chessboard" style="margin:0; padding:0;">
+    <div class="alert-bar">
+        <div class="completed-notification" ng-show="game.Complete">
+            <label ng-show="game.WinnerPlayer">Checkmate! {{game.WinnerPlayer.DisplayName}} wins!</label>
+            <label ng-show="!game.WinnerPlayer">This game is a Draw</label>
+        </div>
+    </div>
+
+    <table class="chessboard">
         <tr ng-repeat="row in game.Board.Squares" class="row">
-            <td ng-repeat="square in row" class="square">
+            <td ng-repeat="square in row" ng-class="{ 'dark': isDark(square) }" class="square">
                 <cs-piece piece="square.ChessPiece"></cs-piece>
             </td>
         </tr>
     </table>
+    <div class="player-names">
+        <label class="light">Light: {{game.PlayerLight.DisplayName}}</label>
+        <label class="dark">Dark: {{game.PlayerDark.DisplayName}}</label>
+    </div>
 </div>

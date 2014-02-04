@@ -1,7 +1,7 @@
 ﻿/// <reference path="Templates/Piece.html" />
 /// <reference path="../Scripts/angular.js" />
 
-chessSharpPlay.directive('csPiece', function () {
+var csPieceDirective = function() {
 
     var pieceEnum = {
         Empty: 0,
@@ -17,14 +17,14 @@ chessSharpPlay.directive('csPiece', function () {
         Light: 0,
         Dark: 1,
     };
-    
-    var link = function (scope) {
+
+    var link = function(scope) {
 
         var imageRoot = '../../Images/';
         var defaultImage = imageRoot + 'placeholder.png';
         scope.imagePath = defaultImage;
 
-        var lightThenDark = function (lightImageName, darkImageName, team) {
+        var lightThenDark = function(lightImageName, darkImageName, team) {
             if (team == teamEnum.Light)
                 return imageRoot + lightImageName;
             if (team == teamEnum.Dark)
@@ -33,13 +33,13 @@ chessSharpPlay.directive('csPiece', function () {
             return defaultImage;
         };
 
-        scope.isOccupied = function () {
+        scope.isOccupied = function() {
             if (!scope.piece || scope.piece.PieceType == pieceEnum.Empty)
                 return false;
             return true;
         };
 
-        var pieceImage = function (piece) {
+        var pieceImage = function(piece) {
 
             if (!piece)
                 return defaultImage;
@@ -48,22 +48,22 @@ chessSharpPlay.directive('csPiece', function () {
             var team = piece.Team;
 
             switch (pieceType) {
-                case pieceEnum.Empty:
-                    return defaultImage;
-                case pieceEnum.Pawn:
-                    return lightThenDark('lightPawn.png', 'darkPawn.png', team);
-                case pieceEnum.Knight:
-                    return lightThenDark('lightKnight.png', 'darkKnight.png', team);
-                case pieceEnum.Bishop:
-                    return lightThenDark('lightBishop.png', 'darkBishop.png', team);
-                case pieceEnum.Rook:
-                    return lightThenDark('lightRook.png', 'darkRook.png', team);
-                case pieceEnum.Queen:
-                    return lightThenDark('lightQueen.png', 'darkQueen.png', team);
-                case pieceEnum.King:
-                    return lightThenDark('lightKing.png', 'darkKing.png', team);
-                default:
-                    return defaultImage;
+            case pieceEnum.Empty:
+                return defaultImage;
+            case pieceEnum.Pawn:
+                return lightThenDark('lightPawn.png', 'darkPawn.png', team);
+            case pieceEnum.Knight:
+                return lightThenDark('lightKnight.png', 'darkKnight.png', team);
+            case pieceEnum.Bishop:
+                return lightThenDark('lightBishop.png', 'darkBishop.png', team);
+            case pieceEnum.Rook:
+                return lightThenDark('lightRook.png', 'darkRook.png', team);
+            case pieceEnum.Queen:
+                return lightThenDark('lightQueen.png', 'darkQueen.png', team);
+            case pieceEnum.King:
+                return lightThenDark('lightKing.png', 'darkKing.png', team);
+            default:
+                return defaultImage;
             }
         };
 
@@ -76,9 +76,12 @@ chessSharpPlay.directive('csPiece', function () {
         scope: {
             piece: '=piece'
         },
-        controller: ['$scope', function ($scope) {
+        controller: ['$scope', function($scope) {
         }],
         link: link
     };
 
-});
+};
+
+chessSharpPlay.directive('csPiece', csPieceDirective);
+chessSharpHistory.directive('csPiece', csPieceDirective);

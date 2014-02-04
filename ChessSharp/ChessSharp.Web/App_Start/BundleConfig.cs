@@ -44,6 +44,11 @@ namespace ChessSharp.Web
                       "~/Angular/Directives/directives.js",
                       "~/Angular/Controllers/GameSelectionCtrl.js",
                       "~/Angular/Controllers/PlayChessCtrl.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/history-angular").Include(
+                      "~/Angular/Directives/directives.js",
+                      "~/Angular/ChessService.js",
+                      "~/Angular/Controllers/HistoryChessCtrl.js"));
         }
     }
 }

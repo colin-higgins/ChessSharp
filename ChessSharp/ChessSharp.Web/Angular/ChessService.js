@@ -1,28 +1,5 @@
-﻿//var chessSharpPlay = angular.module('chessSharpPlay', []);
-
-//chessSharpPlay.factory('gameService', function () {
-//    var shinyNewServiceInstance = {};
-//    //factory function body that constructs shinyNewServiceInstance
-
-//    shinyNewServiceInstance.getGame = function(Id, callback) {
-
-//        $.getJSON("/Home/GetGame/" + Id,
-//            function(data) {
-//                callback(data);
-//            }).
-//            fail(function(data) {
-//                if (console) {
-//                    console.log("Get game failure.");
-//                    console.log(data);
-//                }
-//                //failure(data);
-//            });
-//    };
-
-//    return shinyNewServiceInstance;
-//});
-
-chessSharpPlay.factory('gameApi', ['$http', function ($http) {
+﻿
+var gameApiInstance = function($http) {
     var mockBoard = [
     ];
 
@@ -46,10 +23,10 @@ chessSharpPlay.factory('gameApi', ['$http', function ($http) {
     }
 
     return {
-        challengePlayer: function (playerId) {
+        challengePlayer: function(playerId) {
 
         },
-        getPlayer: function (playerId) {
+        getPlayer: function(playerId) {
             return {
                 playerId: playerId,
                 playerName: "Bob Dole",
@@ -57,42 +34,46 @@ chessSharpPlay.factory('gameApi', ['$http', function ($http) {
                 losses: 5
             };
         },
-        getGame: function (gameId, onSuccess, onFailure) {
+        getGame: function(gameId, onSuccess, onFailure) {
             $http({
                 method: 'GET',
                 url: '/ChessApi/GetGame/' + gameId
             })
-            .success(function (data) {
-                onSuccess(data);
-            })
-            .error(function (data) {
-                onFailure(data);
-            });
+                .success(function(data) {
+                    onSuccess(data);
+                })
+                .error(function(data) {
+                    onFailure(data);
+                });
         },
-        getActiveGames: function (onSuccess, onFailure) {
+        getActiveGames: function(onSuccess, onFailure) {
             $http({
                 method: 'GET',
                 url: '/ChessApi/GetActiveGames/'
             })
-            .success(function (data) {
-                onSuccess(data);
-            })
-            .error(function (data) {
-                onFailure(data);
-            });
+                .success(function(data) {
+                    onSuccess(data);
+                })
+                .error(function(data) {
+                    onFailure(data);
+                });
         },
-        makeMove: function (gameId, move, onSuccess, onFailure) {
+        makeMove: function(gameId, move, onSuccess, onFailure) {
             $http({
                 method: 'POST',
                 url: '/ChessApi/MakeMove',
                 data: { id: gameId, move: move }
             })
-            .success(function (data) {
-                onSuccess(data);
-            })
-            .error(function (data, message) {
-                onFailure(data);
-            });;
+                .success(function(data) {
+                    onSuccess(data);
+                })
+                .error(function(data, message) {
+                    onFailure(data);
+                });
+            ;
         }
     };
-}]);
+};
+
+chessSharpPlay.factory('gameApi', ['$http', gameApiInstance]);
+chessSharpHistory.factory('gameApi', ['$http', gameApiInstance]);

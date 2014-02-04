@@ -16,3 +16,4 @@ chessSharpPlay.config(['$routeProvider', function ($routeProvider) {
 
 var chessSharpChallenge = angular.module('csChallengeApp', ['ngRoute']);
 
+var chessSharpHistory = angular.module('csHistoryChessApp', ['ngRoute']);

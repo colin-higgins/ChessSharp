@@ -15,7 +15,7 @@ namespace Chess.Domain.Repositories
 
         public IEnumerable<Game> GetUserGames(ChessUser user)
         {
-            return user.Games;
+            return _unitOfWork.All<Game>(g => g.LightPlayer == user || g.DarkPlayer == user);
         } 
     }
 }

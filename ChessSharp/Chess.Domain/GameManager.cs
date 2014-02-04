@@ -61,9 +61,18 @@ namespace Chess.Domain
 
             PerformMove(move, defender, piece);
 
+            MarkGameProgress(piece, defender);
+            ValidateKingNotInCheck(currentTeam);
+        }
+
+        private void MarkGameProgress(ChessPiece piece, ChessPiece defender)
+        {
             if (piece.PieceType == PieceType.Pawn || defender != null)
                 Game.MoveCountSinceProgress = 0;
+        }
 
+        private void ValidateKingNotInCheck(Team currentTeam)
+        {
             if (IsKingInCheck(currentTeam, _board.Squares))
                 throw new Exception("This move leaves your king in check!");
         }

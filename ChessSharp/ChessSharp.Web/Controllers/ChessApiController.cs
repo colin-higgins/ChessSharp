@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Web.Mvc;
 using Chess.Data.Entities;
-using Chess.Data.Enum;
 using Chess.Domain;
 using ChessSharp.Web.Models;
 
@@ -74,14 +73,19 @@ namespace ChessSharp.Web.Controllers
             }
             catch (Exception ex)
             {
-                var start = move.StartColumn + ", " + move.StartRow;
-                var end = move.EndColumn + ", " + move.EndRow;
-
-                var reasonForFailure = ex.Message;
-
-                throw new ArgumentException(String.Format("Moving {0} to {1} is illegal. {2}",
-                    start, end, reasonForFailure));
+                throw NewMoveFailureException(move, ex);
             }
+        }
+
+        private Exception NewMoveFailureException(Move move, Exception ex)
+        {
+            var start = move.StartColumn + ", " + move.StartRow;
+            var end = move.EndColumn + ", " + move.EndRow;
+
+            var reasonForFailure = ex.Message;
+
+            return new ArgumentException(String.Format("Moving {0} to {1} is illegal. {2}",
+                start, end, reasonForFailure));
         }
 
         [JsonErrorHandler]
