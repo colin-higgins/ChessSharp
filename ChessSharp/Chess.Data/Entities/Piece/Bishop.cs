@@ -11,7 +11,7 @@ namespace Chess.Data.Piece
             ScoreValue = 300;
         }
 
-        public override IEnumerable<Move> GetValidMoves()
+        public override IEnumerable<Move> GetValidMoves(Square[][] board)
         {
             throw new System.NotImplementedException();
         }

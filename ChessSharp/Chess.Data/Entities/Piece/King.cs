@@ -11,7 +11,7 @@ namespace Chess.Data.Piece
             ScoreValue = Int32.MaxValue;
         }
 
-        public override System.Collections.Generic.IEnumerable<Move> GetValidMoves()
+        public override System.Collections.Generic.IEnumerable<Move> GetValidMoves(Square[][] board)
         {
             throw new System.NotImplementedException();
         }

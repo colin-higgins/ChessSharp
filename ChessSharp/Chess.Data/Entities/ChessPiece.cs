@@ -86,8 +86,8 @@ namespace Chess.Data.Entities
             }
             return false;
         }
-        
-        public abstract IEnumerable<Move> GetValidMoves();
+
+        public abstract IEnumerable<Move> GetValidMoves(Square[][] board);
         public abstract bool IsLegalMove(Square[][] board, Move move, IEnumerable<Move> pastMoves = null);
 
         public void Move(Square[][] board, Move move)
