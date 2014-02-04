@@ -40,6 +40,11 @@
             <label class="dark">Dark: {{game.PlayerDark.DisplayName}}</label>
         </div>
     </div>
+    
+    @if (!Model.Any())
+    {
+        <h3>You have not yet completed any games.</h3>
+    }
 
     <table class="table">
         <tr>

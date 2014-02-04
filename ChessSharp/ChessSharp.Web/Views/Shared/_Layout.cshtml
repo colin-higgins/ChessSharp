@@ -40,33 +40,53 @@
     <div class="container body-content">
         @RenderBody()
         <hr />
-            
+
+        <style>
+            .challenge-list {
+                float: right;
+                display: inline-block;
+            }
+        </style>
+
         <footer>
             <p style="float: left;">&copy; @DateTime.Now.Year - Chess#</p>
-            <ul style="list-style: none; float: right;">
+            <div class="challenge-list">
                 @if (openChallenges != null && openChallenges.Any())
                 {
-                    <li><b>You've been challenged!</b></li>
-                    foreach (var challenge in openChallenges)
-                    {
-                        <li>
-                            <a href="~/Challenge/Decide/@(challenge.Id)">
+                    <select>
+                        <option><b>You have challenges!</b></option>
+                        @foreach (var challenge in openChallenges)
+                        {
+                            <option value="~/Challenge/Decide/@(challenge.Id)">
                                 @(challenge.ChallengeTitle + " - " + challenge.Opponent.DisplayName)
-                            </a>
-                        </li>
-                    }
+                            </option>
+                        }
+                    </select>
                 }
                 else
                 {
-                    <li>You have no challenges...</li>
+                    <label>You have no challenges...</label>
                 }
-            </ul>
-
+            </div>
         </footer>
     </div>
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var challengeList = $('.challenge-list select');
+
+            challengeList.change(function () {
+                var url = challengeList.val();
+
+                if (!url || !url.length) return;
+
+                window.location = url;
+            });
+        })
+    </script>
 </body>
 </html>
