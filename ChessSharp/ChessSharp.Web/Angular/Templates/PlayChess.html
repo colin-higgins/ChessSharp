@@ -5,9 +5,6 @@
         <select ng-model="selectedGame" ng-options="g.display for g in currentGames"></select>
         <button ng-click="getGame()" class="btn btn-primary btn-sm">Change Game</button>
     </div>
-    <div class="current">
-        Playing {{game.Name}} - {{game.PlayerLight.DisplayName}}(Light) VS {{game.PlayerDark.DisplayName}}(Dark)
-    </div>
     <button class="commit btn btn-success" ng-disabled="!canMakeMove()" ng-click="MakeMove()">Commit Move</button>
 </div>
 
@@ -17,15 +14,17 @@
             <b>{{Failure}}</b>
         </div>
     </div>
-    <table class="chessboard" style="margin:0; padding:0;">
-        <tr ng-repeat="row in game.Board.Squares" class="row">
-            <td ng-repeat="square in row"
+    <div class="chessboard">
+        <div ng-repeat="row in game.Board.Squares" class="row">
+            <span ng-repeat="square in row"
                 ng-class="{ 'dark': isDark(square), 'ready': isReady(square), 'destination': isDestination(square) }"
                 ng-click="setFocus(square)" class="square">
-                <img ng-class="{ 'empty': !isOccupied(square) }" ng-src="{{pieceImage(square.ChessPiece)}}" />
-            </td>
-        </tr>
-    </table>
+                
+                <cs-piece piece="square.ChessPiece"></cs-piece>
+
+            </span>
+        </div>
+    </div>
 
 </div>
 

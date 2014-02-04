@@ -14,13 +14,16 @@ namespace Chess.Domain.Repositories
 
         public void AddFromUser(ChessUser entity)
         {
-            var newPlayer = new Player()
+            if (entity != null)
             {
-                ChessUser = entity,
-                DisplayName = entity.UserName,
-            };
+                var newPlayer = new Player()
+                {
+                    ChessUser = entity,
+                    DisplayName = entity.UserName,
+                };
 
-            _unitOfWork.Add(newPlayer);
+                _unitOfWork.Add(newPlayer);
+            }
         }
 
         public void SaveOrUpdate(Player entity)

@@ -11,7 +11,7 @@ namespace ChessSharp.Web.Controllers
     {
         public ActionResult Index()
         {
-            if (CurrentPlayer == null)
+            if (CurrentUser != null && CurrentPlayer == null)
                 return RedirectToAction("RegisterPlayer", "Home", new { actionName = "Index", controllerName = "Home" });
 
             return View();
@@ -20,12 +20,12 @@ namespace ChessSharp.Web.Controllers
         [Authorize]
         public ActionResult Play()
         {
-            if (CurrentPlayer == null)
+            if (CurrentUser != null && CurrentPlayer == null)
                 return RedirectToAction("RegisterPlayer", "Home", new { actionName = "Play", controllerName = "Home" });
 
             var games = GetGamesForPlayer();
 
-            var gamesViewModel = games.Select(g => new ActiveGameViewModel()
+            var gamesViewModel = games.Select(g => new GamePreviewViewModel()
             {
                 Id = g.Id,
                 CurrentPlayerId = CurrentPlayer.Id,
@@ -41,9 +41,12 @@ namespace ChessSharp.Web.Controllers
         [HttpGet]
         public ActionResult RegisterPlayer(string actionName, string controllerName)
         {
-            var repository = new PlayerRepository(UnitOfWork);
-            repository.AddFromUser(CurrentUser);
-            UnitOfWork.Commit();
+            if (CurrentUser != null)
+            {
+                var repository = new PlayerRepository(UnitOfWork);
+                repository.AddFromUser(CurrentUser);
+                UnitOfWork.Commit();
+            }
 
             return RedirectToAction(actionName, controllerName);
         }

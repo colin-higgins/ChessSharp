@@ -1,6 +1,6 @@
 ﻿namespace ChessSharp.Web.Models
 {
-    public class ActiveGameViewModel
+    public class GamePreviewViewModel
     {
         public long Id { get; set; }
         public string Name { get; set; }

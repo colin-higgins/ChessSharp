@@ -178,6 +178,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\HistoryController.cs" />
     <Compile Include="Controllers\ChallengeController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\ChessApiController.cs" />
@@ -190,9 +191,11 @@
     <Compile Include="Models\ChessPieceViewModel.cs" />
     <Compile Include="Models\CreateChallengeViewModel.cs" />
     <Compile Include="Models\ExistingChallengeViewModel.cs" />
+    <Compile Include="Models\CompletedGameViewModel.cs" />
+    <Compile Include="Models\HistoricalGamesViewModel.cs" />
     <Compile Include="Models\PlayerViewModel.cs" />
     <Compile Include="Models\ChallengeViewModel.cs" />
-    <Compile Include="Models\ActiveGameViewModel.cs" />
+    <Compile Include="Models\GamePreviewViewModel.cs" />
     <Compile Include="Models\GameModel.cs" />
     <Compile Include="Models\SquareViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -211,6 +214,7 @@
     <Content Include="Angular\Directives\Templates\Piece.html" />
     <Content Include="Angular\Models\Game.js" />
     <Content Include="Angular\Router.js" />
+    <Content Include="Angular\Templates\ViewGame.html" />
     <Content Include="Angular\Templates\PlayChess.html" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
@@ -557,6 +561,7 @@
     <Content Include="Views\Home\RegisterPlayer.cshtml" />
     <Content Include="Views\Challenge\Accepted.cshtml" />
     <Content Include="Views\Challenge\Declined.cshtml" />
+    <Content Include="Views\History\CompletedGameList.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

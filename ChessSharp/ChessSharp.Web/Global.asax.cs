@@ -46,7 +46,10 @@ namespace ChessSharp.Web
             AutoMapper.Mapper.CreateMap<Square, SquareViewModel>();
 
             AutoMapper.Mapper.CreateMap<Game, GameModel>();
-            AutoMapper.Mapper.CreateMap<Game, ActiveGameViewModel>()
+            AutoMapper.Mapper.CreateMap<Game, GamePreviewViewModel>()
+                .ForMember(dest => dest.DarkPlayerName, opt => opt.MapFrom(src => src.DarkPlayer.DisplayName))
+                .ForMember(dest => dest.LightPlayerName, opt => opt.MapFrom(src => src.LightPlayer.DisplayName));
+            AutoMapper.Mapper.CreateMap<Game, CompletedGameViewModel>()
                 .ForMember(dest => dest.DarkPlayerName, opt => opt.MapFrom(src => src.DarkPlayer.DisplayName))
                 .ForMember(dest => dest.LightPlayerName, opt => opt.MapFrom(src => src.LightPlayer.DisplayName));
 

@@ -1,4 +1,5 @@
-﻿.game-bar {
+﻿
+.game-bar {
     position: fixed;
     bottom: 0;
     left: 0;
@@ -11,23 +12,23 @@
 }
 
     .game-bar .select {
-        margin-left: 5px;
-        margin-right: 20px;
         float: left;
         display: inline-block;
     }
 
-    .game-bar .current {
-        float: left;
-        display: inline-block;
-        color: #fff;
+    .game-bar button {
+        height: 80%;
     }
 
     .game-bar .commit {
         float: right;
         margin-right: 3px;
-        height: 80%;
     }
+
+.row {
+    margin: 0;
+    padding: 0;
+}
 
 .square {
     width: 60px;
@@ -38,44 +39,73 @@
     display: inline-block;
 }
 
-    .square.dark {
-        background-color: #888;
+@media (max-width: 850px) {
+    .square {
+        width: 55px;
+        height: 55px;
     }
-
-.ready {
-    background-color: yellow;
 }
 
-.destination {
-    background-color: green;
+
+@media (max-width: 700px) {
+    .square {
+        width: 50px;
+        height: 50px;
+    }
+}
+
+@media (max-width: 600px) {
+    .square {
+        width: 45px;
+        height: 45px;
+    }
+}
+
+@media (max-width: 500px) {
+    .square {
+        width: 40px;
+        height: 40px;
+    }
+
+    .game-bar {
+        text-align: center;
+    }
+        .game-bar .select {
+            width: 90%;
+            float: none;
+        }
+        .game-bar select {
+            width: inherit;
+            float: none;
+        }
+        .game-bar button {
+            width: 100%;
+            margin-top: 3px;
+            float: none;
+        }
+}
+
+@media (max-width: 400px) {
+    .square {
+        width: 36px;
+        height: 36px;
+    }
+
+    .row {
+        width: 290px;
+    }
 }
 
 .chessboard {
-    margin: 10px;
+    margin: auto;
 }
 
 .chessbox {
     margin-top: 15px;
     clear: both;
     display: inline-block;
-    border: thin solid black;
-    -ms-border-radius: 4px;
-    border-radius: 4px;
-    margin: auto;
-}
-
-.chessboard img {
-    width: inherit;
-    height: auto;
-}
-
-.chessboard .square img.empty {
-    display: none;
-    border-bottom: thin solid black;
-    border-left: thin solid black;
-    border-right: thin solid black;
-    -ms-border-radius: 3px;
-    border-radius: 3px;
+    margin: 0;
+    padding: 0;
 }
 
 .alert-bar {
@@ -83,4 +113,30 @@
     margin: 0;
     padding: 0;
     padding-top: 3px;
+}
+
+.chessboard .square img {
+    display: none;
+    margin: 0;
+    padding: 0;
+}
+
+.chessboard img.occupied {
+    max-width: 98%;
+    height: auto;
+    display: block;
+    margin: 0;
+    padding: 0;
+}
+
+.square.dark {
+    background-color: #888;
+}
+
+.ready {
+    background-color: yellow;
+}
+
+.destination {
+    background-color: green;
 }

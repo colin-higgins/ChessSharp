@@ -1,62 +1,84 @@
 ﻿/// <reference path="Templates/Piece.html" />
-/// <reference path="Templates/Piece.html" />
-/// <reference path="Templates/Piece.html" />
 /// <reference path="../Scripts/angular.js" />
 
 chessSharpPlay.directive('csPiece', function () {
 
-    var pieceEnum = function () {
-        this.Empty = 0;
-        this.Pawn = 1;
-        this.Knight = 2;
-        this.Bishop = 3;
-        this.Rook = 4;
-        this.Queen = 5;
-        this.King = 6;
+    var pieceEnum = {
+        Empty: 0,
+        Pawn: 1,
+        Knight: 2,
+        Bishop: 3,
+        Rook: 4,
+        Queen: 5,
+        King: 6,
     };
 
-    var teamEnum = function () {
-        this.Light = 0;
-        this.Dark = 1;
+    var teamEnum = {
+        Light: 0,
+        Dark: 1,
     };
     
-    function link(scope) {
-        scope.pieceImage = function(pieceType, team) {
+    var link = function (scope) {
 
-            var lightThenDark = function(lightPath, darkPath, team) {
-                if (team == teamEnum.Light)
-                    return lightPath;
-                if (team == teamEnum.Dark)
-                    return darkPath;
-            };
+        var imageRoot = '../../Images/';
+        var defaultImage = imageRoot + 'placeholder.png';
+        scope.imagePath = defaultImage;
+
+        var lightThenDark = function (lightImageName, darkImageName, team) {
+            if (team == teamEnum.Light)
+                return imageRoot + lightImageName;
+            if (team == teamEnum.Dark)
+                return imageRoot + darkImageName;
+
+            return defaultImage;
+        };
+
+        scope.isOccupied = function () {
+            if (!scope.piece || scope.piece.PieceType == pieceEnum.Empty)
+                return false;
+            return true;
+        };
+
+        var pieceImage = function (piece) {
+
+            if (!piece)
+                return defaultImage;
+
+            var pieceType = piece.PieceType;
+            var team = piece.Team;
 
             switch (pieceType) {
                 case pieceEnum.Empty:
-                    return '';
+                    return defaultImage;
                 case pieceEnum.Pawn:
-                    return lightThenDark('../Images/lightPawn.png', '../Images/darkPawn.png', team);      
+                    return lightThenDark('lightPawn.png', 'darkPawn.png', team);
                 case pieceEnum.Knight:
-                    return lightThenDark('../Images/lightKnight.png', '../Images/darkKnight.png', team);      
+                    return lightThenDark('lightKnight.png', 'darkKnight.png', team);
                 case pieceEnum.Bishop:
-                    return lightThenDark('../Images/lightBishop.png', '../Images/darkBishop.png', team);      
+                    return lightThenDark('lightBishop.png', 'darkBishop.png', team);
                 case pieceEnum.Rook:
-                    return lightThenDark('../Images/lightRook.png', '../Images/darkRook.png', team);      
+                    return lightThenDark('lightRook.png', 'darkRook.png', team);
                 case pieceEnum.Queen:
-                    return lightThenDark('../Images/lightQueen.png', '../Images/darkQueen.png', team);      
+                    return lightThenDark('lightQueen.png', 'darkQueen.png', team);
                 case pieceEnum.King:
-                    return lightThenDark('../Images/lightKing.png', '../Images/darkKing.png', team);      
+                    return lightThenDark('lightKing.png', 'darkKing.png', team);
                 default:
-                    return lightThenDark('../Images/lightTrex.png', '../Images/darkTrex.png', team);      
+                    return defaultImage;
             }
         };
-    }
+
+        scope.imagePath = pieceImage(scope.piece);
+    };
 
     return {
+        restrict: 'E',
         templateUrl: '../Angular/Directives/Templates/Piece.html',
         scope: {
-            pieceType: '=piece',
-            team: '='
-        }
+            piece: '=piece'
+        },
+        controller: ['$scope', function ($scope) {
+        }],
+        link: link
     };
 
 });

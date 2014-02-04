@@ -19,10 +19,17 @@ chessSharpPlay.controller('PlayChessCtrl', ['$scope', 'gameApi', function ($scop
 
     var getCurrentGameList = function () {
         var onSuccess = function (games) {
-            
+
+            var getDisplayName = function(g) {
+                return g.Id + ' - ' + g.Name + ' - ' + g.LightPlayerName + ' vs ' + g.DarkPlayerName;
+            };
+
             for (var i = 0; i < games.length; i++) {
                 var g = games[i];
-                g.display = g.Id + ' - ' + g.Name + ' - ' + g.LightPlayerName + ' vs ' + g.DarkPlayerName;
+                g.display = getDisplayName(g);
+
+                if (g.Id === $scope.selectedGame.Id)
+                    $scope.selectedGame = g;
             }
 
             $scope.currentGames = games;
@@ -35,7 +42,6 @@ chessSharpPlay.controller('PlayChessCtrl', ['$scope', 'gameApi', function ($scop
         gameApi.getActiveGames(onSuccess, onFail);
     };
 
-    getCurrentGameList();
     
     $scope.getGame = function () {
         var onSuccess = function (game) {
@@ -54,6 +60,8 @@ chessSharpPlay.controller('PlayChessCtrl', ['$scope', 'gameApi', function ($scop
     if ($scope.selectedGame) {
         $scope.getGame();
     }
+    
+    getCurrentGameList();
 
     $scope.canMakeMove = function () {
         if (!$scope.readyToMove)
@@ -107,28 +115,9 @@ chessSharpPlay.controller('PlayChessCtrl', ['$scope', 'gameApi', function ($scop
         tryMakeMove(move);
     };
 
-    var pieceEnum = {
-        Empty: 0,
-        Pawn: 1,
-        Knight: 2,
-        Bishop: 3,
-        Rook: 4,
-        Queen: 5,
-        King: 6,
-    };
-
     var teamEnum = {
         Light: 0,
         Dark: 1,
-    };
-
-    var lightThenDark = function (lightPath, darkPath, team) {
-        if (team == teamEnum.Light)
-            return lightPath;
-        if (team == teamEnum.Dark)
-            return darkPath;
-
-        return '../Images/placeholder.png';
     };
 
     $scope.setFocus = function (square) {
@@ -174,40 +163,6 @@ chessSharpPlay.controller('PlayChessCtrl', ['$scope', 'gameApi', function ($scop
             return false;
 
         return true;
-    };
-    $scope.isOccupied = function (square) {
-        if (!square.ChessPiece || square.ChessPiece.PieceType == pieceEnum.Empty)
-            return false;
-        return true;
-    };
-    $scope.pieceImage = function (piece) {
-
-        var defaultImage = '../Images/placeholder.png';
-        
-        if (!piece)
-            return defaultImage;
-
-        var pieceType = piece.PieceType;
-        var team = piece.Team;
-
-        switch (pieceType) {
-            case pieceEnum.Empty:
-                return defaultImage;
-            case pieceEnum.Pawn:
-                return lightThenDark('../Images/lightPawn.png', '../Images/darkPawn.png', team);
-            case pieceEnum.Knight:
-                return lightThenDark('../Images/lightKnight.png', '../Images/darkKnight.png', team);
-            case pieceEnum.Bishop:
-                return lightThenDark('../Images/lightBishop.png', '../Images/darkBishop.png', team);
-            case pieceEnum.Rook:
-                return lightThenDark('../Images/lightRook.png', '../Images/darkRook.png', team);
-            case pieceEnum.Queen:
-                return lightThenDark('../Images/lightQueen.png', '../Images/darkQueen.png', team);
-            case pieceEnum.King:
-                return lightThenDark('../Images/lightKing.png', '../Images/darkKing.png', team);
-            default:
-                return defaultImage;
-        }
     };
 
 }]);

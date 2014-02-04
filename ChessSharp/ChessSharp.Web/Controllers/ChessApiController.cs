@@ -41,7 +41,7 @@ namespace ChessSharp.Web.Controllers
         {
             var games = UnitOfWork.All<Game>(g => g.DarkPlayer == CurrentPlayer || g.LightPlayer == CurrentPlayer);
 
-            var gameModels = games.Select(AutoMapper.Mapper.Map<ActiveGameViewModel>);
+            var gameModels = games.Select(AutoMapper.Mapper.Map<GamePreviewViewModel>);
 
             return Json(gameModels, JsonRequestBehavior.AllowGet);
         }
