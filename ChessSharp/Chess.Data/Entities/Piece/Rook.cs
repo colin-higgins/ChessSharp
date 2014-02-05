@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Chess.Data.Entities;
 
 namespace Chess.Data.Piece
@@ -11,9 +12,23 @@ namespace Chess.Data.Piece
             ScoreValue = 500;
         }
 
-        public override System.Collections.Generic.IEnumerable<Move> GetValidMoves(Square[][] board)
+        public override IEnumerable<Move> GetValidMoves(Square[][] board)
         {
-            throw new System.NotImplementedException();
+            var legalMoves = new List<Move>();
+
+            if (!CurrentColumn.HasValue || !CurrentRow.HasValue || !Alive) return legalMoves;
+
+            var column = CurrentColumn.Value;
+            var row = CurrentRow.Value;
+
+            var endPositions = new List<Tuple<int, int>>();
+
+            GetVerticalMoves(board, column, row, endPositions);
+            GetHorizontalMoves(board, row, column, endPositions);
+
+            legalMoves.AddRange(endPositions.Select(p => SetupNewMove(p.Item1, p.Item2)));
+
+            return legalMoves;
         }
 
         public override bool IsLegalMove(Square[][] board, Move move, IEnumerable<Move> pastMoves = null)

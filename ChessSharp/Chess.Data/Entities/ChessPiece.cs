@@ -113,5 +113,79 @@ namespace Chess.Data.Entities
                 occupant.CurrentRow = null;
             }
         }
+
+        protected void GetDiagonalMoves(Square[][] board, int row, int column, List<Tuple<int, int>> endPositions)
+        {
+            for (var r = row; r < 8; r++)
+            {
+                ChessPiece occupant;
+                for (var c = column; c < 8; c++)
+                {
+                    occupant = board[r][c].ChessPiece;
+                    if (occupant != null && occupant.Team == Team) break;
+                    endPositions.Add(new Tuple<int, int>(r, c));
+                    if (occupant != null && occupant.Team != Team) break;
+                }
+                for (var c = column; c >= 0; c--)
+                {
+                    occupant = board[r][c].ChessPiece;
+                    if (occupant != null && occupant.Team == Team) break;
+                    endPositions.Add(new Tuple<int, int>(r, c));
+                    if (occupant != null && occupant.Team != Team) break;
+                }
+            }
+        }
+
+        protected void GetHorizontalMoves(Square[][] board, int row, int column, List<Tuple<int, int>> endPositions)
+        {
+            ChessPiece occupant;
+            for (var r = row; r < 8; r++)
+            {
+                occupant = board[r][column].ChessPiece;
+                if (occupant != null && occupant.Team == Team) break;
+                endPositions.Add(new Tuple<int, int>(r, column));
+                if (occupant != null && occupant.Team != Team) break;
+            }
+            for (var r = row; r >= 0; r--)
+            {
+                occupant = board[r][column].ChessPiece;
+                if (occupant != null && occupant.Team == Team) break;
+                endPositions.Add(new Tuple<int, int>(r, column));
+                if (occupant != null && occupant.Team != Team) break;
+            }
+        }
+
+        protected void GetVerticalMoves(Square[][] board, int column, int row, List<Tuple<int, int>> endPositions)
+        {
+            ChessPiece occupant;
+            for (var c = column; c < 8; c++)
+            {
+                occupant = board[row][c].ChessPiece;
+                if (occupant != null && occupant.Team == Team) break;
+                endPositions.Add(new Tuple<int, int>(row, c));
+                if (occupant != null && occupant.Team != Team) break;
+            }
+            for (var c = column; c < 8; c--)
+            {
+                occupant = board[row][c].ChessPiece;
+                if (occupant != null && occupant.Team == Team) break;
+                endPositions.Add(new Tuple<int, int>(row, c));
+                if (occupant != null && occupant.Team != Team) break;
+            }
+        }
+
+        protected Move SetupNewMove(int row, int column)
+        {
+            if (!CurrentColumn.HasValue || !CurrentRow.HasValue)
+                throw new Exception("A move can not be setup, this piece is missing a row or column.");
+
+            return new Move()
+            {
+                EndRow = row,
+                EndColumn = column,
+                StartRow = CurrentRow.Value,
+                StartColumn = CurrentColumn.Value
+            };
+        }
     }
 } 

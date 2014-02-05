@@ -11,6 +11,7 @@
         width: 38px;
         height: 38px;
     }
+
     .chessbox {
         margin-bottom: 20px;
     }
@@ -23,8 +24,8 @@
     <div class="chessbox" ng-show="game.Id > 0">
         <div class="alert-bar">
             <div class="completed-notification" ng-show="game.Complete">
-                <label ng-show="game.WinnerPlayer">Checkmate! {{game.WinnerPlayer.DisplayName}} wins!</label>
-                <label ng-show="!game.WinnerPlayer">This game is a Draw</label>
+                <label ng-show="game.Winner">Checkmate! {{game.Winner.DisplayName}} wins!</label>
+                <label ng-show="!game.Winner">This game is a Draw</label>
             </div>
         </div>
 

@@ -159,7 +159,7 @@ namespace Chess.Domain
             var validMoves = new List<Move>();
 
             foreach (var chessPiece in pieces)
-                validMoves.AddRange(chessPiece.GetValidMoves());
+                validMoves.AddRange(chessPiece.GetValidMoves(_board.Squares));
 
             return !validMoves.Any(SavesKing);
         }
@@ -189,9 +189,10 @@ namespace Chess.Domain
                 var mockRow = new List<Square>();
                 foreach (var square in row)
                 {
+                    var newPiece = square.ChessPiece == null ? null : pieceCaster.MapPiece(square.ChessPiece);
                     mockRow.Add(new Square()
                     {
-                        ChessPiece = pieceCaster.MapPiece(square.ChessPiece),
+                        ChessPiece = newPiece,
                         Column = square.Column,
                         Row = square.Row,
                     });

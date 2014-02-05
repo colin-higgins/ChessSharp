@@ -14,8 +14,8 @@
             <b>{{Failure}}</b>
         </div>
         <div class="completed-notification" ng-show="game.Complete">
-            <label ng-show="game.WinnerPlayer">Checkmate! {{game.WinnerPlayer.DisplayName}} wins!</label>
-            <label ng-show="!game.WinnerPlayer">This game is a Draw</label>
+            <label ng-show="game.Winner">Checkmate! {{game.Winner.DisplayName}} wins!</label>
+            <label ng-show="!game.Winner">This game is a Draw</label>
         </div>
     </div>
 

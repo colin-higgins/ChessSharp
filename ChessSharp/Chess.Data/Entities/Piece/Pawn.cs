@@ -13,9 +13,46 @@ namespace Chess.Data.Piece
             ScoreValue = 100;
         }
 
-        public override System.Collections.Generic.IEnumerable<Move> GetValidMoves(Square[][] board)
+        public override IEnumerable<Move> GetValidMoves(Square[][] board)
         {
-            throw new System.NotImplementedException();
+            var legalMoves = new List<Move>();
+
+            if (!CurrentColumn.HasValue || !CurrentRow.HasValue || !Alive) return legalMoves;
+
+            var column = CurrentColumn.Value;
+            var row = CurrentRow.Value;
+            var newRow = row + LegalDirectionByTeam();
+
+            var openingMove = SetupNewMove(newRow + 1, column);
+            var normalMove = SetupNewMove(newRow, column);
+
+            if (board[normalMove.EndRow][normalMove.EndColumn].ChessPiece == null)
+            {
+                legalMoves.Add(normalMove);
+
+                if (ValidOpeningPushWithNoDefender(board, openingMove))
+                    legalMoves.Add(openingMove);
+            }
+
+            if (column - 1 >= 0)
+            {
+                var attackLeft = SetupNewMove(newRow, column - 1);
+                var leftOccupant = board[attackLeft.EndRow][attackLeft.EndColumn].ChessPiece;
+
+                if (leftOccupant != null && leftOccupant.Team != Team)
+                    legalMoves.Add(attackLeft);
+            }
+
+            if (column + 1 < 8)
+            {
+            var attackRight = SetupNewMove(newRow, column + 1);
+            var rightOccupant = board[attackRight.EndRow][attackRight.EndColumn].ChessPiece;
+
+            if (rightOccupant != null && rightOccupant.Team != Team)
+                legalMoves.Add(attackRight);
+            }
+            
+            return legalMoves;
         }
 
         private int LegalDirectionByTeam()
@@ -25,12 +62,13 @@ namespace Chess.Data.Piece
             return -1;
         }
 
-        public bool ValidOpeningPushWithNoDefender(ChessPiece destinationPiece, Move move)
+        public bool ValidOpeningPushWithNoDefender(Square[][] board, Move move)
         {
             return MoveCount == 0 
                 && move.RowChange == LegalDirectionByTeam() * 2 
                 && move.ColumnChange == 0
-                && destinationPiece == null;
+                && board[move.EndRow - LegalDirectionByTeam()][move.EndColumn] == null
+                && board[move.EndRow][move.EndColumn] == null;
         }
 
         public override bool IsLegalMove(Square[][] board, Move move, IEnumerable<Move> pastMoves = null)
@@ -38,7 +76,7 @@ namespace Chess.Data.Piece
             var defender = GetDestinationPiece(board, move);
 
             if (move.RowChange != LegalDirectionByTeam())
-                if (!ValidOpeningPushWithNoDefender(defender, move))
+                if (!ValidOpeningPushWithNoDefender(board, move))
                     return false;
 
             if (move.ColumnChange != 0)
