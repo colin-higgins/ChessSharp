@@ -84,7 +84,16 @@ namespace Chess.Domain
             if (FitsCastleCriteria(move, piece))
                 MoveRookForCastle(move);
 
+            if (defender != null)
+            {
+                if (piece.Team == Team.Dark)
+                    Game.DarkScore += defender.ScoreValue;
+                if (piece.Team == Team.Light)
+                    Game.LightScore += defender.ScoreValue;
+            }
+
             piece.Move(_board.Squares, move);
+
             Game.MoveCount++;
             Game.MoveCountSinceProgress++;
         }

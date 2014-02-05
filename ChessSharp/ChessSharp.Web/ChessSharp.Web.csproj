@@ -562,7 +562,6 @@
     <Content Include="Views\Home\RegisterPlayer.cshtml" />
     <Content Include="Views\Challenge\Accepted.cshtml" />
     <Content Include="Views\Challenge\Declined.cshtml" />
-    <Content Include="Views\History\CompletedGameList.cshtml" />
     <Content Include="Views\History\Games.cshtml" />
   </ItemGroup>
   <ItemGroup />
