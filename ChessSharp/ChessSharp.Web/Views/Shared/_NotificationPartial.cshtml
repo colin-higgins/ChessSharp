@@ -1,0 +1,60 @@
+﻿<link href="~/Content/Notification.css" rel="stylesheet" />
+
+<div ng-controller="NotificationCtrl" class="player-status-list navbar-brand"
+     style="padding: 0;
+       margin: 0;
+       margin-right: 5px;
+       float: left;"
+     ng-mouseout="handleMouseOut()">
+    <span class="status-tab" ng-click="toggleNotifications()">
+        <span ng-cloak>
+            <span class="icon-count" ng-hide="challenges.length == 0">
+                {{challenges.length}}
+            </span>
+            <span class="icon-count" ng-hide="readyGameCount() == 0">
+                {{readyGameCount()}}
+            </span>
+        </span>
+        <img src="~/Images/chess-notify.png" />
+    </span>
+    <div class="status-list" ng-hide="!showNotifications" ng-mouseout="handleMouseOut()" ng-mouseover="cancelMouseOut()" ng-cloak>
+        <div class="challenges">
+            <span ng-click="toggleChallenges();">
+                Challenges
+                <i class="glyphicon glyphicon-circle-arrow-down"></i>
+                <span class="count">{{challenges.length}}</span>
+            </span>
+            <ul ng-show="showChallenges">
+                <li ng-repeat="challenge in challenges">
+                    <a href="~/Challenge/Decide/{{challenge.Id}}">
+                        <h6>{{challenge.ChallengeTitle}}</h6>
+                        {{challenge.Opponent.DisplayName}}
+                    </a>
+                </li>
+                <li ng-hide="challenges.length > 0">
+                    <a>No incoming challenges</a>
+                </li>
+            </ul>
+
+        </div>
+
+        <div class="games">
+            <span ng-click="toggleGames()">
+                Games
+                <i class="glyphicon glyphicon-circle-arrow-down"></i>
+                <span class="count">{{readyGameCount()}}</span>
+            </span>
+            <ul ng-show="showGames">
+                <li ng-repeat="game in games">
+                    <a href="~/Home/Play#/{{game.Id}}" ng-class="{ 'game-ready': game.IsPlayersTurn }">
+                        <h6>{{game.Name}}</h6>
+                        {{game.OpponentName}}
+                    </a>
+                </li>
+                <li ng-hide="games.length > 0">
+                    <a>No active games</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

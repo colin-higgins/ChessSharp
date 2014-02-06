@@ -1,0 +1,103 @@
+﻿.count {
+    float: right;
+    padding: 0;
+    margin: 0;
+    background-color: #008000;
+    padding-left: 2px;
+    padding-right: 2px;
+    -ms-border-radius: 2px;
+    border-radius: 2px;
+}
+
+.player-status-list {
+    color: white;
+    font-style: normal;
+}
+
+    .player-status-list li a {
+        color: white;
+        display: block;
+        padding: 6px;
+        font-size: .8em;
+    }
+
+        .player-status-list li a h6 {
+            padding: 0;
+            margin: 0;
+            padding-bottom: 2px;
+            font-weight: 800;
+        }
+
+.challenges > span, .games > span {
+    display: block;
+    margin: 0;
+    text-align: left;
+    padding: 5px;
+    -moz-min-width: 170px;
+    -ms-min-width: 170px;
+    -o-min-width: 170px;
+    -webkit-min-width: 170px;
+    min-width: 220px;
+    border-bottom: solid gray thin;
+}
+
+    .challenges > span:hover, .games > span:hover {
+        cursor: pointer;
+        background-color: #2e8b57;
+    }
+
+.challenges ul, .games ul {
+    margin: 0;
+    padding: 0;
+    overflow-y: scroll;
+    height: 198px;
+}
+
+.challenges li, .games li {
+    text-align: center;
+}
+
+    .challenges li:hover, .games li:hover {
+        background-color: #2e8b57;
+    }
+
+.status-list {
+    top: 50px;
+    z-index: 9999;
+    position: fixed;
+    background-color: #0f2f2f;
+}
+
+.icon-count {
+    background-color: red;
+    font-size: .5em;
+    color: white;
+    padding: 1px;
+    width: 8px;
+    -ms-border-radius: 2px;
+    border-radius: 2px;
+    display: block;
+    margin-top: 2px;
+}
+
+.status-tab img {
+    height: 50px;
+    width: auto;
+    float: left;
+    padding: 7px;
+    margin: 0;
+}
+
+.status-tab > span {
+    float: left;
+}
+
+.status-tab img:hover {
+    background-color: #2e8b57;
+    cursor: pointer;
+}
+
+.game-ready {
+    background-color: green;
+    color: black;
+}

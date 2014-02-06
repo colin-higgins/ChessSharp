@@ -84,4 +84,3 @@ var csPieceDirective = function() {
 };
 
 chessSharpPlay.directive('csPiece', csPieceDirective);
-chessSharpHistory.directive('csPiece', csPieceDirective);

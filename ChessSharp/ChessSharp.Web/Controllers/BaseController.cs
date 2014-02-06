@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using Chess.Data;
@@ -44,7 +45,27 @@ namespace ChessSharp.Web.Controllers
                     OpponentTeam = c.LightPlayer == c.ChallengingPlayer ? Team.Light : Team.Dark
                 }).ToList();
 
+                var lightGames = UnitOfWork.All<Game>(g => g.LightPlayer == CurrentUser && !g.Complete);
+                var darkGames = UnitOfWork.All<Game>(g => g.DarkPlayer == CurrentUser && !g.Complete);
+
+                var openGames = new List<GamePreviewViewModel>();
+                foreach (var game in lightGames)
+                {
+                    var model = AutoMapper.Mapper.Map<GamePreviewViewModel>(game);
+                    model.IsPlayersTurn = game.MoveCount % 2 == 0;
+                    model.OpponentName = model.DarkPlayerName;
+                    openGames.Add(model);
+                }
+                foreach (var game in darkGames)
+                {
+                    var model = AutoMapper.Mapper.Map<GamePreviewViewModel>(game);
+                    model.IsPlayersTurn = game.MoveCount % 2 == 1;
+                    model.OpponentName = model.LightPlayerName;
+                    openGames.Add(model);
+                }
+
                 Session["__OpenChallenges"] = openChallenges;
+                Session["__OpenGames"] = openGames;
             }
         }
 

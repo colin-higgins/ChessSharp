@@ -1,5 +1,5 @@
 ﻿
-chessSharpHistory.controller('HistoryChessCtrl', ['$scope', 'gameApi', function($scope, gameApi) {
+chessSharpPlay.controller('HistoryChessCtrl', ['$scope', 'gameApi', function ($scope, gameApi) {
 
     $scope.viewGame = function(id) {
         var onSuccess = function(game) {

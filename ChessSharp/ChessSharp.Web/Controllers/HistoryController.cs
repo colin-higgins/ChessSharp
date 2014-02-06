@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using Chess.Data.Entities;
 using Chess.Domain.Repositories;
 using ChessSharp.Web.Models;
 
@@ -16,7 +17,6 @@ namespace ChessSharp.Web.Controllers
             _gameRepository = new GameRepository(UnitOfWork);
         }
 
-        [Authorize]
         [HttpGet]
         public ActionResult Games(int? id = null)
         {
@@ -43,6 +43,19 @@ namespace ChessSharp.Web.Controllers
                 }
 
                 return View(games);
+            }
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        [HttpGet]
+        public ActionResult Challenges(int? id = null)
+        {
+            if (CurrentUser != null)
+            {
+                var challenges = UnitOfWork.All<Challenge>(c => c.ChallengingPlayer == CurrentUser);
+
+                return View(challenges);
             }
 
             return RedirectToAction("Index", "Home");

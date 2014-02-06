@@ -1,27 +1,5 @@
 ﻿
 var gameApiInstance = function($http) {
-    var mockBoard = [
-    ];
-
-    for (var col = 0; col < 8; col++) {
-        var squares = [];
-
-        for (var row = 0; row < 8; row++) {
-
-            var piece = {
-                pieceType: "generic",
-                alive: true
-            };
-
-            if (row < 2 || row > 5)
-                squares.push(piece);
-            else
-                squares.push({});
-        }
-
-        mockBoard.push(squares);
-    }
-
     return {
         challengePlayer: function(playerId) {
 
@@ -58,6 +36,18 @@ var gameApiInstance = function($http) {
                     onFailure(data);
                 });
         },
+        getChallenges: function (onSuccess, onFailure) {
+            $http({
+                method: 'GET',
+                url: '/ChessApi/GetIncomingChallenges/'
+            })
+                .success(function (data) {
+                    onSuccess(data);
+                })
+                .error(function (data) {
+                    onFailure(data);
+                });
+        },
         makeMove: function(gameId, move, onSuccess, onFailure) {
             $http({
                 method: 'POST',
@@ -76,4 +66,3 @@ var gameApiInstance = function($http) {
 };
 
 chessSharpPlay.factory('gameApi', ['$http', gameApiInstance]);
-chessSharpHistory.factory('gameApi', ['$http', gameApiInstance]);

@@ -1,0 +1,38 @@
+﻿@model IEnumerable<Chess.Data.Entities.Challenge>
+
+@{
+    ViewBag.Title = "Challenges";
+}
+
+<h2>Challenges</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.DateTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Title)
+        </th>
+        <th>Status</th>
+        <th>Light</th>
+        <th>Dark</th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.DateTime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Title)
+        </td>
+        <td>
+            @(item.Accepted.HasValue ? item.Accepted.Value ? "Accepted" : "Declined" : "Unanswered")
+        </td>
+        <td>@item.LightPlayer.DisplayName</td>
+        <td>@item.DarkPlayer.DisplayName</td>
+    </tr>
+}
+
+</table>

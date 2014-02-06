@@ -67,8 +67,8 @@ namespace Chess.Data.Piece
             return MoveCount == 0 
                 && move.RowChange == LegalDirectionByTeam() * 2 
                 && move.ColumnChange == 0
-                && board[move.EndRow - LegalDirectionByTeam()][move.EndColumn] == null
-                && board[move.EndRow][move.EndColumn] == null;
+                && board[move.EndRow - LegalDirectionByTeam()][move.EndColumn].ChessPiece == null
+                && board[move.EndRow][move.EndColumn].ChessPiece == null;
         }
 
         public override bool IsLegalMove(Square[][] board, Move move, IEnumerable<Move> pastMoves = null)

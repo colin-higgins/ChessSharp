@@ -178,6 +178,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HistoryController.cs" />
     <Compile Include="Controllers\ChallengeController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
@@ -210,7 +211,7 @@
     <Content Include="Angular\Controllers\HistoryChessCtrl.js" />
     <Content Include="Angular\Controllers\PlayChessCtrl.js" />
     <Content Include="Angular\ChessService.js" />
-    <Content Include="Angular\Controllers\GameSelectionCtrl.js" />
+    <Content Include="Angular\Controllers\NotificationCtrl.js" />
     <Content Include="Angular\Directives\directives.js" />
     <Content Include="Angular\Directives\Templates\Piece.html" />
     <Content Include="Angular\Models\Game.js" />
@@ -219,6 +220,7 @@
     <Content Include="Angular\Templates\PlayChess.html" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Notification.css" />
     <Content Include="Content\ChessBoard.css" />
     <Content Include="Content\Chess.css" />
     <Content Include="favicon.ico" />
@@ -226,6 +228,7 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Images\boardBorder.png" />
+    <Content Include="Images\chess-notify.png" />
     <Content Include="Images\darkBishop.png" />
     <Content Include="Images\darkKing.png" />
     <Content Include="Images\darkKnight.png" />
@@ -274,6 +277,8 @@
     <Content Include="Scripts\angular-cookies.min.js.map" />
     <Content Include="Scripts\angular-animate.min.js.map" />
     <Content Include="Scripts\angular.min.js.map" />
+    <None Include="Properties\PublishProfiles\LE Azure.pubxml" />
+    <None Include="Properties\PublishProfiles\Local Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\i18n\angular-locale_af-na.js" />
     <Content Include="Scripts\i18n\angular-locale_af-za.js" />
@@ -534,9 +539,11 @@
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
@@ -563,6 +570,9 @@
     <Content Include="Views\Challenge\Accepted.cshtml" />
     <Content Include="Views\Challenge\Declined.cshtml" />
     <Content Include="Views\History\Games.cshtml" />
+    <Content Include="Views\Error\Index.cshtml" />
+    <Content Include="Views\History\Challenges.cshtml" />
+    <Content Include="Views\Shared\_NotificationPartial.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

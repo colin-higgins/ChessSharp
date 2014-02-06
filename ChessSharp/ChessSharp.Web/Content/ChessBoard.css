@@ -23,22 +23,13 @@
     overflow: hidden;
 }
 
-    .game-bar .select {
-        float: left;
-        display: inline-block;
-    }
-
-    .game-bar select {
-        width: 350px;
-    }
-
     .game-bar button {
         height: 80%;
     }
 
     .game-bar .commit {
-        float: right;
-        margin-right: 3px;
+        float: left;
+        margin-left: 6px;
     }
 
 .row {
@@ -134,6 +125,12 @@
     padding: 0;
     padding-top: 3px;
 }
+
+    .alert-bar .alert-danger {
+        margin: 0;
+        padding: 2px;
+        padding-left: 4px;
+    }
 
 .chessboard .square img {
     display: none;

@@ -30,25 +30,13 @@ namespace ChessSharp.Web
             bundles.Add(new ScriptBundle("~/bundles/angular").Include(
                       "~/Scripts/angular.js",
                       "~/Scripts/angular-route.js",
-                      "~/Angular/Router.js"));
-
-
-            bundles.Add(new ScriptBundle("~/bundles/challenge-angular").Include(
+                      "~/Angular/Router.js",
                       "~/Angular/ChessService.js",
+                      "~/Angular/Directives/directives.js",
+                      "~/Angular/Controllers/PlayChessCtrl.js",
+                      "~/Angular/Controllers/HistoryChessCtrl.js",
                       "~/Angular/Controllers/ChallengeCtrl.js",
-                      "~/Angular/Controllers/GameSelectionCtrl.js",
-                      "~/Angular/Controllers/PlayChessCtrl.js"));
-
-            bundles.Add(new ScriptBundle("~/bundles/play-angular").Include(
-                      "~/Angular/ChessService.js",
-                      "~/Angular/Directives/directives.js",
-                      "~/Angular/Controllers/GameSelectionCtrl.js",
-                      "~/Angular/Controllers/PlayChessCtrl.js"));
-
-            bundles.Add(new ScriptBundle("~/bundles/history-angular").Include(
-                      "~/Angular/Directives/directives.js",
-                      "~/Angular/ChessService.js",
-                      "~/Angular/Controllers/HistoryChessCtrl.js"));
+                      "~/Angular/Controllers/NotificationCtrl.js"));
         }
     }
 }

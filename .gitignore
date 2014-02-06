@@ -178,3 +178,5 @@ Desktop.ini
 
 # Recycle Bin used on file shares
 $RECYCLE.BIN/
+ChessSharp/ChessSharp.Web/Properties/PublishProfiles/LE Azure.pubxml
+ChessSharp/ChessSharp.Web/Web.Release.config

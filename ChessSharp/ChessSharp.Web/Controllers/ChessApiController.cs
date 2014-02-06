@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using Chess.Data.Entities;
+using Chess.Data.Enum;
 using Chess.Domain;
 using ChessSharp.Web.Models;
 
@@ -36,13 +38,48 @@ namespace ChessSharp.Web.Controllers
         }
 
         [JsonErrorHandler]
+        public ActionResult GetIncomingChallenges()
+        {
+            var challenges =
+                    UnitOfWork.All<Challenge>(c => c.ChallengingPlayer.Id != CurrentUser.Id && c.Accepted == null)
+                        .Where(c => c.LightPlayer.Id == CurrentUser.Id || c.DarkPlayer.Id == CurrentUser.Id);
+
+            var openChallenges = challenges.Select(c => new ExistingChallengeViewModel()
+            {
+                Accepted = false,
+                ChallengeTitle = c.Title,
+                DateTime = c.DateTime,
+                Id = c.ChallengeId,
+                Opponent = c.ChallengingPlayer,
+                OpponentTeam = c.LightPlayer == c.ChallengingPlayer ? Team.Light : Team.Dark
+            }).ToList();
+
+            return Json(openChallenges, JsonRequestBehavior.AllowGet);
+        }
+
+        [JsonErrorHandler]
         public ActionResult GetActiveGames()
         {
-            var games = UnitOfWork.All<Game>(g => g.DarkPlayer == CurrentUser || g.LightPlayer == CurrentUser);
+            var lightGames = UnitOfWork.All<Game>(g => g.LightPlayer == CurrentUser);
+            var darkGames = UnitOfWork.All<Game>(g => g.DarkPlayer == CurrentUser);
 
-            var gameModels = games.Select(AutoMapper.Mapper.Map<GamePreviewViewModel>);
+            var gameModels = new List<GamePreviewViewModel>();
+            foreach (var game in lightGames)
+            {
+                var model = AutoMapper.Mapper.Map<GamePreviewViewModel>(game);
+                model.IsPlayersTurn = game.MoveCount % 2 == 0;
+                model.OpponentName = game.DarkPlayer.DisplayName;
+                gameModels.Add(model);
+            }
+            foreach (var game in darkGames)
+            {
+                var model = AutoMapper.Mapper.Map<GamePreviewViewModel>(game);
+                model.IsPlayersTurn = game.MoveCount % 2 == 1;
+                model.OpponentName = game.LightPlayer.DisplayName;
+                gameModels.Add(model);
+            }
 
-            return Json(gameModels, JsonRequestBehavior.AllowGet);
+            return Json(gameModels.OrderBy(g => !g.IsPlayersTurn), JsonRequestBehavior.AllowGet);
         }
 
         [JsonErrorHandler]
@@ -64,7 +101,7 @@ namespace ChessSharp.Web.Controllers
                     gameManager.MarkGameAsDraw();
                 else if (gameManager.IsCheckmate())
                     gameManager.MarkWinningTeam(movingTeam);
-                    
+
                 UnitOfWork.Commit();
 
                 var model = GetGameModel(game);
@@ -123,9 +160,9 @@ namespace ChessSharp.Web.Controllers
             var boardModel = AutoMapper.Mapper.Map<BoardViewModel>(board);
             var darkPlayerModel = AutoMapper.Mapper.Map<PlayerViewModel>(game.DarkPlayer);
             var lightPlayerModel = AutoMapper.Mapper.Map<PlayerViewModel>(game.LightPlayer);
-            var winnerPlayer = (PlayerViewModel) null;
+            var winnerPlayer = (PlayerViewModel)null;
 
-            if (game.WinnerPlayer != null) 
+            if (game.WinnerPlayer != null)
                 winnerPlayer = AutoMapper.Mapper.Map<PlayerViewModel>(game.WinnerPlayer);
 
             var gameModel = new GameModel()
@@ -169,7 +206,7 @@ namespace ChessSharp.Web.Controllers
         private Game GetChessGame(long id)
         {
             var game = UnitOfWork.Find<Game>(id);
-                                
+
             if (game == null)
                 throw new ArgumentException(String.Format("Game {0} does not exist.", id));
 

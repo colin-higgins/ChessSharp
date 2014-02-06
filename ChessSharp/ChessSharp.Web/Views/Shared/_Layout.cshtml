@@ -1,7 +1,5 @@
 ﻿@using ChessSharp.Web.Models
-@{
-    var openChallenges = (List<ExistingChallengeViewModel>)Session["__OpenChallenges"];
-}
+@using WebGrease.Css.Extensions
 
 <!DOCTYPE html>
 <html>
@@ -14,7 +12,8 @@
     @Scripts.Render("~/bundles/angular")
 
 </head>
-<body>
+<body ng-app="csPlayChessApp">
+
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
@@ -24,25 +23,29 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
+                @Html.Partial("_NotificationPartial")
                 @Html.ActionLink("Chess#", "Index", "Home", null, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("Play", "Play", "Home")</li>
                     <li>@Html.ActionLink("Challenge", "Make", "Challenge")</li>
-                    <li>@Html.ActionLink("History", "Games", "History")</li>
+                    <li>@Html.ActionLink("Game History", "Games", "History")</li>
+                    <li>@Html.ActionLink("Challenge History", "Challenges", "History")</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
         </div>
     </div>
+
+
+
     <div class="container body-content">
         @RenderBody()
         <hr />
 
         <style>
-            .challenge-list {
+            .player-status-list {
                 float: right;
                 display: inline-block;
             }
@@ -50,43 +53,13 @@
 
         <footer>
             <p style="float: left;">&copy; @DateTime.Now.Year - Chess#</p>
-            <div class="challenge-list">
-                @if (openChallenges != null && openChallenges.Any())
-                {
-                    <select>
-                        <option><b>You have challenges!</b></option>
-                        @foreach (var challenge in openChallenges)
-                        {
-                            <option value="~/Challenge/Decide/@(challenge.Id)">
-                                @(challenge.ChallengeTitle + " - " + challenge.Opponent.DisplayName)
-                            </option>
-                        }
-                    </select>
-                }
-                else
-                {
-                    <label>You have no challenges...</label>
-                }
-            </div>
+
         </footer>
     </div>
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
-
-    <script type="text/javascript">
-        $(document).ready(function () {
-            var challengeList = $('.challenge-list select');
-
-            challengeList.change(function () {
-                var url = challengeList.val();
-
-                if (!url || !url.length) return;
-
-                window.location = url;
-            });
-        })
-    </script>
 </body>
+
 </html>

@@ -4,7 +4,7 @@ var chessSharpPlay = angular.module('csPlayChessApp', ['ngRoute']);
 
 chessSharpPlay.config(['$routeProvider', function ($routeProvider) {
     $routeProvider
-        .when('/', {
+        .when('/:gameId', {
             templateUrl: '/Angular/Templates/PlayChess.html',
             controller: 'PlayChessCtrl'
         })
@@ -13,7 +13,3 @@ chessSharpPlay.config(['$routeProvider', function ($routeProvider) {
             controller: 'PlayChessCtrl'
         });
 }]);
-
-var chessSharpChallenge = angular.module('csChallengeApp', ['ngRoute']);
-
-var chessSharpHistory = angular.module('csHistoryChessApp', ['ngRoute']);

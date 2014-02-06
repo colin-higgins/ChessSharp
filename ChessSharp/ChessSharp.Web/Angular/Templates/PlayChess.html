@@ -1,16 +1,12 @@
 ﻿<link href="../../Content/ChessBoard.css" rel="stylesheet" />
 
 <div class="game-bar">
-    <div class="select">
-        <select ng-model="selectedGame" ng-options="g.display for g in currentGames"></select>
-        <button ng-click="getGame()" class="btn btn-primary btn-sm">Change Game</button>
-    </div>
     <button class="commit btn btn-success" ng-disabled="!canMakeMove()" ng-click="MakeMove()">Commit Move</button>
 </div>
 
 <div class="chessbox" ng-show="game.Id > 0">
     <div class="alert-bar">
-        <div ng-show="Failure" class="alert-danger" style="margin:0; padding: 2px; padding-left: 4px;">
+        <div ng-show="Failure" class="alert-danger">
             <b>{{Failure}}</b>
         </div>
         <div class="completed-notification" ng-show="game.Complete">
@@ -31,9 +27,9 @@
         </tr>
     </table>
     <div class="player-names">
-        <label class="light">Light: {{selectedGame.LightPlayerName}}</label>
+        <label class="light">Light: {{game.PlayerLight.DisplayName}}</label>
         <div><label class="turn-notifier" ng-show="game.IsCurrentPlayersMove && !game.Complete">Your move!</label></div>
-        <label class="dark">Dark: {{selectedGame.DarkPlayerName}}</label>
+        <label class="dark">Dark: {{game.PlayerDark.DisplayName}}</label>
     </div>
 </div>
 

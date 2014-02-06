@@ -6,40 +6,8 @@
 
 <h2>Accept or Deny a Challenge</h2>
 
-@Scripts.Render("~/bundles/challenge-angular")
-
 <hr />
-<div class="form-horizontal" ng-app="csChallengeApp" ng-controller="ChallengeCtrl">
-
-    <style>
-        .challenge-buttons {
-            width: 400px;
-            display: block;
-            position: relative;
-            margin-bottom: 10px;
-        }
-
-            .challenge-buttons button {
-                width: 170px;
-            }
-
-            .challenge-buttons input {
-                width: 100%;
-                max-width: none;
-            }
-
-            .challenge-buttons .btn-success {
-                float: left;
-            }
-
-            .challenge-buttons .btn-danger {
-                float: right;
-            }
-
-            .challenge-buttons h4 {
-                text-align: center;
-            }
-    </style>
+<div class="form-horizontal" ng-controller="ChallengeCtrl">
 
     <div>
         <h3>
@@ -66,22 +34,48 @@
 
         @using (Html.BeginForm())
         {
-            @Html.AntiForgeryToken()
+        @Html.AntiForgeryToken()
 
-            @Html.HiddenFor(model => model.Id)
+        @Html.HiddenFor(model => model.Id)
 
-            <input class="check-box"
-                   data-val="true"
-                   data-val-required="The Accepted field is required."
-                   id="Accepted" name="Accepted"
-                   type="checkbox" value="true"
-                   ng-checked="challengeAccepted" style="display: none;">
+        <input class="check-box"
+               data-val="true"
+               data-val-required="The Accepted field is required."
+               id="Accepted" name="Accepted"
+               type="checkbox" value="true"
+               ng-checked="challengeAccepted" style="display: none;">
 
-            <input type="submit" value="Submit" class="btn btn-primary" />
+        <input type="submit" value="Submit" class="btn btn-primary" />
         }
     </div>
 </div>
+<style>
 
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
+    .challenge-buttons {
+        width: 400px;
+        display: block;
+        position: relative;
+        margin-bottom: 10px;
+    }
+
+        .challenge-buttons button {
+            width: 170px;
+        }
+
+        .challenge-buttons input {
+            width: 100%;
+            max-width: none;
+        }
+
+        .challenge-buttons .btn-success {
+            float: left;
+        }
+
+        .challenge-buttons .btn-danger {
+            float: right;
+        }
+
+        .challenge-buttons h4 {
+            text-align: center;
+        }
+</style>

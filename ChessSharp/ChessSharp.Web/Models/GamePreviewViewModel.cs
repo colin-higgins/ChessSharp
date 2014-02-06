@@ -8,5 +8,7 @@
 
         public string DarkPlayerName { get; set; }
         public string LightPlayerName { get; set; }
+        public string OpponentName { get; set; }
+        public bool IsPlayersTurn { get; set; }
     }
 }
