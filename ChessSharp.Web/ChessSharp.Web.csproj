@@ -229,24 +229,19 @@
     <Content Include="Content\Site.css" />
     <Content Include="Images\boardBorder.png" />
     <Content Include="Images\chess-notify.png" />
-    <Content Include="Images\darkBishop.png" />
-    <Content Include="Images\darkKing.png" />
-    <Content Include="Images\darkKnight.png" />
-    <Content Include="Images\darkPawn.png" />
-    <Content Include="Images\darkQueen.png" />
-    <Content Include="Images\darkRook.png" />
-    <Content Include="Images\darkSquare.png" />
-    <Content Include="Images\darkTrex.jpg" />
-    <Content Include="Images\lightBishop.png" />
-    <Content Include="Images\lightKing.png" />
-    <Content Include="Images\lightKnight.png" />
-    <Content Include="Images\lightPawn.png" />
-    <Content Include="Images\lightQueen.png" />
-    <Content Include="Images\lightRook.png" />
-    <Content Include="Images\lightSquare.png" />
-    <Content Include="Images\lightTrex.jpg" />
+    <Content Include="Images\dark-bishop.png" />
+    <Content Include="Images\dark-king.png" />
+    <Content Include="Images\dark-knight.png" />
+    <Content Include="Images\dark-pawn.png" />
+    <Content Include="Images\dark-queen.png" />
+    <Content Include="Images\dark-rook.png" />
+    <Content Include="Images\light-bishop.png" />
+    <Content Include="Images\light-king.png" />
+    <Content Include="Images\light-knight.png" />
+    <Content Include="Images\light-pawn.png" />
+    <Content Include="Images\light-queen.png" />
+    <Content Include="Images\light-rook.png" />
     <Content Include="Images\placeholder.png" />
-    <Content Include="Images\trex.jpg" />
     <Content Include="Scripts\angular-animate.js" />
     <Content Include="Scripts\angular-animate.min.js" />
     <Content Include="Scripts\angular-cookies.js" />
@@ -536,7 +531,9 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>

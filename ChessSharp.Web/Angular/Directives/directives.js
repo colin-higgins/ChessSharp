@@ -51,17 +51,17 @@ var csPieceDirective = function() {
             case pieceEnum.Empty:
                 return defaultImage;
             case pieceEnum.Pawn:
-                return lightThenDark('lightPawn.png', 'darkPawn.png', team);
+                return lightThenDark('light-pawn.png', 'dark-pawn.png', team);
             case pieceEnum.Knight:
-                return lightThenDark('lightKnight.png', 'darkKnight.png', team);
+                return lightThenDark('light-knight.png', 'dark-knight.png', team);
             case pieceEnum.Bishop:
-                return lightThenDark('lightBishop.png', 'darkBishop.png', team);
+                return lightThenDark('light-bishop.png', 'dark-bishop.png', team);
             case pieceEnum.Rook:
-                return lightThenDark('lightRook.png', 'darkRook.png', team);
+                return lightThenDark('light-rook.png', 'dark-rook.png', team);
             case pieceEnum.Queen:
-                return lightThenDark('lightQueen.png', 'darkQueen.png', team);
+                return lightThenDark('light-queen.png', 'dark-queen.png', team);
             case pieceEnum.King:
-                return lightThenDark('lightKing.png', 'darkKing.png', team);
+                return lightThenDark('light-king.png', 'dark-king.png', team);
             default:
                 return defaultImage;
             }
