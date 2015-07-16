@@ -187,5 +187,12 @@ namespace Chess.Data.Entities
                 StartColumn = CurrentColumn.Value
             };
         }
+
+        protected int LegalDirectionByTeam()
+        {
+            if (Team == Team.Light)
+                return 1;
+            return -1;
+        }
     }
 } 

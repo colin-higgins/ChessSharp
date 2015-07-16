@@ -45,27 +45,20 @@ namespace Chess.Data.Piece
 
             if (column + 1 < 8)
             {
-            var attackRight = SetupNewMove(newRow, column + 1);
-            var rightOccupant = board[attackRight.EndRow][attackRight.EndColumn].ChessPiece;
+                var attackRight = SetupNewMove(newRow, column + 1);
+                var rightOccupant = board[attackRight.EndRow][attackRight.EndColumn].ChessPiece;
 
-            if (rightOccupant != null && rightOccupant.Team != Team)
-                legalMoves.Add(attackRight);
+                if (rightOccupant != null && rightOccupant.Team != Team)
+                    legalMoves.Add(attackRight);
             }
-            
-            return legalMoves;
-        }
 
-        private int LegalDirectionByTeam()
-        {
-            if (Team == Team.Light)
-                return 1;
-            return -1;
+            return legalMoves;
         }
 
         public bool ValidOpeningPushWithNoDefender(Square[][] board, Move move)
         {
-            return MoveCount == 0 
-                && move.RowChange == LegalDirectionByTeam() * 2 
+            return MoveCount == 0
+                && move.RowChange == LegalDirectionByTeam() * 2
                 && move.ColumnChange == 0
                 && board[move.EndRow - LegalDirectionByTeam()][move.EndColumn].ChessPiece == null
                 && board[move.EndRow][move.EndColumn].ChessPiece == null;
@@ -81,13 +74,12 @@ namespace Chess.Data.Piece
 
             if (move.ColumnChange != 0)
             {
-                if (Math.Abs(move.ColumnChange) > 1)
-                    throw new Exception("You may not move horizontally with a pawn.");
-                if (move.RowChange != LegalDirectionByTeam())
-                    throw new Exception("You are moving in the wrong direction for this pawn's team.");
-                if (defender == null)
-                    if (!IsLegalEnPassant(board, move, pastMoves)) 
-                        return false;
+                CheckForMultipleColumnMovement(move);
+
+                CheckForLegalDirection(move);
+
+                if (defender == null && !IsLegalEnPassant(board, move, pastMoves))
+                    return false;
 
                 ValidateNotAttackingSameTeam(board, move);
 
@@ -100,6 +92,18 @@ namespace Chess.Data.Piece
             return true;
         }
 
+        private void CheckForLegalDirection(Move move)
+        {
+            if (move.RowChange != LegalDirectionByTeam())
+                throw new Exception("You are moving in the wrong direction for this pawn's team.");
+        }
+
+        private static void CheckForMultipleColumnMovement(Move move)
+        {
+            if (Math.Abs(move.ColumnChange) > 1)
+                throw new Exception("You may not move horizontally with a pawn.");
+        }
+
         private bool IsLegalEnPassant(Square[][] board, Move move, IEnumerable<Move> pastMoves)
         {
             if (pastMoves == null) return false;
@@ -110,14 +114,20 @@ namespace Chess.Data.Piece
 
             var piece = GetDestinationPiece(board, lastMove);
 
-            if (!(piece.PieceType == PieceType.Pawn
-                  && lastMove.EndRow == move.EndRow - LegalDirectionByTeam()
-                  && lastMove.EndColumn == move.EndColumn
-                  && piece.MoveCount == 1))
+            if (IsPawnsSecondMoveInProperDirection(move, lastMove, piece))
             {
-                return false;
+                return true;
             }
-            return true;
+
+            return false;
+        }
+
+        private bool IsPawnsSecondMoveInProperDirection(Move move, Entities.Move lastMove, ChessPiece piece)
+        {
+            return piece.PieceType == PieceType.Pawn
+                   && lastMove.EndRow == move.EndRow - LegalDirectionByTeam()
+                   && lastMove.EndColumn == move.EndColumn
+                   && piece.MoveCount == 1;
         }
     }
 }
