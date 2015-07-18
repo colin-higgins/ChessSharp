@@ -19,10 +19,14 @@ namespace Chess.Domain
 
         public Board(Square[] squares)
         {
-            if (squares.Count() != 64)
-                throw new InvalidDataException("There must be 64 squares to initialize a board.");
+            VerifyBoardHasAllSquares(squares);
+            SetupSquareMatrix(squares);
+        }
 
-            var orderedSquares = squares.OrderBy(s => s.Row).ThenBy(s => s.Column);
+        private void SetupSquareMatrix(Square[] squares)
+        {
+
+            var orderedSquares = OrderSquaresForBoard(squares);
 
             var row = new List<Square>();
             var tempSquares = new List<Square[]>();
@@ -30,12 +34,30 @@ namespace Chess.Domain
             foreach (var square in orderedSquares)
             {
                 row.Add(square);
-                if (row.Count() != 8) continue;
+
+                if (row.Count != 8)
+                {
+                    continue;
+                }
+
                 tempSquares.Add(row.ToArray());
                 row = new List<Square>();
             }
 
             Squares = tempSquares.ToArray();
+        }
+
+        private static IOrderedEnumerable<Square> OrderSquaresForBoard(Square[] squares)
+        {
+
+            var orderedSquares = squares.OrderBy(s => s.Row).ThenBy(s => s.Column);
+            return orderedSquares;
+        }
+
+        private static void VerifyBoardHasAllSquares(Square[] squares)
+        {
+            if (squares.Count != 64)
+                throw new InvalidDataException("There must be 64 squares to initialize a board.");
         }
 
         public Board()

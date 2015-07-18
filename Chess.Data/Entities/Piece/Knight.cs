@@ -22,6 +22,32 @@ namespace Chess.Data.Piece
             var column = CurrentColumn.Value;
             var row = CurrentRow.Value;
 
+            var possibleEndPositions = PossibleEndPositions(column, row);
+
+            foreach (var position in possibleEndPositions)
+            {
+                var newRow = position.Item1;
+                var newColumn = position.Item2;
+
+                if (EndPositionIsWithinBounds(newRow, newColumn))
+                {
+                    var occupant = board[newRow][newColumn].ChessPiece;
+
+                    if (occupant == null || occupant.Team != Team)
+                        legalMoves.Add(SetupNewMove(newRow, newColumn));
+                }
+            }
+
+            return legalMoves;
+        }
+
+        private static bool EndPositionIsWithinBounds(int newRow, int newColumn)
+        {
+            return newRow < 8 && newRow >= 0 && newColumn < 8 && newColumn >= 0;
+        }
+
+        private static Tuple<int, int>[] PossibleEndPositions(int column, int row)
+        {
             var possibleEndPosition = new[]
             {
                 new Tuple<int, int>(column + 1, row + 2),
@@ -33,22 +59,7 @@ namespace Chess.Data.Piece
                 new Tuple<int, int>(column - 2, row + 1),
                 new Tuple<int, int>(column - 2, row - 1),
             };
-
-            foreach (var position in possibleEndPosition)
-            {
-                var newRow = position.Item1;
-                var newColumn = position.Item2;
-
-                if (newRow < 8 && newRow >= 0)
-                    if (newColumn < 8 && newColumn >= 0)
-                    {
-                        var occupant = board[newRow][newColumn].ChessPiece;
-                        if (occupant == null || occupant.Team != Team)
-                            legalMoves.Add(SetupNewMove(newRow, newColumn));
-                    }
-            }
-
-            return legalMoves;
+            return possibleEndPosition;
         }
 
         public override bool IsLegalMove(Square[][] board, Move move, IEnumerable<Move> pastMoves = null)
