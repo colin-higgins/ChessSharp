@@ -75,8 +75,8 @@ namespace Chess.Data
 
     internal class InMemoryDbSet<T> : IDbSet<T> where T : class
     {
-        private readonly HashSet<T> set;
-        private readonly IQueryable<T> queryableSet;
+        private readonly HashSet<T> _set;
+        private readonly IQueryable<T> _queryableSet;
 
         public InMemoryDbSet()
             : this(Enumerable.Empty<T>())
@@ -86,12 +86,12 @@ namespace Chess.Data
 
         public InMemoryDbSet(IEnumerable<T> entities)
         {
-            set = new HashSet<T>();
+            _set = new HashSet<T>();
             foreach (var entity in entities)
             {
-                set.Add(entity);
+                _set.Add(entity);
             }
-            queryableSet = set.AsQueryable();
+            _queryableSet = _set.AsQueryable();
         }
 
         public T Find(params object[] keyValues)
@@ -101,19 +101,19 @@ namespace Chess.Data
 
         public T Add(T entity)
         {
-            set.Add(entity);
+            _set.Add(entity);
             return entity;
         }
 
         public T Remove(T entity)
         {
-            set.Remove(entity);
+            _set.Remove(entity);
             return entity;
         }
 
         public T Attach(T entity)
         {
-            set.Add(entity);
+            _set.Add(entity);
             return entity;
         }
 
@@ -131,32 +131,32 @@ namespace Chess.Data
 
         public void DeleteObject(T entity)
         {
-            set.Remove(entity);
+            _set.Remove(entity);
         }
 
         public void Detach(T entity)
         {
-            set.Remove(entity);
+            _set.Remove(entity);
         }
 
         public Type ElementType
         {
-            get { return queryableSet.ElementType; }
+            get { return _queryableSet.ElementType; }
         }
 
         public Expression Expression
         {
-            get { return queryableSet.Expression; }
+            get { return _queryableSet.Expression; }
         }
 
         public IQueryProvider Provider
         {
-            get { return queryableSet.Provider; }
+            get { return _queryableSet.Provider; }
         }
 
         public IEnumerator<T> GetEnumerator()
         {
-            return set.GetEnumerator();
+            return _set.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()

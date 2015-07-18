@@ -1,6 +1,7 @@
 ﻿/// <reference path="NotificationCtrl.js" />
 
-chessSharpPlay.controller('NotificationCtrl', ['$scope', '$timeout', 'gameApi', function ($scope, $timeout, gameApi) {
+chessSharpPlay.controller('NotificationCtrl', ['$scope', '$timeout', 'gameApi', '$rootScope',
+    function ($scope, $timeout, gameApi, $rootScope) {
 
     $scope.showNotifications = false;
     $scope.showGames = false;
@@ -66,23 +67,40 @@ chessSharpPlay.controller('NotificationCtrl', ['$scope', '$timeout', 'gameApi', 
         gameApi.getChallenges(onSuccess, onFail);
     };
 
-    getChallenges();
-    getGames();
+    if ($rootScope.doNotPoll == false) {
+        getChallenges();
+        getGames();
+    }
 
     var timedGameRetrieve = function () {
+
         $timeout(function () {
+
+            if ($rootScope.doNotPoll) {
+                return;
+            }
+
             getGames();
             timedGameRetrieve();
+
         }, 15000);
+
     };
 
     timedGameRetrieve();
 
     var timedChallengeRetrieve = function () {
+
         $timeout(function () {
+
+            if ($rootScope.doNotPoll) {
+                return;
+            }
+
             getChallenges();
             timedChallengeRetrieve();
         }, 30000);
+
     };
 
     timedChallengeRetrieve();

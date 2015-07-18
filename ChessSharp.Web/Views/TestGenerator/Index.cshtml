@@ -1,0 +1,72 @@
+﻿@model ChessSharp.Web.Models.TestGenerationViewModel
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Test Generator</h2>
+
+@if (Model.Message != null)
+{
+    <h4>@Model.Message</h4>
+}
+
+<script src="~/Angular/Controllers/TestChessCtrl.js"></script>
+<script text="text/javascript">
+
+    chessSharpPlay.run([
+        '$rootScope', function ($rootScope) {
+            $rootScope.doNotPoll = true;
+            $rootScope.gameState = @(Html.Raw(Model.GameState));
+        }
+    ]);
+
+</script>
+
+<div ng-controller="TestChessCtrl">
+
+    <div ng-include="'/Angular/Templates/PlayChess.html'">
+    </div>
+
+
+    @using (Html.BeginForm())
+    {
+        <hr />
+
+        @Html.AntiForgeryToken()
+
+        @Html.HiddenFor(m => m.ParentTestName)
+        @Html.HiddenFor(m => m.GameState)
+        @Html.HiddenFor(m => m.TestMove, new { Value = "{{moveToTest}}" })
+
+        <div class="form-horizontal">
+            @Html.ValidationSummary(true)
+            <div class="form-group">
+                @Html.LabelFor(model => model.TestName, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.TestName)
+                    @Html.ValidationMessageFor(model => model.TestName)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.IsLegal, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.IsLegal)
+                    @Html.ValidationMessageFor(model => model.IsLegal)
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Create Test Case" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
+    }
+
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

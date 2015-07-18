@@ -1,0 +1,49 @@
+﻿@model ChessSharp.Web.Models.TestResultsViewModel
+
+@{
+    ViewBag.Title = "RunTests";
+
+    int index = 1;
+}
+
+<style>
+    .test-failure {
+        background-color: #dc143c;
+        color: white;
+    }
+    .test-pass {
+        background-color: #00ff00;
+        color: black;
+    }
+</style>
+
+<h2>Run Tests: (@Model.Results.Count)</h2>
+
+<h5>Failed: @Model.Results.Count(i => !i.TestPassed)</h5>
+<h5>Passed: @Model.Results.Count(i => i.TestPassed)</h5>
+
+<table class="table">
+    <tr>
+        <th></th>
+        <th>Test Name</th>
+        <th>Test Result</th>
+        <th>Expected Legality</th>
+        <th>Actual Legality</th>
+        <th>View Board State</th>
+    </tr>
+
+@foreach (var item in Model.Results.OrderBy(i => i.TestPassed))
+{
+    <tr class="@(item.TestPassed ? "test-pass" : "test-failure")">
+        <td>@index</td>
+        <td>@item.TestName</td>
+        <td>@(item.TestPassed ? "Pass" : "FAILURE")</td>
+        <td>@(item.ExpectedLegality ? "Legal" : "Illegal")</td>
+        <td>@(item.ActualLegality ? "Legal" : "Illegal")</td>
+        <td>(TODO)</td>
+    </tr>
+    
+    index = index + 1;
+}
+
+</table>

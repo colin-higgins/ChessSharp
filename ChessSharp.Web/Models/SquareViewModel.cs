@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace ChessSharp.Web.Models
+﻿namespace ChessSharp.Web.Models
 {
     public class SquareViewModel
     {

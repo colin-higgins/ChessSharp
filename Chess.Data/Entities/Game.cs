@@ -2,7 +2,26 @@
 
 namespace Chess.Data.Entities
 {
-    public class Game : IModifiable
+    public interface IGame
+    {
+        long Id { get; set; }
+        string Name { get; set; }
+        int LightScore { get; set; }
+        int DarkScore { get; set; }
+        int MoveCount { get; set; }
+        int MoveCountSinceProgress { get; set; } //Progress: Capture of a piece or movement of a pawn
+        bool Complete { get; set; }
+
+        ICollection<Move> Moves { get; set; }
+        ICollection<Square> Squares { get; set; }
+
+        ChessUser LightPlayer { get; set; }
+        ChessUser DarkPlayer { get; set; }
+        ChessUser WinnerPlayer { get; set; }
+        Challenge Challenge { get; set; }
+    }
+
+    public class Game : IModifiable, IGame
     {
         public long Id { get; set; }
         public string Name { get; set; }

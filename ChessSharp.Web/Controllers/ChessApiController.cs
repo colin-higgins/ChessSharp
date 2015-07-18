@@ -37,6 +37,7 @@ namespace ChessSharp.Web.Controllers
             throw new NotImplementedException("This method has not been implemented.");
         }
 
+        [HttpGet]
         [JsonErrorHandler]
         public ActionResult GetIncomingChallenges()
         {
@@ -57,6 +58,7 @@ namespace ChessSharp.Web.Controllers
             return Json(openChallenges, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpGet]
         [JsonErrorHandler]
         public ActionResult GetActiveGames()
         {
@@ -82,6 +84,7 @@ namespace ChessSharp.Web.Controllers
             return Json(gameModels.OrderBy(g => !g.IsPlayersTurn), JsonRequestBehavior.AllowGet);
         }
 
+        [HttpPost]
         [JsonErrorHandler]
         public ActionResult MakeMove(long id, Move move)
         {
@@ -125,6 +128,7 @@ namespace ChessSharp.Web.Controllers
                 start, end, reasonForFailure));
         }
 
+        [HttpGet]
         [JsonErrorHandler]
         public ActionResult GetGame(long id)
         {

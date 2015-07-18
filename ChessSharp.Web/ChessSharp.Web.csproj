@@ -178,6 +178,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\TestGeneratorController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HistoryController.cs" />
     <Compile Include="Controllers\ChallengeController.cs" />
@@ -194,11 +195,13 @@
     <Compile Include="Models\ExistingChallengeViewModel.cs" />
     <Compile Include="Models\CompletedGameViewModel.cs" />
     <Compile Include="Models\HistoricalGamesViewModel.cs" />
+    <Compile Include="Models\MoveViewModel.cs" />
     <Compile Include="Models\PlayerViewModel.cs" />
     <Compile Include="Models\ChallengeViewModel.cs" />
     <Compile Include="Models\GamePreviewViewModel.cs" />
     <Compile Include="Models\GameModel.cs" />
     <Compile Include="Models\SquareViewModel.cs" />
+    <Compile Include="Models\TestGenerationViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -209,6 +212,7 @@
     </Content>
     <Content Include="Angular\Controllers\ChallengeCtrl.js" />
     <Content Include="Angular\Controllers\HistoryChessCtrl.js" />
+    <Content Include="Angular\Controllers\TestChessCtrl.js" />
     <Content Include="Angular\Controllers\PlayChessCtrl.js" />
     <Content Include="Angular\ChessService.js" />
     <Content Include="Angular\Controllers\NotificationCtrl.js" />
@@ -570,8 +574,12 @@
     <Content Include="Views\Error\Index.cshtml" />
     <Content Include="Views\History\Challenges.cshtml" />
     <Content Include="Views\Shared\_NotificationPartial.cshtml" />
+    <Content Include="Views\TestGenerator\Index.cshtml" />
+    <Content Include="Views\TestGenerator\RunTests.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="TestCases\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />

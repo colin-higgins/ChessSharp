@@ -26,7 +26,7 @@ namespace ChessSharp.Web.Controllers
                 Players = playersToChallenge.Select(AutoMapper.Mapper.Map<PlayerViewModel>).ToList(),
                 CurrentChallenges = currentChallenges.Select(c => new ChallengeViewModel
                 {
-                    Accepted = c.Accepted.HasValue ? c.Accepted.Value : false,
+                    Accepted = c.Accepted.HasValue && c.Accepted.Value,
                     ChallengerId = c.ChallengingPlayer.Id,
                     ChallengeTitle = c.Title,
                     DarkPlayerId = c.DarkPlayer.Id,
@@ -117,6 +117,7 @@ namespace ChessSharp.Web.Controllers
         private void RespondToChallenge(long challengeId, bool accepted)
         {
             var challenge = UnitOfWork.Find<Challenge>(challengeId);
+
             if (accepted)
             {
                 var board = new Board();
@@ -133,12 +134,13 @@ namespace ChessSharp.Web.Controllers
                 foreach (var square in squares)
                 {
                     square.Game = game;
-                    square.ChessPiece = (ChessPiece) square.ChessPiece;
+                    square.ChessPiece = (ChessPiece) square.ChessPiece; //TODO: Why did I do this?
                     UnitOfWork.Add(square);
                 }
 
                 UnitOfWork.Add(game);
             }
+
             challenge.Accepted = accepted;
             UnitOfWork.Commit();
         }

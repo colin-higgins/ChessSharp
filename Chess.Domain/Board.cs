@@ -56,7 +56,7 @@ namespace Chess.Domain
 
         private static void VerifyBoardHasAllSquares(Square[] squares)
         {
-            if (squares.Count != 64)
+            if (squares.Count() != 64)
                 throw new InvalidDataException("There must be 64 squares to initialize a board.");
         }
 
