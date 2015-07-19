@@ -104,8 +104,12 @@ namespace ChessSharp.Web
 
         private static void MapGameTypes()
         {
-            AutoMapper.Mapper.CreateMap<Game, GameModel>();
+            AutoMapper.Mapper.CreateMap<Game, GameModel>()
+                .ForMember(dest => dest.MoveCount, opt => opt.MapFrom(src => src.MoveCount))
+                .ForMember(dest => dest.Moves, opt => opt.MapFrom(src => src.Moves));
+
             AutoMapper.Mapper.CreateMap<GameModel, Game>()
+                .ForMember(dest => dest.Moves, opt => opt.MapFrom(src => src.Moves))
                 .ForMember(dest => dest.Squares, opt => opt.MapFrom(src => src.Board.Squares.SelectMany(s => s)));
 
             AutoMapper.Mapper.CreateMap<Game, GamePreviewViewModel>()

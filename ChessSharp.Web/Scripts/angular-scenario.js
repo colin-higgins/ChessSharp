@@ -6924,7 +6924,7 @@ jQuery.fn.extend({
 	show: function() {
 		return showHide( this, true );
 	},
-	hide: function() {
+	togglehide: function() {
 		return showHide( this );
 	},
 	toggle: function( state ) {

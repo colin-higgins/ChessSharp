@@ -108,7 +108,7 @@ namespace Chess.Data.Piece
         {
             if (pastMoves == null) return false;
 
-            var lastMove = pastMoves.FirstOrDefault();
+            var lastMove = pastMoves.LastOrDefault();
 
             if (lastMove == null) return false;
 

@@ -74,15 +74,22 @@ namespace Chess.Domain
         private void ValidateKingNotInCheck(Team currentTeam)
         {
             if (IsKingInCheck(currentTeam, _board.Squares))
+            {
                 throw new Exception("This move leaves your king in check!");
+            }
         }
 
         private void PerformMove(Move move, ChessPiece defender, ChessPiece piece)
         {
             if (FitsEnPassantCriteria(move, defender, piece))
+            {
                 PerformEnPassant(move);
+            }
+
             if (FitsCastleCriteria(move, piece))
+            {
                 MoveRookForCastle(move);
+            }
 
             if (defender != null)
             {
@@ -94,6 +101,12 @@ namespace Chess.Domain
 
             piece.Move(_board.Squares, move);
 
+            IncrementMoveData(move);
+        }
+
+        private void IncrementMoveData(Move move)
+        {
+            Game.Moves.Add(move);
             Game.MoveCount++;
             Game.MoveCountSinceProgress++;
         }
@@ -101,7 +114,9 @@ namespace Chess.Domain
         private void ValidateActiveGame()
         {
             if (Game.Complete)
+            {
                 throw new Exception("This game has already ended!");
+            }
         }
 
         private bool PiecesCanCheckmate(ChessPiece[] pieces)
@@ -135,7 +150,9 @@ namespace Chess.Domain
             var lightPieces = remainingPieces.Where(p => p.Team == Team.Light).ToArray();
 
             if (PiecesCanCheckmate(darkPieces) || PiecesCanCheckmate(lightPieces))
+            {
                 return false;
+            }
 
             return true;
         }
@@ -148,12 +165,20 @@ namespace Chess.Domain
 
             if (NeitherTeamCanCheckmate()) return true;
 
-            var lastSixMoves = Game.Moves.Reverse().Take(6).ToArray();
-
-            if (lastSixMoves[0].Equals(lastSixMoves[5]) && lastSixMoves[1].Equals(lastSixMoves[6]))
+            if (LastSixMovesAreRepeats()) 
                 return true;
 
             return false;
+        }
+
+        private bool LastSixMovesAreRepeats()
+        {
+            var lastSixMoves = Game.Moves.Reverse().Take(6).ToArray();
+
+            var lastSixMovesAreRepeats = lastSixMoves[0].Equals(lastSixMoves[5]) &&
+                                         lastSixMoves[1].Equals(lastSixMoves[6]); //TODO: review this condition
+
+            return lastSixMovesAreRepeats;
         }
 
         public bool IsCheckmate()
@@ -161,6 +186,7 @@ namespace Chess.Domain
             if (!IsKingInCheck(TeamToMove(), _board.Squares)) return false;
 
             var squares = _board.Squares.SelectMany(s => s).ToList();
+
             var pieces = squares
                 .Where(s => s.ChessPiece != null && s.ChessPiece.Team == TeamToMove())
                 .Select(s => s.ChessPiece);
@@ -183,7 +209,9 @@ namespace Chess.Domain
             piece.Move(squares, move);
 
             if (IsKingInCheck(currentTeam, squares))
+            {
                 return false;
+            }
 
             return true;
         }
@@ -227,7 +255,9 @@ namespace Chess.Domain
             var teamName = Enum.GetName(typeof(Team), piece.Team);
             var pieceName = Enum.GetName(typeof(PieceType), piece.PieceType);
 
-            if (!piece.IsLegalMove(_board.Squares, move))
+            var orderedMoves = Game.Moves.OrderBy(i => i.MoveId);
+
+            if (!piece.IsLegalMove(_board.Squares, move, orderedMoves))
                 throw new Exception("This is not a legal move for a " + teamName + " " + pieceName + ".");
         }
 

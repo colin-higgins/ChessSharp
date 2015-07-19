@@ -1,6 +1,6 @@
 ﻿<link href="../../Content/ChessBoard.css" rel="stylesheet" />
 
-<div class="game-bar">
+<div class="game-bar" ng-if="!$root.isDisplayOnly">
     <button class="commit btn btn-success" ng-disabled="!canMakeMove()" ng-click="MakeMove()">Commit Move</button>
 </div>
 
@@ -19,14 +19,14 @@
         <tr ng-repeat="row in game.Board.Squares" class="row">
             <td ng-repeat="square in row"
                 ng-class="{ 'dark': isDark(square), 'ready': isReady(square), 'destination': isDestination(square) }"
-                ng-click="setFocus(square)" class="square">
+                ng-click="!$root.isDisplayOnly && setFocus(square)" class="square">
 
                 <cs-piece piece="square.ChessPiece"></cs-piece>
 
             </td>
         </tr>
     </table>
-    <div class="player-names">
+    <div class="player-names" ng-if="!$root.isDisplayOnly">
         <label class="light">Light: {{game.PlayerLight.DisplayName}}</label>
         <div><label class="turn-notifier" ng-show="game.IsCurrentPlayersMove && !game.Complete">Your move!</label></div>
         <label class="dark">Dark: {{game.PlayerDark.DisplayName}}</label>
@@ -35,7 +35,7 @@
 
 
 
-<div ng-hide="game.Id > 0">
+<div ng-hide="game.Id > 0 || $root.isDisplayOnly">
     <h3>Please Select a Game</h3>
     <p>
         If you do not have any current games:

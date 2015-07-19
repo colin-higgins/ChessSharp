@@ -1,9 +1,41 @@
-﻿@model ChessSharp.Web.Models.TestResultsViewModel
+﻿@using System.Text.RegularExpressions
+@model ChessSharp.Web.Models.TestResultsViewModel
 
 @{
     ViewBag.Title = "RunTests";
 
+    var orderedResults = Model.Results.OrderBy(i => i.TestPassed).ThenBy(i => !i.ExpectedLegality).ThenBy(i => i.TestName);
+    
     int index = 1;
+
+    Func<string, string> cleanJson = json =>
+    {
+        var cleaned = json;
+        
+        cleaned = Regex.Replace(cleaned, "\":", ":");
+        cleaned = Regex.Replace(cleaned, ",\"", ",");
+        cleaned = Regex.Replace(cleaned, "{\"", "{");
+
+        return cleaned;
+    };
+    
+    Func<string, string> cleanGame = game =>
+    {
+        var cleaned = game
+                .Replace("\"SquareId\":0,", "")
+                .Replace("\"GameId\":0,", "")
+                .Replace("\"Alive\":true,", "")
+                .Replace("\"MoveCount\":0,", "")
+                .Replace("\"ChessPieceId\":0,", "");
+
+        cleaned = Regex.Replace(cleaned, "\"ScoreValue\":[^,]+,", "");
+        cleaned = Regex.Replace(cleaned, "\"CurrentRow\":[^,]+,", "");
+        cleaned = Regex.Replace(cleaned, "\"CurrentColumn\":[^,]+,", "");
+        
+        cleaned = cleanJson(cleaned);
+        
+        return cleaned;
+    };
 }
 
 <style>
@@ -11,11 +43,54 @@
         background-color: #dc143c;
         color: white;
     }
+
     .test-pass {
         background-color: #00ff00;
         color: black;
     }
+
+    .square {
+        width: 25px !important;
+        height: 25px !important;
+        padding: 0;
+        margin: 0;
+    }
 </style>
+
+<script src="~/Angular/Controllers/TestChessCtrl.js"></script>
+<script text="text/javascript">
+
+    var setBoard, clearBoard;
+    var gameStates = [], moves = [];
+
+    chessSharpPlay.run([
+        '$rootScope', function ($rootScope) {
+
+            $rootScope.doNotPoll = true;
+            $rootScope.isDisplayOnly = true;
+
+            setBoard = function (index) {
+                $rootScope.setGameForTestView(gameStates[index], moves[index]);
+                $rootScope.$apply();
+            };
+
+            clearBoard = function () {
+                $rootScope.setGameForTestView(null, null);
+                $rootScope.$apply();
+            };
+        }
+    ]);
+
+    @foreach (var failure in orderedResults.Where(i => !i.TestPassed))
+    {
+        <text>gameStates.push(@Html.Raw(cleanGame(failure.GameState)));</text>
+        <text>moves.push(@Html.Raw(cleanJson(failure.TestMove)));</text>
+    }
+</script>
+
+<div ng-controller="TestChessCtrl" style="float: right; padding-right: 20px;" class="no-click">
+    <div ng-include="'/Angular/Templates/PlayChess.html'"></div>
+</div>
 
 <h2>Run Tests: (@Model.Results.Count)</h2>
 
@@ -29,21 +104,41 @@
         <th>Test Result</th>
         <th>Expected Legality</th>
         <th>Actual Legality</th>
-        <th>View Board State</th>
+        <th>
+            <button onclick="clearBoard()" class="btn">Clear Board State</button>
+        </th>
     </tr>
 
-@foreach (var item in Model.Results.OrderBy(i => i.TestPassed))
-{
-    <tr class="@(item.TestPassed ? "test-pass" : "test-failure")">
-        <td>@index</td>
-        <td>@item.TestName</td>
-        <td>@(item.TestPassed ? "Pass" : "FAILURE")</td>
-        <td>@(item.ExpectedLegality ? "Legal" : "Illegal")</td>
-        <td>@(item.ActualLegality ? "Legal" : "Illegal")</td>
-        <td>(TODO)</td>
-    </tr>
-    
-    index = index + 1;
-}
+    @foreach (var item in orderedResults)
+    {
+        <tr class="@(item.TestPassed ? "test-pass" : "test-failure")">
+            <td>@index</td>
+            <td>@item.TestName</td>
+            <td>@(item.TestPassed ? "Pass" : "FAILURE")</td>
+            <td>@(item.ExpectedLegality ? "Legal" : "Illegal")</td>
+            <td>@(item.ActualLegality ? "Legal" : "Illegal")</td>
+            <td>
+                @if (!item.TestPassed)
+                {
+                    <button onclick="setBoard(@(index - 1))" class="btn btn-danger">See Board State</button>
+                }
+            </td>
+        </tr>
+
+        index = index + 1;
+    }
 
 </table>
+
+@section Scripts {
+
+    <script text="text/javascript">
+
+        $(document).ready(function() {
+            $('.no-click td').click(function(e) {
+                e.preventDefault();
+            });
+        });
+
+    </script>
+}

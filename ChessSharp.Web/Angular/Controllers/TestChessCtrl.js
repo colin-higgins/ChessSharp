@@ -3,8 +3,13 @@ chessSharpPlay.controller('TestChessCtrl', ['$scope', '$rootScope',
     function ($scope, $rootScope) {
 
         $scope.getGame = function () {
-            $rootScope.gameState.Id = 99999;
             $scope.game = $rootScope.gameState;
+
+            if (!$scope.game) {
+                return;
+            }
+
+            $scope.game.Id = 99999;
         };
 
         var retrieveSelectedGame = function () {
@@ -108,6 +113,19 @@ chessSharpPlay.controller('TestChessCtrl', ['$scope', '$rootScope',
                 return false;
 
             return true;
+        };
+
+        $rootScope.setGameForTestView = function (gameState, move) {
+
+            $rootScope.gameState = gameState;
+            $scope.getGame();
+
+            if (!gameState || !move) {
+                return;
+            }
+
+            $scope.setFocus($scope.game.Board.Squares[move.StartRow][move.StartColumn]);
+            $scope.setFocus($scope.game.Board.Squares[move.EndRow][move.EndColumn]);
         };
 
     }]);

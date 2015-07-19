@@ -24,23 +24,15 @@ namespace ChessSharp.Web.Controllers
         [HttpGet]
         public ActionResult Index(string testKey = null)
         {
-            var model = new TestGenerationViewModel();
-
-            if (testKey == null)
+            var model = new TestGenerationViewModel
             {
-                model.GameState = NewTestGame();
-            }
-            else
+                GameState = NewTestGame()
+            };
+
+            if (testKey != null)
             {
-                model = LoadTestCase(testKey);
-
-                AdvanceGameAccordingToMove(model);
-
-                model.ParentTestName = model.TestName; //Sets up a hierarchy
-                model.IsLegal = default(bool);
-
-                model.TestMove = null;
-                model.TestName = null;
+                model = RetrieveTestCaseAsTemplate(testKey) ?? model;
+                CleanupModelForNextTest(model);
             }
 
             if (GenerationMessage != null)
@@ -49,6 +41,29 @@ namespace ChessSharp.Web.Controllers
             }
 
             return View(model);
+        }
+
+        private TestGenerationViewModel RetrieveTestCaseAsTemplate(string testKey)
+        {
+            var parent = TryLoadTestCase(testKey);
+
+            if (parent == null)
+            {
+                return null;
+            }
+
+            AdvanceGameAccordingToMove(parent);
+
+            return parent;
+        }
+
+        private static void CleanupModelForNextTest(TestGenerationViewModel parent)
+        {
+            parent.ParentTestName = parent.TestName; //Sets up a hierarchy
+            parent.IsLegal = default(bool);
+
+            parent.TestMove = null;
+            parent.TestName = null;
         }
 
         private bool IsMoveLegal(TestGenerationViewModel model)
@@ -91,10 +106,12 @@ namespace ChessSharp.Web.Controllers
                 }
                 catch (Exception ex)
                 {
-                    GenerationMessage = "The move you submited was determined invalid by the game manager: " + ex.Message;
+                    GenerationMessage = "The move you submitted was determined invalid by the game manager: " + ex.Message;
                 }
 
                 gameToUpdate = Map<GameModel>(game);
+
+                gameToUpdate.Moves.Last().MoveId = gameToUpdate.Moves.Count;
 
                 var board = new Board(game.Squares.ToArray());
 
@@ -125,7 +142,7 @@ namespace ChessSharp.Web.Controllers
 
             foreach (var testKey in testKeys)
             {
-                var test = LoadTestCase(testKey);
+                var test = TryLoadTestCase(testKey);
 
                 var isLegalMove = IsMoveLegal(test);
 
@@ -134,7 +151,8 @@ namespace ChessSharp.Web.Controllers
                     ActualLegality = isLegalMove,
                     ExpectedLegality = test.IsLegal,
                     TestPassed = isLegalMove == test.IsLegal,
-                    TestName = test.TestName
+                    TestName = test.TestName,
+                    TestMove = test.TestMove
                 };
 
                 if (result.TestPassed == false)
@@ -180,6 +198,7 @@ namespace ChessSharp.Web.Controllers
                 LightPlayer = new ChessUser() { DisplayName = "Light" },
                 Name = "Test Generation Game",
                 Squares = squares,
+                Moves = new List<Move>()
             };
 
             foreach (var square in squares)
@@ -196,8 +215,15 @@ namespace ChessSharp.Web.Controllers
             return json;
         }
 
-        private TestGenerationViewModel LoadTestCase(string key)
+        private TestGenerationViewModel TryLoadTestCase(string key)
         {
+            var testFile = TestPath(key);
+
+            var testCaseExists = System.IO.File.Exists(testFile);
+
+            if (!testCaseExists)
+                return null;
+
             var testCaseJson = System.IO.File.ReadAllText(TestPath(key));
 
             var model = GetTypedObject<TestGenerationViewModel>(testCaseJson);
