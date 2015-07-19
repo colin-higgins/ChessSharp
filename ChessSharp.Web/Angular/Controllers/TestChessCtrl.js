@@ -71,6 +71,11 @@ chessSharpPlay.controller('TestChessCtrl', ['$scope', '$rootScope',
         };
 
         $scope.setFocus = function (square) {
+
+            if (!square) {
+                return;
+            }
+
             var moveCount = $scope.game.MoveCount;
             var team = teamEnum.Light;
             if (moveCount % 2 == 1)
@@ -117,7 +122,7 @@ chessSharpPlay.controller('TestChessCtrl', ['$scope', '$rootScope',
 
         $rootScope.setGameForTestView = function (gameState, move) {
 
-            $rootScope.gameState = gameState;
+            $rootScope.gameState = angular.copy(gameState);
             $scope.getGame();
 
             if (!gameState || !move) {
