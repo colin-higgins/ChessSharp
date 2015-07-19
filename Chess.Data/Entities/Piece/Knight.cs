@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity.Core.Common.CommandTrees.ExpressionBuilder;
 using System.Linq;
 using Chess.Data.Entities;
 
@@ -26,8 +25,8 @@ namespace Chess.Data.Piece
 
             foreach (var position in possibleEndPositions)
             {
-                var newRow = position.Item1;
-                var newColumn = position.Item2;
+                var newRow = position.Row;
+                var newColumn = position.Column;
 
                 if (EndPositionIsWithinBounds(newRow, newColumn))
                 {
@@ -46,19 +45,20 @@ namespace Chess.Data.Piece
             return newRow < 8 && newRow >= 0 && newColumn < 8 && newColumn >= 0;
         }
 
-        private static Tuple<int, int>[] PossibleEndPositions(int column, int row)
+        private static HashSet<EndPosition> PossibleEndPositions(int column, int row)
         {
-            var possibleEndPosition = new[]
+            var possibleEndPosition = new HashSet<EndPosition>
             {
-                new Tuple<int, int>(column + 1, row + 2),
-                new Tuple<int, int>(column + 1, row - 2),
-                new Tuple<int, int>(column - 1, row + 2),
-                new Tuple<int, int>(column - 1, row - 2),
-                new Tuple<int, int>(column + 2, row + 1),
-                new Tuple<int, int>(column + 2, row - 1),
-                new Tuple<int, int>(column - 2, row + 1),
-                new Tuple<int, int>(column - 2, row - 1),
+                new EndPosition(column + 1, row + 2),
+                new EndPosition(column + 1, row - 2),
+                new EndPosition(column - 1, row + 2),
+                new EndPosition(column - 1, row - 2),
+                new EndPosition(column + 2, row + 1),
+                new EndPosition(column + 2, row - 1),
+                new EndPosition(column - 2, row + 1),
+                new EndPosition(column - 2, row - 1),
             };
+
             return possibleEndPosition;
         }
 
@@ -68,10 +68,31 @@ namespace Chess.Data.Piece
 
             if (!InBounds(move.EndRow, move.EndColumn))
                 throw new Exception("You have moved out of bounds!");
-            if (Math.Abs(move.RowChange) + Math.Abs(move.ColumnChange) != 3) //L-movement
+            if (!IsValidKnightMove(move)) //L-movement
                 throw new Exception("You may only move in a proper 'L' pattern for a knight.");
 
             return true;
+        }
+
+        private static bool IsValidKnightMove(Move move)
+        {
+            var possibleMoves = PossibleEndPositions(move.StartColumn, move.StartRow);
+
+            var moveIsPossible = possibleMoves.Any(m => m.Row == move.EndRow && m.Column == move.EndColumn);
+
+            return moveIsPossible;
+        }
+
+        private class EndPosition
+        {
+            public EndPosition(int column, int row)
+            {
+                Column = column;
+                Row = row;
+            }
+
+            public int Row { get; private set; }
+            public int Column { get; private set; }
         }
     }
 }

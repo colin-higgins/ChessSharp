@@ -114,7 +114,7 @@
         <tr class="@(item.TestPassed ? "test-pass" : "test-failure")">
             <td>@index</td>
             <td>@item.TestName</td>
-            <td>@(item.TestPassed ? "Pass" : "FAILURE")</td>
+            <td>@(item.TestPassed ? "Pass" : "FAILURE: " + item.InvalidReason)</td>
             <td>@(item.ExpectedLegality ? "Legal" : "Illegal")</td>
             <td>@(item.ActualLegality ? "Legal" : "Illegal")</td>
             <td>

@@ -66,7 +66,7 @@ namespace ChessSharp.Web.Controllers
             parent.TestName = null;
         }
 
-        private bool IsMoveLegal(TestGenerationViewModel model)
+        private string GetMessageIfIllegalMove(TestGenerationViewModel model)
         {
             var move = GetMoveFromString(model);
 
@@ -82,10 +82,10 @@ namespace ChessSharp.Web.Controllers
             }
             catch (Exception ex)
             {
-                return false;
+                return ex.Message;
             }
 
-            return true;
+            return null;
         }
 
         private void AdvanceGameAccordingToMove(TestGenerationViewModel model)
@@ -144,7 +144,8 @@ namespace ChessSharp.Web.Controllers
             {
                 var test = TryLoadTestCase(testKey);
 
-                var isLegalMove = IsMoveLegal(test);
+                var illegalMoveMessage = GetMessageIfIllegalMove(test);
+                var isLegalMove = illegalMoveMessage == null;
 
                 var result = new IndividualTestResultViewModel()
                 {
@@ -152,7 +153,9 @@ namespace ChessSharp.Web.Controllers
                     ExpectedLegality = test.IsLegal,
                     TestPassed = isLegalMove == test.IsLegal,
                     TestName = test.TestName,
-                    TestMove = test.TestMove
+                    TestMove = test.TestMove,
+                    InvalidReason = illegalMoveMessage
+                    
                 };
 
                 if (result.TestPassed == false)

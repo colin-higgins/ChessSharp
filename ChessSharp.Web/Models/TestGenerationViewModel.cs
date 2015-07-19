@@ -32,7 +32,10 @@ namespace ChessSharp.Web.Models
         public bool TestPassed { get; set; }
 
         public string GameState { get; set; }
+
         public string TestMove { get; set; }
+
+        public string InvalidReason { get; set; }
     }
 
     public class TestResultsViewModel
