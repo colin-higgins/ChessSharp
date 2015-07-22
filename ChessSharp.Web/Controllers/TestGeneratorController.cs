@@ -43,6 +43,63 @@ namespace ChessSharp.Web.Controllers
             return View(model);
         }
 
+        [HttpGet]
+        public ActionResult RunTests()
+        {
+            var model = new TestResultsViewModel();
+
+            var testKeys = GetAllTestKeys();
+
+            foreach (var testKey in testKeys)
+            {
+                var test = TryLoadTestCase(testKey);
+
+                var illegalMoveMessage = GetMessageIfIllegalMove(test);
+                var isLegalMove = illegalMoveMessage == null;
+
+                var result = new IndividualTestResultViewModel()
+                {
+                    ActualLegality = isLegalMove,
+                    ExpectedLegality = test.IsLegal,
+                    TestPassed = isLegalMove == test.IsLegal,
+                    TestName = test.TestName,
+                    TestMove = test.TestMove,
+                    InvalidReason = illegalMoveMessage
+                    
+                };
+
+                if (result.TestPassed == false)
+                {
+                    result.GameState = test.GameState;
+                }
+
+                model.Results.Add(result);
+            }
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult Index(TestGenerationViewModel model)
+        {
+            if (ModelState.IsValid == false)
+            {
+                GenerationMessage = "The test case submitted is invalid. It was not created.";
+                return RedirectToAction("Index", new { testKey = model.ParentTestName });
+            }
+
+            SaveTestCase(model);
+            GenerationMessage = "The test case submitted was saved.";
+
+            if (!model.IsLegal)
+            {
+                GenerationMessage = "The test case submitted was saved. Because it was an illegal move we have reverted to your previous legal move.";
+                return RedirectToAction("Index", new { testKey = model.ParentTestName });
+            }
+
+            return RedirectToAction("Index", new { testKey = model.TestName });
+        }
+
         private TestGenerationViewModel RetrieveTestCaseAsTemplate(string testKey)
         {
             var parent = TryLoadTestCase(testKey);
@@ -131,63 +188,6 @@ namespace ChessSharp.Web.Controllers
         private static TDest Map<TDest>(object source)
         {
             return AutoMapper.Mapper.Map<TDest>(source);
-        }
-
-        [HttpGet]
-        public ActionResult RunTests()
-        {
-            var model = new TestResultsViewModel();
-
-            var testKeys = GetAllTestKeys();
-
-            foreach (var testKey in testKeys)
-            {
-                var test = TryLoadTestCase(testKey);
-
-                var illegalMoveMessage = GetMessageIfIllegalMove(test);
-                var isLegalMove = illegalMoveMessage == null;
-
-                var result = new IndividualTestResultViewModel()
-                {
-                    ActualLegality = isLegalMove,
-                    ExpectedLegality = test.IsLegal,
-                    TestPassed = isLegalMove == test.IsLegal,
-                    TestName = test.TestName,
-                    TestMove = test.TestMove,
-                    InvalidReason = illegalMoveMessage
-                    
-                };
-
-                if (result.TestPassed == false)
-                {
-                    result.GameState = test.GameState;
-                }
-
-                model.Results.Add(result);
-            }
-
-            return View(model);
-        }
-
-        [HttpPost]
-        public ActionResult Index(TestGenerationViewModel model)
-        {
-            if (ModelState.IsValid == false)
-            {
-                GenerationMessage = "The test case submitted is invalid. It was not created.";
-                return RedirectToAction("Index", new { testKey = model.ParentTestName });
-            }
-
-            SaveTestCase(model);
-            GenerationMessage = "The test case submitted was saved.";
-
-            if (!model.IsLegal)
-            {
-                GenerationMessage = "The test case submitted was saved. Because it was an illegal move we have reverted to your previous legal move.";
-                return RedirectToAction("Index", new { testKey = model.ParentTestName });
-            }
-
-            return RedirectToAction("Index", new { testKey = model.TestName });
         }
 
         private string NewTestGame()
