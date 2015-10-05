@@ -82,8 +82,6 @@ namespace Chess.Data.Piece
                 throw new Exception("Illegal move.");
             if (MoveCount > 0)
                 throw new Exception("You may only castle if your king has not moved yet.");
-            if (source.TargetedByTeam(board, GetOppositeTeam()))
-                throw new Exception("You may not castle while in check.");
             if (destination.ChessPiece != null)
                 throw new Exception("You may not castle to an occupied square.");
             if (rook == null || rook.PieceType != Data.Enum.PieceType.Rook || rook.MoveCount > 0)
